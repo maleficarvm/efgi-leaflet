@@ -1,24 +1,32 @@
 <template>
-  <l-map style="height: 96em" :zoom="zoom" :center="center">
-    <l-control-layers position="topright" />
-    <l-control-fullscreen
-      position="topleft"
-      :options="{ title: { false: 'Go big!', true: 'Be regular' } }"
-    />
-    <l-control-scale position="bottomleft" :imperial="false" :metric="true" />
-    <vue-leaflet-minimap :layer="layer" :options="options" />
-    <l-tile-layer
-      v-for="tileProvider in tileProviders"
-      :key="tileProvider.name"
-      :name="tileProvider.name"
-      :visible="tileProvider.visible"
-      :url="tileProvider.url"
-      :attribution="tileProvider.attribution"
-      layer-type="base"
-    />
-    <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
-    <v-geosearch :options="geosearchOptions" />
-  </l-map>
+  <div class="wrapper-content wrapper-content--fixed">
+    <section>
+      <l-map style="height: 96em" :zoom="zoom" :center="center">
+        <l-control-layers position="topright" />
+        <l-control-fullscreen
+          position="topleft"
+          :options="{ title: { false: 'Go big!', true: 'Be regular' } }"
+        />
+        <l-control-scale
+          position="bottomleft"
+          :imperial="false"
+          :metric="true"
+        />
+        <vue-leaflet-minimap :layer="layer" :options="options" />
+        <l-tile-layer
+          v-for="tileProvider in tileProviders"
+          :key="tileProvider.name"
+          :name="tileProvider.name"
+          :visible="tileProvider.visible"
+          :url="tileProvider.url"
+          :attribution="tileProvider.attribution"
+          layer-type="base"
+        />
+        <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+        <v-geosearch :options="geosearchOptions" />
+      </l-map>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -54,12 +62,12 @@ export default {
           attribution:
             '&copy; <a target="_blank" href="https://rosreestr.ru/site/">Росреестр</a> 2010, ЕЭКО',
         },
-        {
-          name: "ЕЭКО",
-          visible: true,
-          url:
-            "https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/Anno/MapServer/tile/{z}/{y}/{x}",
-        },
+        //{
+        //  name: "ЕЭКО",
+        //  visible: true,
+        //  url:
+        //    "https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/Anno/MapServer/tile/{z}/{y}/{x}",
+        //},
         {
           name: "OpenTopoMap",
           visible: false,
