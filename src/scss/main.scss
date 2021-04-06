@@ -1,6 +1,6 @@
 // тк мы к ним обращаемся везде ниже
 @import "utils/vars";
-@import "utils/reset";
+//@import "utils/reset";
 
 html {
   line-height: $mainLineHeight;
@@ -87,9 +87,9 @@ section,
 .wrapper-content {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 0vh;
   &.wrapper-content--fixed {
-    margin-top: 25px;
+    margin-top: 0px;
   }
 }
 

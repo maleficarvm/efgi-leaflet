@@ -1,16 +1,16 @@
 <template>
   <div class="about">
-    <VueTableDynamic />
+    <VuetifyTable />
   </div>
 </template>
 
 <script>
-import VueTableDynamic from "@/components/Table.vue";
+import VuetifyTable from "@/components/Table.vue";
 
 export default {
   name: "Home",
   components: {
-    VueTableDynamic,
+    VuetifyTable,
   },
 };
 </script>

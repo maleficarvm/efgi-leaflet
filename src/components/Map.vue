@@ -1,11 +1,21 @@
 <template>
   <div class="wrapper-content wrapper-content--fixed">
-    <section>
-      <l-map style="height: 96em" :zoom="zoom" :center="center">
+    <section class="map-container">
+      <l-map style="height: 94em" :zoom="zoom" :center="center">
+        <l-wms-tile-layer
+          v-for="layer in layers"
+          :key="layer.name"
+          :base-url="baseUrl"
+          :layers="layer.layers"
+          :visible="layer.visible"
+          :name="layer.name"
+          layer-type="base"
+        >
+        </l-wms-tile-layer>
         <l-control-layers position="topright" />
         <l-control-fullscreen
           position="topleft"
-          :options="{ title: { false: 'Go big!', true: 'Be regular' } }"
+          :options="{ title: { false: 'На весь экран', true: 'Свернуть' } }"
         />
         <l-control-scale
           position="bottomleft"
@@ -24,6 +34,7 @@
         />
         <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
         <v-geosearch :options="geosearchOptions" />
+        <l-geo-json :geojson="geojson" />
       </l-map>
     </section>
   </div>
@@ -32,11 +43,18 @@
 <script>
 import "../assets/css/leaflet.css";
 import "../assets/css/geosearch.css";
+import VGeosearch from "vue2-leaflet-geosearch";
 import LControlFullscreen from "vue2-leaflet-fullscreen";
 import VueLeafletMinimap from "vue-leaflet-minimap";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
-import VGeosearch from "vue2-leaflet-geosearch";
-import { LMap, LTileLayer, LControlLayers, LControlScale } from "vue2-leaflet";
+import {
+  LMap,
+  LTileLayer,
+  LControlLayers,
+  LControlScale,
+  LWMSTileLayer,
+  LGeoJson,
+} from "vue2-leaflet";
 
 export default {
   components: {
@@ -47,12 +65,14 @@ export default {
     LControlFullscreen,
     VueLeafletMinimap,
     VGeosearch,
+    LGeoJson,
+    "l-wms-tile-layer": LWMSTileLayer,
   },
   data() {
     return {
-      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       zoom: 4,
       center: [64.7556, 96.7766],
+      geojson: null,
       tileProviders: [
         {
           name: "ЕЭКО",
@@ -84,6 +104,16 @@ export default {
             '&copy; <a target="_blank" href="https://yandex.ru/legal/maps_termsofuse/?lang=ru">Яндекс</a>',
         },
       ],
+      baseUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology/wms?",
+      layers: [
+        {
+          name: "ГГК ВСЕГЕИ 1:200 000",
+          visible: true,
+          format: "image/png",
+          layers: "RUSSIA_VSEGEI_1M_BLS",
+          transparent: true,
+        },
+      ],
       layer: new L.TileLayer(
         "https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/BaseMap/MapServer/tile/{z}/{y}/{x}"
       ),
@@ -107,9 +137,21 @@ export default {
       },
     };
   },
+  //async created() {
+  //  const response = await fetch(
+  //    "https://datahub.io/core/geo-ne-admin1/r/0.geojson"
+  //  );
+  //  this.geojson = await response.json();
+  //},
 };
 </script>
 
 <style>
 @import "~leaflet-minimap/dist/Control.MiniMap.min.css";
+
+.map-container {
+  padding: 0px;
+  margin-top: 55px;
+  z-index: 0;
+}
 </style>

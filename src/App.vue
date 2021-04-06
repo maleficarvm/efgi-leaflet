@@ -3,20 +3,22 @@
     <div id="nav">
       <header>
         <div class="navbar">
-          <div class="container">
-            <div class="navbar-content">
-              <img src="./img/tsnigri.png" alt="tsnigri-logo-img" />
-              <ul class="navbar-list">
-                <li class="navbar-item" v-for="link in links" :Key="link.title">
-                  <router-link
-                    class="navbar-link"
-                    :title="link.title"
-                    :to="link.url"
-                    >{{ link.title }}</router-link
-                  >
-                </li>
-              </ul>
-            </div>
+          <div class="navbar-content">
+            <img
+              src="./img/tsnigri.png"
+              style="height: 55px; margin: 10px"
+              alt="tsnigri-logo-img"
+            />
+            <ul class="navbar-list">
+              <li class="navbar-item" v-for="link in links" :Key="link.title">
+                <router-link
+                  class="navbar-link"
+                  :title="link.title"
+                  :to="link.url"
+                  >{{ link.title }}</router-link
+                >
+              </li>
+            </ul>
           </div>
         </div>
       </header>
@@ -55,10 +57,10 @@ export default {
 
   a {
     font-weight: bold;
-    color: #2c3e50;
+    color: #ffffff;
 
     &.router-link-exact-active {
-      color: #e0a526;
+      color: #d3b36f;
     }
   }
 }
