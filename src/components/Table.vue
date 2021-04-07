@@ -215,6 +215,6 @@ export default {
 
 <style lang="scss">
 .wrapper-table {
-  margin: 80px 20px;
+  margin: 40px 10px;
 }
 </style>

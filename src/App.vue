@@ -6,7 +6,7 @@
           <div class="navbar-content">
             <img
               src="./img/tsnigri.png"
-              style="height: 55px; margin: 10px"
+              style="height: 48px; margin: 1px 0 1px 19px"
               alt="tsnigri-logo-img"
             />
             <ul class="navbar-list">

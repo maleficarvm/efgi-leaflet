@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper-content wrapper-content--fixed">
     <section class="map-container">
-      <l-map style="height: 94em" :zoom="zoom" :center="center">
+      <l-map style="height: 930px" :zoom="zoom" :center="center">
         <l-wms-tile-layer
           v-for="layer in layers"
           :key="layer.name"
@@ -34,13 +34,19 @@
         />
         <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
         <v-geosearch :options="geosearchOptions" />
-        <l-geo-json :geojson="geojson" />
+        <l-geo-json
+          v-if="show"
+          :geojson="geojson"
+          :options="options"
+          :options-style="styleFunction"
+        />
       </l-map>
     </section>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import "../assets/css/leaflet.css";
 import "../assets/css/geosearch.css";
 import VGeosearch from "vue2-leaflet-geosearch";
@@ -53,6 +59,7 @@ import {
   LControlLayers,
   LControlScale,
   LWMSTileLayer,
+  LMarker,
   LGeoJson,
 } from "vue2-leaflet";
 
@@ -65,6 +72,7 @@ export default {
     LControlFullscreen,
     VueLeafletMinimap,
     VGeosearch,
+    LMarker,
     LGeoJson,
     "l-wms-tile-layer": LWMSTileLayer,
   },
@@ -72,7 +80,9 @@ export default {
     return {
       zoom: 4,
       center: [64.7556, 96.7766],
+      show: true,
       geojson: null,
+      fillColor: "#b8a358",
       tileProviders: [
         {
           name: "ЕЭКО",
@@ -82,12 +92,6 @@ export default {
           attribution:
             '&copy; <a target="_blank" href="https://rosreestr.ru/site/">Росреестр</a> 2010, ЕЭКО',
         },
-        //{
-        //  name: "ЕЭКО",
-        //  visible: true,
-        //  url:
-        //    "https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/Anno/MapServer/tile/{z}/{y}/{x}",
-        //},
         {
           name: "OpenTopoMap",
           visible: false,
@@ -119,13 +123,13 @@ export default {
       ),
       options: {
         position: "bottomright",
-        width: 400,
-        height: 200,
-        collapsedWidth: 35,
-        collapsedHeight: 35,
+        width: 300,
+        height: 150,
+        collapsedWidth: 25,
+        collapsedHeight: 25,
         toggleDisplay: true,
         zoomAnimation: true,
-        zoomLevelOffset: -5,
+        zoomLevelOffset: -3,
       },
       geosearchOptions: {
         provider: new OpenStreetMapProvider(),
@@ -137,12 +141,54 @@ export default {
       },
     };
   },
-  //async created() {
-  //  const response = await fetch(
-  //    "https://datahub.io/core/geo-ne-admin1/r/0.geojson"
-  //  );
-  //  this.geojson = await response.json();
-  //},
+  computed: {
+    options() {
+      return {
+        onEachFeature: this.onEachFeatureFunction,
+      };
+    },
+    styleFunction() {
+      const fillColor = this.fillColor; // important! need touch fillColor in computed for re-calculate when change fillColor
+      return () => {
+        return {
+          weight: 2,
+          color: "#3d3a2f",
+          opacity: 1,
+          fillColor: fillColor,
+          fillOpacity: 0.3,
+        };
+      };
+    },
+    onEachFeatureFunction() {
+      if (!this.enableTooltip) {
+        return () => {};
+      }
+      return (feature, layer) => {
+        layer.bindTooltip(
+          "<div>ID:" +
+            feature.properties.f1 +
+            "</div><div>Название: " +
+            feature.properties.f2 +
+            "</div>",
+          { permanent: false, sticky: true }
+        );
+      };
+    },
+  },
+  created() {
+    axios
+      .get(`http://127.0.0.1:3000/data`)
+      .then((response) => {
+        console.log(response.data);
+        this.error = null;
+        this.geojson = response.data;
+      })
+      .catch((err) => {
+        console.log(err);
+        this.geojson = null;
+        this.error = "Can`t find this GeoJson";
+      });
+  },
 };
 </script>
 
@@ -151,7 +197,7 @@ export default {
 
 .map-container {
   padding: 0px;
-  margin-top: 55px;
+  margin-top: 30px;
   z-index: 0;
 }
 </style>
