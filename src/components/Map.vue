@@ -37,7 +37,7 @@
         <l-geo-json
           v-if="show"
           :geojson="geojson"
-          :options="options"
+          :options="reestr"
           :options-style="styleFunction"
         />
       </l-map>
@@ -142,7 +142,7 @@ export default {
     };
   },
   computed: {
-    options() {
+    reestr() {
       return {
         onEachFeature: this.onEachFeatureFunction,
       };
@@ -160,16 +160,15 @@ export default {
       };
     },
     onEachFeatureFunction() {
-      if (!this.enableTooltip) {
-        return () => {};
-      }
       return (feature, layer) => {
-        layer.bindTooltip(
-          "<div>ID:" +
-            feature.properties.f1 +
-            "</div><div>Название: " +
+        layer.bindPopup(
+          "<div><b>" +
             feature.properties.f2 +
-            "</div>",
+            "</b></div><br><div><b>" +
+            feature.properties.f3 +
+            "</b></div><br><div><b>UIN:" +
+            feature.properties.f1 +
+            "</b></div><div>",
           { permanent: false, sticky: true }
         );
       };
