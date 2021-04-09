@@ -37,7 +37,7 @@
         <l-geo-json
           v-if="show"
           :geojson="geojson"
-          :options="reestr"
+          :options="features"
           :options-style="styleFunction"
         />
       </l-map>
@@ -142,7 +142,7 @@ export default {
     };
   },
   computed: {
-    reestr() {
+    features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
       };
@@ -176,7 +176,7 @@ export default {
   },
   created() {
     axios
-      .get(`http://127.0.0.1:3000/data`)
+      .get(`http://127.0.0.1:3000/api/geojson`)
       .then((response) => {
         console.log(response.data);
         this.error = null;
@@ -185,7 +185,7 @@ export default {
       .catch((err) => {
         console.log(err);
         this.geojson = null;
-        this.error = "Can`t find this GeoJson";
+        this.error = "Can`t find this Json";
       });
   },
 };

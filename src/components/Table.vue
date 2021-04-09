@@ -15,7 +15,7 @@
         </v-card-title>
         <v-data-table
           :headers="headers"
-          :items="desserts"
+          :items="items"
           :single-select="singleSelect"
           :footer-props="{
             'items-per-page-options': [20, 30, 40, 50],
@@ -49,159 +49,91 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
+      loading: true,
+      options: {},
       search: "",
-
       headers: [
         {
-          text: "Dessert (100g serving)",
+          text: "ID",
           align: "start",
           sortable: false,
-          value: "name",
+          value: "oid",
         },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" },
-        { text: "Iron (%)", value: "iron" },
-        { text: "Iron (%)", value: "iron" },
-        { text: "Iron (%)", value: "iron" },
-        { text: "Iron (%)", value: "iron" },
+        { text: "Number1", value: "uniq_id" },
+        { text: "Number2", value: "stor_folder" },
+        { text: "Number3", value: "stor_phys" },
+        { text: "Number4", value: "stor_reason" },
+        { text: "Number5", value: "stor_date" },
+        { text: "Number6", value: "stor_dept" },
+        { text: "Number7", value: "stor_person" },
+        { text: "Number8", value: "stor_desc" },
+        { text: "Number9", value: "stor_fmts" },
+        { text: "Number10", value: "stor_units" },
+        { text: "Number11", value: "obj_name" },
+        { text: "Number12", value: "obj_synopsis" },
+        { text: "Number13", value: "obj_main_group" },
+        { text: "Number14", value: "obj_sub_group" },
+        { text: "Number15", value: "obj_type" },
+        { text: "Number16", value: "obj_sub_type" },
+        { text: "Number17", value: "obj_assoc_inv_nums" },
+        { text: "Number18", value: "obj_date" },
+        { text: "Number19", value: "obj_year" },
+        { text: "Number20", value: "obj_authors" },
+        { text: "Number21", value: "obj_orgs" },
+        { text: "Number22", value: "obj_restrict" },
+        { text: "Number23", value: "obj_rights" },
+        { text: "Number24", value: "obj_rdoc_name" },
+        { text: "Number25", value: "obj_rdoc_num" },
+        { text: "Number26", value: "obj_rdoc_id" },
+        { text: "Number27", value: "obj_terms" },
+        { text: "Number28", value: "obj_sources" },
+        { text: "Number29", value: "obj_supl_info" },
+        { text: "Number30", value: "obj_main_min" },
+        { text: "Number31", value: "obj_supl_min" },
+        { text: "Number32", value: "obj_group_min" },
+        { text: "Number33", value: "obj_assoc_geol" },
+        { text: "Number34", value: "spat_atd_ate" },
+        { text: "Number35", value: "spat_loc" },
+        { text: "Number36", value: "spat_num_grid" },
+        { text: "Number37", value: "spat_coords_source" },
+        { text: "Number38", value: "spat_toponim" },
+        { text: "Number39", value: "spat_link" },
+        { text: "Number40", value: "spat_json" },
+        { text: "Number41", value: "inf_type" },
+        { text: "Number42", value: "inf_media" },
+        { text: "Number43", value: "path_local" },
+        { text: "Number44", value: "path_cloud" },
+        { text: "Number45", value: "path_others" },
+        { text: "Number46", value: "linked_objs" },
+        { text: "Number47", value: "verified" },
+        { text: "Number48", value: "status" },
+        { text: "Number49", value: "timecode" },
       ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: "1%",
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: "1%",
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: "7%",
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: "8%",
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: "16%",
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: "0%",
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: "2%",
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: "45%",
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: "22%",
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: "6%",
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: "22%",
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: "45%",
-        },
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: "1%",
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: "1%",
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: "7%",
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: "8%",
-        },
-      ],
+      items: [],
     };
+  },
+  watch: {
+    options: {
+      handler() {
+        this.readDataFromAPI();
+      },
+    },
+    deep: true,
+  },
+  created() {
+    axios
+      .get("http://127.0.0.1:3000/api/json", {})
+      .then((response) => {
+        this.items = response.data;
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   },
   methods: {
     getColor(calories) {
@@ -209,6 +141,10 @@ export default {
       else if (calories > 200) return "orange";
       else return "green";
     },
+  },
+  //this will trigger in the onReady State
+  mounted() {
+    this.readDataFromAPI();
   },
 };
 </script>
