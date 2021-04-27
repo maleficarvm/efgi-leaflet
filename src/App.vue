@@ -64,4 +64,10 @@ export default {
     }
   }
 }
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th,
+.v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
+  font-size: 14px !important;
+}
 </style>

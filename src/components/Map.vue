@@ -162,12 +162,12 @@ export default {
     onEachFeatureFunction() {
       return (feature, layer) => {
         layer.bindPopup(
-          "<div><b>" +
-            feature.properties.f2 +
-            "</b></div><br><div><b>" +
-            feature.properties.f3 +
-            "</b></div><br><div><b>UIN:" +
+          "<div><b>Название: </b>" +
             feature.properties.f1 +
+            "</div><br><div><b>" +
+            feature.properties.f2 +
+            "</b></div><br><div><b>Название: " +
+            feature.properties.f3 +
             "</b></div><div>",
           { permanent: false, sticky: true }
         );

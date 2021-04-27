@@ -79,6 +79,7 @@ export default {
         {
           text: "Сведения о привязке в рамках АТД и АТЕ",
           value: "spat_atd_ate",
+          width: "200",
         },
         { text: "Вид работ", value: "type_of_work" },
         { text: "Вид объекта учета", value: "obj_type" },
