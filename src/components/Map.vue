@@ -151,11 +151,11 @@ export default {
       const fillColor = this.fillColor; // important! need touch fillColor in computed for re-calculate when change fillColor
       return () => {
         return {
-          weight: 2,
+          weight: 1,
           color: "#3d3a2f",
           opacity: 1,
           fillColor: fillColor,
-          fillOpacity: 0.3,
+          fillOpacity: 0.2,
         };
       };
     },
