@@ -162,13 +162,19 @@ export default {
     onEachFeatureFunction() {
       return (feature, layer) => {
         layer.bindPopup(
-          "<div><b>Название: </b>" +
+          "<tr><td><b>Название: </b></td>" +
             feature.properties.f1 +
-            "</div><br><div><b>" +
+            "<br><br><div><b>Автор (авторы): </b>" +
             feature.properties.f2 +
-            "</b></div><br><div><b>Название: " +
+            "</div><br><div><b>Год составления объекта учета: </b>" +
             feature.properties.f3 +
-            "</b></div><div>",
+            "</div><br><div><b>Инвентарные номера в каталогах учета: </b>" +
+            feature.properties.f4 +
+            "</div><br><div><b>Вид работ: </b>" +
+            feature.properties.f5 +
+            "</div><br><div><b>Ссылка: </b>" +
+            feature.properties.f6 +
+            "</div></div>",
           { permanent: false, sticky: true }
         );
       };
