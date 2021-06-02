@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper-content wrapper-content--fixed">
     <section class="map-container">
-      <l-map ref="map" style="height: 885px" :zoom="zoom" :center="center">
+      <l-map style="height: 930px" :zoom="zoom" :center="center">
         <l-wms-tile-layer
           v-for="layer in layers"
           :key="layer.name"
@@ -96,7 +96,7 @@ export default {
           visible: false,
           url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
           attribution:
-            'Map data: &copy; <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+            'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
         },
         {
           name: "Яндекс.Спутник",
@@ -110,20 +110,21 @@ export default {
       baseUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology/wms?",
       layers: [
         {
-          name: "ГГК ВСЕГЕИ 1:1 000 000",
-          visible: false,
+          name: "ГГК ВСЕГЕИ 1:200 000",
+          visible: true,
           format: "image/png",
           layers: "RUSSIA_VSEGEI_1M_BLS",
           transparent: true,
         },
       ],
       layer: new L.TileLayer(
-        "https://sat01.maps.yandex.net/tiles?l=sat&v=3.379.0&x={x}&y={y}&z={z}"
+        "https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/BaseMap/MapServer/tile/{z}/{y}/{x}"
       ),
       options: {
         position: "bottomright",
         width: 300,
         height: 150,
+        minimized: true,
         collapsedWidth: 25,
         collapsedHeight: 25,
         toggleDisplay: true,
@@ -171,32 +172,28 @@ export default {
             feature.properties.f4 +
             "</div><br><div><b>Вид работ: </b>" +
             feature.properties.f5 +
-            '</div><br><div><b>Ссылка: </b><a href="' +
+            "</div><br><div><b>Ссылка:</b>" +
             feature.properties.f6 +
-            '"> перейти к файлу </div></div>',
+            "</div></div>",
           { permanent: false, sticky: true }
         );
       };
     },
   },
-  created() {
-    axios
-      .get(`http://127.0.0.1:3000/api/geojson`)
-      .then((response) => {
-        console.log(response.data);
-        this.error = null;
-        this.geojson = response.data;
-      })
-      .catch((err) => {
-        console.log(err);
-        this.geojson = null;
-        this.error = "Can`t find this Json";
-      });
-    this.$on("changeButton", (value) => {
-      console.log(this.value);
-    });
-  },
-  methods: {},
+  //created() {
+  //  axios
+  //    .get(`http://127.0.0.1:3000/api/geojson`)
+  //    .then((response) => {
+  //      console.log(response.data);
+  //      this.error = null;
+  //      this.geojson = response.data;
+  //    })
+  //    .catch((err) => {
+  //      console.log(err);
+  //      this.geojson = null;
+  //      this.error = "Can`t find this Json";
+  //    });
+  //},
 };
 </script>
 

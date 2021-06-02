@@ -110,4 +110,13 @@ section,
   }
 }
 
+@font-face {
+  font-family: "Montserrat";
+  src: local("Montserrat Regular"), local("Montserrat-Regular"),
+    url("/assets/fonts/montserrat/Montserrat-Regular.woff") format("woff"),
+    url("/assets/fonts/montserrat/Montserrat-Regular.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
 @import "./common.scss";

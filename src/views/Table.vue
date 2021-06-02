@@ -8,7 +8,7 @@
 import VuetifyTable from "@/components/Table.vue";
 
 export default {
-  name: "Home",
+  name: "Table",
   components: {
     VuetifyTable,
   },

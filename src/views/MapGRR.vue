@@ -1,17 +1,17 @@
 <template>
   <div class="home">
-    <mapLeaflet />
+    <mapgrrLeaflet />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import mapLeaflet from "@/components/Map.vue";
+import mapgrrLeaflet from "@/components/MapGRR.vue";
 
 export default {
-  name: "Home",
+  name: "Map",
   components: {
-    mapLeaflet,
+    mapgrrLeaflet,
   },
 };
 </script>

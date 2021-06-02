@@ -9,6 +9,7 @@
               style="height: 48px; margin: 1px 0 1px 19px"
               alt="tsnigri-logo-img"
             />
+            <modal v-show="isModalVisible" @close="closeModal" />
             <ul class="navbar-list">
               <li class="navbar-item" v-for="link in links" :Key="link.title">
                 <router-link
@@ -24,25 +25,52 @@
       </header>
     </div>
     <router-view />
+    <v-footer dark padless>
+      <v-col>
+        Отдел геоинформационных систем. Лаборатория ЕБГИ ©
+        {{ new Date().getFullYear() }} ФГБУ "ЦНИГРИ"
+      </v-col>
+    </v-footer>
   </div>
 </template>
 
 <script>
+import modal from "@/components/UI/Modal.vue";
+
 export default {
+  name: "app",
+  components: {
+    modal,
+  },
   data() {
     return {
+      isModalVisible: true,
       links: [
-        { title: "Карта ГРР", url: "/" },
-        { title: "Реестр объектов учета", url: "/about" },
+        { title: "О Едином Банке", url: "/info" },
+        { title: "Карта объектов учета", url: "/" },
+        { title: "Карта объектов ГРР", url: "/mapgrr" },
+        { title: "Реестр объектов учета", url: "/table" },
       ],
     };
+  },
+  methods: {
+    onClick() {
+      this.$emit("on-click", value);
+      console.log("it works" + value);
+    },
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
   },
 };
 </script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Montserrat, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -68,6 +96,12 @@ export default {
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
 .v-data-table > .v-data-table__wrapper > table > thead > tr > th,
 .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
-  font-size: 14px !important;
+  font-size: 15px !important;
+}
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
+.v-data-table > .v-data-table__wrapper > table > thead > tr > td,
+.v-data-table > .v-data-table__wrapper > table > tfoot > tr > td {
+  font-size: 13px !important;
 }
 </style>
