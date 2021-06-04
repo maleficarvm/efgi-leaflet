@@ -102,7 +102,7 @@
           </template>
           <template v-slot:[`item.path_cloud`]="{ value }">
             <a target="_blank" :href="value">
-              {{ value }}
+              Перейти к материалам
             </a>
           </template>
           <template v-slot:[`item.oid`]="{ value }">
@@ -221,7 +221,11 @@ export default {
           value: "obj_terms",
           width: "400",
         },
-        { text: "Ссылка на объект учета", value: "path_cloud", width: "400" },
+        {
+          text: "Ссылка на объект учета Nextcloud",
+          value: "path_cloud",
+          width: "400",
+        },
       ],
       items: [],
     };
