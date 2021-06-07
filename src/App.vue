@@ -50,6 +50,7 @@ export default {
         { title: "Карта объектов учета", url: "/" },
         { title: "Карта объектов ГРР", url: "/mapgrr" },
         { title: "Реестр объектов учета", url: "/table" },
+        { title: "Реестр прогнозных ресурсов", url: "/tableAPR" },
       ],
     };
   },

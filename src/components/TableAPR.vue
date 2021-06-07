@@ -4,14 +4,14 @@
       <v-card>
         <v-card-title>
           <p>
-            Лаборатория ЕБГИ. Сводная таблица объектов учета фондовых материалов
-            до 2016 года
+            Лаборатория ЕБГИ. Таблица объектов учета материалов прогнозных
+            ресурсов
           </p>
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            label="Поиск по ЕБГИ..."
+            label="Поиск по прогнозным ресурсам..."
             single-line
             hide-details
           ></v-text-field>

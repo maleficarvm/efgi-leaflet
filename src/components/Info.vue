@@ -30,18 +30,18 @@
       </v-responsive>
     </base-section>
     <baseSection id="theme-features">
-      <baseSectionHeading title="Порядок предоставления информации">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, in!
-        Asperiores, impedit libero. Veniam rerum saepe unde nihil possimus
-        quibusdam esse accusamus mollitia magni fuga.
+      <baseSectionHeading
+        title="Порядок предоставления в пользование информации "
+      >
       </baseSectionHeading>
       <v-container>
         <v-row>
           <v-col v-for="(feature, i) in features" :key="i" cols="12" md="6">
             <baseAvatarCard v-bind="feature" align="left" horizontal>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis
-              illum veniam cum dolores ratione commodi beatae quas maxime,
-              laboriosam excepturi solut!
+              Настоящий порядок разработан в соответствии с приказом ФГУП ЦНИГРИ
+              (ФГБУ «ЦНИГРИ») от 25.10.2016 г. № 57, регламентом № 1 учета и
+              передачи информации в цифровом виде электронного банка
+              геологических данных ФГБУ «ЦНИГРИ», утвержденным в 2018 г.
             </baseAvatarCard>
           </v-col>
         </v-row>
@@ -170,28 +170,28 @@ export default {
     ],
     cards: [
       {
-        icon: "mdi-keyboard-outline",
-        title: "Trendy Design",
+        icon: "mdi-database-check-outline",
+        title: "Единицы хранения",
         text:
-          "Efficiently unleash media information without cross-media value. Quickly maximize value timely deliverables schemas.",
+          "Общее количество уникальных объектов учета, приведенных к цифровым форматам, составляет более 2000 единиц. Суммарное количество площадных объектов на карте составляет более 4000 единиц",
       },
       {
-        icon: "mdi-camera-outline",
-        title: "Photography",
+        icon: "mdi-map-marker-multiple-outline",
+        title: "Различные источники",
         text:
-          "Efficiently unleash media information without cross-media value. Quickly maximize value timely deliverables schemas.",
+          'Помимо фондовых материалов ФГБУ "ЦНИГРИ", присутствуют материалы ФГБУ "Росгеолфонд", ФГБУ "ВСЕГЕИ", территориальных фондов и прочих отраслевых организаций, прогнозные ресурсы, ГКМ',
       },
       {
-        icon: "mdi-pencil-outline",
-        title: "Brand Making",
+        icon: "mdi-table-edit",
+        title: "Форматы данных",
         text:
-          "Efficiently unleash media information without cross-media value. Quickly maximize value timely deliverables schemas.",
+          "Более 50 000 единиц данных в текстовых, растровых и векторных форматах, ГИС-данные, локальные базы данных, цифровые комплекты ГГК всех поколений, топографические карты",
       },
       {
-        icon: "mdi-puzzle-outline",
-        title: "24/7 Support",
+        icon: "mdi-cog-outline",
+        title: "Виды работ",
         text:
-          "Efficiently unleash media information without cross-media value. Quickly maximize value timely deliverables schemas.",
+          "Оценочные, поисковые, поисково-оценочные, геохимические, научно-методические и региональные работы. Минералогические и научно-технологические исследования",
       },
     ],
   }),
