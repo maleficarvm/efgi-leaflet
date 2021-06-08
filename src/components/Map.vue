@@ -2,17 +2,52 @@
   <div class="wrapper-content wrapper-content--fixed">
     <section class="map-container">
       <l-map ref="map" style="height: 885px" :zoom="zoom" :center="center">
+        <l-tile-layer
+          v-for="baseProvider in baseProviders"
+          :key="baseProvider.name"
+          :name="baseProvider.name"
+          :visible="baseProvider.visible"
+          :url="baseProvider.url"
+          :attribution="baseProvider.attribution"
+        />
+        <l-wms-tile-layer
+          v-for="baseLayer in baseLayers"
+          :key="baseLayer.name"
+          :base-url="thirdUrl"
+          :layers="baseLayer.baseLayers"
+          :visible="baseLayer.visible"
+          :name="baseLayer.name"
+          :format="baseLayer.format"
+          :transparent="baseLayer.transparent"
+        />
+        <l-tile-layer
+          v-for="tileProvider in tileProviders"
+          :key="tileProvider.name"
+          :name="tileProvider.name"
+          :visible="tileProvider.visible"
+          :url="tileProvider.url"
+          :attribution="tileProvider.attribution"
+          layer-type="base"
+        />
+        <l-control-layers position="topright" />
         <l-wms-tile-layer
           v-for="layer in layers"
           :key="layer.name"
-          :base-url="baseUrl"
+          :base-url="firstUrl"
           :layers="layer.layers"
           :visible="layer.visible"
           :name="layer.name"
           layer-type="base"
-        >
-        </l-wms-tile-layer>
-        <l-control-layers position="topright" />
+        />
+        <l-wms-tile-layer
+          v-for="customLayer in customLayers"
+          :key="customLayer.name"
+          :base-url="secondUrl"
+          :layers="customLayer.customLayers"
+          :visible="customLayer.visible"
+          :name="customLayer.name"
+          layer-type="base"
+        />
         <l-control-fullscreen
           position="topleft"
           :options="{ title: { false: 'На весь экран', true: 'Свернуть' } }"
@@ -23,15 +58,7 @@
           :metric="true"
         />
         <vue-leaflet-minimap :layer="layer" :options="options" />
-        <l-tile-layer
-          v-for="tileProvider in tileProviders"
-          :key="tileProvider.name"
-          :name="tileProvider.name"
-          :visible="tileProvider.visible"
-          :url="tileProvider.url"
-          :attribution="tileProvider.attribution"
-          layer-type="base"
-        />
+
         <v-geosearch :options="geosearchOptions" />
         <l-geo-json
           v-if="show"
@@ -82,7 +109,7 @@ export default {
       show: true,
       geojson: null,
       fillColor: "#b8a358",
-      tileProviders: [
+      baseProviders: [
         {
           name: "ЕЭКО",
           visible: true,
@@ -91,6 +118,14 @@ export default {
           attribution:
             '&copy; <a target="_blank" href="https://rosreestr.ru/site/">Росреестр</a> 2010, ЕЭКО',
         },
+        {
+          name: "ЕЭКО_Аннотации",
+          visible: true,
+          url:
+            "https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/Anno/MapServer/tile/{z}/{y}/{x}",
+        },
+      ],
+      tileProviders: [
         {
           name: "OpenTopoMap",
           visible: false,
@@ -107,13 +142,40 @@ export default {
             '&copy; <a target="_blank" href="https://yandex.ru/legal/maps_termsofuse/?lang=ru">Яндекс</a>',
         },
       ],
-      baseUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology/wms?",
+      firstUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology/wms?",
+      secondUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology2/wms?",
+      thirdUrl: "http://kastor.tsnigri.ru:8585/geoserver/NET/wms?",
       layers: [
         {
           name: "ГГК ВСЕГЕИ 1:1 000 000",
           visible: false,
           format: "image/png",
           layers: "RUSSIA_VSEGEI_1M_BLS",
+          transparent: false,
+        },
+      ],
+      customLayers: [
+        {
+          name: "ГГК ВСЕГЕИ 1:200 000",
+          visible: false,
+          format: "image/png",
+          customLayers: "CIS_VSEGEI_200K_BLS",
+          transparent: false,
+        },
+      ],
+      baseLayers: [
+        {
+          name: "Субъекты_РФ",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET:adm_federalsubject",
+          transparent: true,
+        },
+        {
+          name: "Границы_РФ",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET:adm_rfborders",
           transparent: true,
         },
       ],

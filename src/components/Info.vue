@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper-content wrapper-content--fixed">
-    <v-parallax dark src="@/img/banner_main.gif">
+    <v-parallax dark src="@/img/banner_main_plus.gif" height="600">
       <v-row align="center" justify="center">
         <v-col class="text-center-1">
           <h1 class="display-1 font-weight-thin mb-4">

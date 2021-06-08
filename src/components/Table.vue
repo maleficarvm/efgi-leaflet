@@ -149,7 +149,7 @@ export default {
 
         { text: "Название объекта", value: "obj_name", width: "400" },
         { text: "Автор (авторы)", value: "obj_authors", width: "300" },
-        { text: "Год составления объекта учета", value: "obj_year" },
+        { text: "Год составления объекта", value: "obj_year" },
         {
           text: "Инвентарные номера в каталогах учета",
           value: "obj_assoc_inv_nums",
