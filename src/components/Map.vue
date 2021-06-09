@@ -2,6 +2,7 @@
   <div class="wrapper-content wrapper-content--fixed">
     <section class="map-container">
       <l-map ref="map" style="height: 885px" :zoom="zoom" :center="center">
+        <l-control-layers position="topright" :collapsed="false" />
         <l-tile-layer
           v-for="baseProvider in baseProviders"
           :key="baseProvider.name"
@@ -29,7 +30,6 @@
           :attribution="tileProvider.attribution"
           layer-type="base"
         />
-        <l-control-layers position="topright" />
         <l-wms-tile-layer
           v-for="layer in layers"
           :key="layer.name"
@@ -37,6 +37,8 @@
           :layers="layer.layers"
           :visible="layer.visible"
           :name="layer.name"
+          :format="layer.format"
+          :transparent="layer.transparent"
           layer-type="base"
         />
         <l-wms-tile-layer
@@ -46,6 +48,8 @@
           :layers="customLayer.customLayers"
           :visible="customLayer.visible"
           :name="customLayer.name"
+          :format="customLayer.format"
+          :transparent="customLayer.transparent"
           layer-type="base"
         />
         <l-control-fullscreen
@@ -60,11 +64,16 @@
         <vue-leaflet-minimap :layer="layer" :options="options" />
 
         <v-geosearch :options="geosearchOptions" />
+
         <l-geo-json
-          v-if="show"
+          v-for="geojsonLayer in geojsonLayers"
+          :key="geojsonLayer.name"
+          :visible="geojsonLayer.visible"
           :geojson="geojson"
           :options="features"
+          :name="geojsonLayer.name"
           :options-style="styleFunction"
+          layer-type="base"
         />
       </l-map>
     </section>
@@ -108,7 +117,7 @@ export default {
       center: [64.7556, 96.7766],
       show: true,
       geojson: null,
-      fillColor: "#b8a358",
+      fillColor: "orange",
       baseProviders: [
         {
           name: "ЕЭКО",
@@ -144,7 +153,7 @@ export default {
       ],
       firstUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology/wms?",
       secondUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology2/wms?",
-      thirdUrl: "http://kastor.tsnigri.ru:8585/geoserver/NET/wms?",
+      thirdUrl: "http://kastor.tsnigri.ru:8585/geoserver/NET2/wms?",
       layers: [
         {
           name: "ГГК ВСЕГЕИ 1:1 000 000",
@@ -168,15 +177,72 @@ export default {
           name: "Субъекты_РФ",
           visible: true,
           format: "image/png",
-          baseLayers: "NET:adm_federalsubject",
+          baseLayers: "NET2:ne_10m_adm_regions_line",
           transparent: true,
         },
         {
           name: "Границы_РФ",
           visible: true,
           format: "image/png",
-          baseLayers: "NET:adm_rfborders",
+          baseLayers: "NET2:ne_10m_admrf_line",
           transparent: true,
+        },
+      ],
+      geojsonLayers: [
+        {
+          name: "Все фондовые материалы",
+          visible: true,
+          geojson: this.geojson,
+        },
+        {
+          name: "Оценочные работы",
+          visible: false,
+          geojson: this.geojson,
+        },
+        {
+          name: "Поисково-оценочные работы",
+          visible: false,
+          geojson: this.geojson,
+        },
+        {
+          name: "Поисковые работы",
+          visible: false,
+          geojson: this.geojson,
+        },
+        {
+          name: "Геохимические работы",
+          visible: false,
+          geojson: this.geojson,
+        },
+        {
+          name: "Региональные работы",
+          visible: false,
+          geojson: this.geojson,
+        },
+        {
+          name: "Научно-методические работы",
+          visible: false,
+          geojson: this.geojson,
+        },
+        {
+          name: "Минералогические исследования",
+          visible: false,
+          geojson: this.geojson,
+        },
+        {
+          name: "Научно-технологические исследования",
+          visible: false,
+          geojson: this.geojson,
+        },
+        {
+          name: "Апробация прогнозных ресурсов",
+          visible: false,
+          geojson: this.geojson,
+        },
+        {
+          name: "Государственный кадастр месторождений",
+          visible: false,
+          geojson: this.geojson,
         },
       ],
       layer: new L.TileLayer(
@@ -212,11 +278,11 @@ export default {
       const fillColor = this.fillColor; // important! need touch fillColor in computed for re-calculate when change fillColor
       return () => {
         return {
-          weight: 1,
-          color: "#3d3a2f",
+          weight: 0.6,
+          color: "red",
           opacity: 1,
           fillColor: fillColor,
-          fillOpacity: 0.2,
+          fillOpacity: 0.07,
         };
       };
     },
@@ -244,10 +310,10 @@ export default {
   created() {
     axios
       .get(`http://127.0.0.1:3000/api/geojson`)
-      .then((response) => {
-        console.log(response.data);
+      .then((res) => {
+        console.log(res.data);
         this.error = null;
-        this.geojson = response.data;
+        this.geojson = res.data;
       })
       .catch((err) => {
         console.log(err);
@@ -269,5 +335,11 @@ export default {
   padding: 0px;
   margin-top: 30px;
   z-index: 0;
+}
+.leaflet-control-layers-list {
+  padding: 0px;
+}
+.leaflet-control-layers-selector {
+  margin: 0px;
 }
 </style>
