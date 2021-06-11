@@ -11,6 +11,15 @@
           :url="baseProvider.url"
           :attribution="baseProvider.attribution"
         />
+        <l-tile-layer
+          v-for="tileProvider in tileProviders"
+          :key="tileProvider.name"
+          :name="tileProvider.name"
+          :visible="tileProvider.visible"
+          :url="tileProvider.url"
+          :attribution="tileProvider.attribution"
+          layer-type="base"
+        />
         <l-wms-tile-layer
           v-for="baseLayer in baseLayers"
           :key="baseLayer.name"
@@ -20,15 +29,6 @@
           :name="baseLayer.name"
           :format="baseLayer.format"
           :transparent="baseLayer.transparent"
-        />
-        <l-tile-layer
-          v-for="tileProvider in tileProviders"
-          :key="tileProvider.name"
-          :name="tileProvider.name"
-          :visible="tileProvider.visible"
-          :url="tileProvider.url"
-          :attribution="tileProvider.attribution"
-          layer-type="base"
         />
         <l-wms-tile-layer
           v-for="layer in layers"
@@ -62,18 +62,16 @@
           :metric="true"
         />
         <vue-leaflet-minimap :layer="layer" :options="options" />
-
         <v-geosearch :options="geosearchOptions" />
-
         <l-geo-json
           v-for="geojsonLayer in geojsonLayers"
           :key="geojsonLayer.name"
           :visible="geojsonLayer.visible"
+          :name="geojsonLayer.name"
           :geojson="geojson"
           :options="features"
-          :name="geojsonLayer.name"
           :options-style="styleFunction"
-          layer-type="base"
+          layer-type="overlay"
         />
       </l-map>
     </section>
@@ -117,6 +115,16 @@ export default {
       center: [64.7556, 96.7766],
       show: true,
       geojson: null,
+      appraisal: null,
+      searchAppraisal: null,
+      search: null,
+      geochem: null,
+      region: null,
+      method: null,
+      mineral: null,
+      tech: null,
+      forecast: null,
+      cadastre: null,
       fillColor: "orange",
       baseProviders: [
         {
@@ -146,7 +154,7 @@ export default {
           name: "Яндекс.Спутник",
           visible: false,
           url:
-            "https://sat01.maps.yandex.net/tiles?l=sat&v=3.379.0&x={x}&y={y}&z={z}",
+            "https://sat03.maps.yandex.net/tiles?l=sat&v=3.379.0&x={x}&y={y}&z={z}",
           attribution:
             '&copy; <a target="_blank" href="https://yandex.ru/legal/maps_termsofuse/?lang=ru">Яндекс</a>',
         },
@@ -295,9 +303,9 @@ export default {
             feature.properties.f2 +
             "</div><br><div><b>Год составления объекта учета: </b>" +
             feature.properties.f3 +
-            "</div><br><div><b>Инвентарные номера в каталогах учета: </b>" +
-            feature.properties.f4 +
             "</div><br><div><b>Вид работ: </b>" +
+            feature.properties.f4 +
+            "</div><br><div><b>Инвентарные номера в каталогах учета: </b>" +
             feature.properties.f5 +
             '</div><br><div><b>Ссылка: </b><a href="' +
             feature.properties.f6 +
@@ -309,11 +317,45 @@ export default {
   },
   created() {
     axios
-      .get(`http://127.0.0.1:3000/api/geojson`)
-      .then((res) => {
-        console.log(res.data);
+      .all([
+        axios.get("http://localhost:3000/api/geojson"),
+        axios.get("http://localhost:3000/api/appraisal"),
+        axios.get("http://localhost:3000/api/searchAppraisal"),
+        axios.get("http://localhost:3000/api/search"),
+        axios.get("http://localhost:3000/api/geochem"),
+        axios.get("http://localhost:3000/api/region"),
+        axios.get("http://localhost:3000/api/method"),
+        axios.get("http://localhost:3000/api/mineral"),
+        axios.get("http://localhost:3000/api/tech"),
+        axios.get("http://localhost:3000/api/forecast"),
+        axios.get("http://localhost:3000/api/cadastre"),
+      ])
+      .then((resArr) => {
+        console.log(
+          resArr[0].data,
+          resArr[1].data,
+          resArr[2].data,
+          resArr[3].data,
+          resArr[4].data,
+          resArr[5].data,
+          resArr[6].data,
+          resArr[7].data,
+          resArr[8].data,
+          resArr[9].data,
+          resArr[10].data
+        );
         this.error = null;
-        this.geojson = res.data;
+        this.geojson = resArr[0].data;
+        this.appraisal = resArr[1].data;
+        this.searchAppraisal = resArr[2].data;
+        this.search = resArr[3].data;
+        this.geochem = resArr[4].data;
+        this.region = resArr[5].data;
+        this.method = resArr[6].data;
+        this.mineral = resArr[7].data;
+        this.tech = resArr[8].data;
+        this.forecast = resArr[9].data;
+        this.cadastre = resArr[10].data;
       })
       .catch((err) => {
         console.log(err);

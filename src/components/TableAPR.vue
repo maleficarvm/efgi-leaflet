@@ -4,8 +4,7 @@
       <v-card>
         <v-card-title>
           <p>
-            Лаборатория ЕБГИ. Таблица объектов учета материалов прогнозных
-            ресурсов
+            Фонд ЦНИГРИ. Таблица объектов учета материалов прогнозных ресурсов
           </p>
           <v-spacer></v-spacer>
           <v-text-field
@@ -108,7 +107,7 @@
           </template>
           <template v-slot:[`item.oid`]="{ value }">
             <v-btn class="mx-1" fab dark x-small @click="onButtonClick(value)">
-              <v-icon dark>mdi-television</v-icon>
+              <v-icon dark>mdi-map-search-outline</v-icon>
             </v-btn>
           </template>
           <template v-slot:[`item.obj_year`]="{ item }">
