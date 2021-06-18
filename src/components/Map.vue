@@ -1,7 +1,13 @@
 <template>
   <div class="wrapper-content wrapper-content--fixed">
     <section class="map-container">
-      <l-map ref="map" style="height: 885px" :zoom="zoom" :center="center">
+      <l-map
+        @click="addMarker(this)"
+        ref="map"
+        style="height: 885px"
+        :zoom="zoom"
+        :center="center"
+      >
         <l-control-layers position="topright" :collapsed="false" />
         <l-tile-layer
           v-for="baseProvider in baseProviders"
@@ -21,16 +27,6 @@
           layer-type="base"
         />
         <l-wms-tile-layer
-          v-for="baseLayer in baseLayers"
-          :key="baseLayer.name"
-          :base-url="thirdUrl"
-          :layers="baseLayer.baseLayers"
-          :visible="baseLayer.visible"
-          :name="baseLayer.name"
-          :format="baseLayer.format"
-          :transparent="baseLayer.transparent"
-        />
-        <l-wms-tile-layer
           v-for="layer in layers"
           :key="layer.name"
           :base-url="firstUrl"
@@ -39,7 +35,7 @@
           :name="layer.name"
           :format="layer.format"
           :transparent="layer.transparent"
-          layer-type="base"
+          layer-type="overlay"
         />
         <l-wms-tile-layer
           v-for="customLayer in customLayers"
@@ -50,7 +46,18 @@
           :name="customLayer.name"
           :format="customLayer.format"
           :transparent="customLayer.transparent"
-          layer-type="base"
+          layer-type="overlay"
+        />
+        <l-wms-tile-layer
+          v-for="baseLayer in baseLayers"
+          :key="baseLayer.name"
+          :base-url="thirdUrl"
+          :layers="baseLayer.baseLayers"
+          :visible="baseLayer.visible"
+          :name="baseLayer.name"
+          :format="baseLayer.format"
+          :transparent="baseLayer.transparent"
+          layer-type="overlay"
         />
         <l-control-fullscreen
           position="topleft"
@@ -64,11 +71,81 @@
         <vue-leaflet-minimap :layer="layer" :options="options" />
         <v-geosearch :options="geosearchOptions" />
         <l-geo-json
-          v-for="geojsonLayer in geojsonLayers"
-          :key="geojsonLayer.name"
-          :visible="geojsonLayer.visible"
-          :name="geojsonLayer.name"
+          name="Все фондовые материалы"
+          :visible="true"
           :geojson="geojson"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Оценочные работы"
+          :visible="false"
+          :geojson="appraisal"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Поисково-оценочные работы"
+          :visible="false"
+          :geojson="searchAppraisal"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Поисковые работы"
+          :visible="false"
+          :geojson="search"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Геохимические работы"
+          :visible="false"
+          :geojson="geochem"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Минералогические исследования"
+          :visible="false"
+          :geojson="mineral"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Научно-технологические исследования"
+          :visible="false"
+          :geojson="tech"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Научно-методические работы"
+          :visible="false"
+          :geojson="method"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Региональные работы"
+          :visible="false"
+          :geojson="region"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Прогнозные ресурсы"
+          :visible="false"
+          :geojson="cadastre"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -95,7 +172,6 @@ import {
   LMarker,
   LGeoJson,
 } from "vue2-leaflet";
-
 export default {
   components: {
     LMap,
@@ -136,7 +212,7 @@ export default {
             '&copy; <a target="_blank" href="https://rosreestr.ru/site/">Росреестр</a> 2010, ЕЭКО',
         },
         {
-          name: "ЕЭКО_Аннотации",
+          name: "ЕЭКО Аннотации",
           visible: true,
           url:
             "https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/Anno/MapServer/tile/{z}/{y}/{x}",
@@ -182,75 +258,17 @@ export default {
       ],
       baseLayers: [
         {
-          name: "Субъекты_РФ",
+          name: "Границы субъектов РФ",
           visible: true,
           format: "image/png",
           baseLayers: "NET2:ne_10m_adm_regions_line",
           transparent: true,
         },
         {
-          name: "Границы_РФ",
-          visible: true,
+          name: "Государственная граница РФ",
           format: "image/png",
           baseLayers: "NET2:ne_10m_admrf_line",
           transparent: true,
-        },
-      ],
-      geojsonLayers: [
-        {
-          name: "Все фондовые материалы",
-          visible: true,
-          geojson: this.geojson,
-        },
-        {
-          name: "Оценочные работы",
-          visible: false,
-          geojson: this.geojson,
-        },
-        {
-          name: "Поисково-оценочные работы",
-          visible: false,
-          geojson: this.geojson,
-        },
-        {
-          name: "Поисковые работы",
-          visible: false,
-          geojson: this.geojson,
-        },
-        {
-          name: "Геохимические работы",
-          visible: false,
-          geojson: this.geojson,
-        },
-        {
-          name: "Региональные работы",
-          visible: false,
-          geojson: this.geojson,
-        },
-        {
-          name: "Научно-методические работы",
-          visible: false,
-          geojson: this.geojson,
-        },
-        {
-          name: "Минералогические исследования",
-          visible: false,
-          geojson: this.geojson,
-        },
-        {
-          name: "Научно-технологические исследования",
-          visible: false,
-          geojson: this.geojson,
-        },
-        {
-          name: "Апробация прогнозных ресурсов",
-          visible: false,
-          geojson: this.geojson,
-        },
-        {
-          name: "Государственный кадастр месторождений",
-          visible: false,
-          geojson: this.geojson,
         },
       ],
       layer: new L.TileLayer(
@@ -366,13 +384,22 @@ export default {
       console.log(this.value);
     });
   },
-  methods: {},
+  methods: {
+    addMarker(event) {
+      this.markers.push(event.latlng);
+    },
+  },
 };
 </script>
 
 <style>
 @import "~leaflet-minimap/dist/Control.MiniMap.min.css";
-
+span {
+  font-size: 12px;
+}
+.leaflet-container {
+  font: 12px/1.5 "Montserrat", Arial, Helvetica, sans-serif;
+}
 .map-container {
   padding: 0px;
   margin-top: 30px;
