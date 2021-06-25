@@ -71,57 +71,33 @@
         <vue-leaflet-minimap :layer="layer" :options="options" />
         <v-geosearch :options="geosearchOptions" />
         <l-geo-json
+          name="Материалы ГГК  1:1 000 000"
+          :visible="false"
+          :geojson="layout1B"
+          :options="layouts"
+          :options-style="styleLayoutFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Материалы ГГК 1:200 000"
+          :visible="false"
+          :geojson="layout200K"
+          :options="layouts"
+          :options-style="styleLayoutFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="ЦТК и ЦМР 1:100 000"
+          :visible="false"
+          :geojson="layout100K"
+          :options="layouts"
+          :options-style="styleLayoutFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
           name="Все фондовые материалы"
           :visible="true"
           :geojson="geojson"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Оценочные работы"
-          :visible="false"
-          :geojson="appraisal"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Поисково-оценочные работы"
-          :visible="false"
-          :geojson="searchAppraisal"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Поисковые работы"
-          :visible="false"
-          :geojson="search"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Геохимические работы"
-          :visible="false"
-          :geojson="geochem"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Минералогические исследования"
-          :visible="false"
-          :geojson="mineral"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Научно-технологические исследования"
-          :visible="false"
-          :geojson="tech"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -131,7 +107,13 @@
           :visible="false"
           :geojson="method"
           :options="features"
-          :options-style="styleFunction"
+          :options-style="{
+            weight: 0.6,
+            color: 'crimson',
+            opacity: 1,
+            fillColor: 'crimson',
+            fillOpacity: 0.03,
+          }"
           layer-type="overlay"
         />
         <l-geo-json
@@ -139,15 +121,153 @@
           :visible="false"
           :geojson="region"
           :options="features"
-          :options-style="styleFunction"
+          :options-style="{
+            weight: 0.6,
+            color: 'Indigo',
+            opacity: 1,
+            fillColor: 'Indigo',
+            fillOpacity: 0.2,
+          }"
           layer-type="overlay"
         />
         <l-geo-json
-          name="Прогнозные ресурсы"
+          name="Оценочные работы"
+          :visible="false"
+          :geojson="appraisal"
+          :options="features"
+          :options-style="{
+            weight: 1,
+            color: 'OrangeRed',
+            opacity: 1,
+            fillColor: 'OrangeRed',
+            fillOpacity: 0.1,
+          }"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Поисково-оценочные работы"
+          :visible="false"
+          :geojson="searchAppraisal"
+          :options="features"
+          :options-style="{
+            weight: 1,
+            color: 'red',
+            opacity: 1,
+            fillColor: red,
+            fillOpacity: 0.01,
+          }"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Поисковые работы"
+          :visible="false"
+          :geojson="search"
+          :options="features"
+          :options-style="{
+            weight: 1,
+            color: 'Navy',
+            opacity: 1,
+            fillColor: 'Navy',
+            fillOpacity: 0.1,
+          }"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Прогнозно-поисковые работы"
+          :visible="false"
+          :geojson="forecastSearch"
+          :options="features"
+          :options-style="{
+            weight: 0.6,
+            color: 'red',
+            opacity: 1,
+            fillColor: fillColor,
+            fillOpacity: 0.07,
+          }"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Освоение"
+          :visible="false"
+          :geojson="develop"
+          :options="features"
+          :options-style="{
+            weight: 2,
+            color: 'red',
+            opacity: 1,
+            fillColor: 'red',
+            fillOpacity: 0.07,
+          }"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Геофизические исследования"
+          :visible="false"
+          :geojson="geophys"
+          :options="features"
+          :options-style="{
+            weight: 1,
+            color: 'SaddleBrown',
+            opacity: 1,
+            fillColor: 'SaddleBrown',
+            fillOpacity: 0.1,
+          }"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Геохимические исследования"
+          :visible="false"
+          :geojson="geochem"
+          :options="features"
+          :options-style="{
+            weight: 0.6,
+            color: 'Maroon',
+            opacity: 1,
+            fillColor: Maroon,
+            fillOpacity: 0.07,
+          }"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Минералогические исследования"
+          :visible="false"
+          :geojson="mineral"
+          :options="features"
+          :options-style="{
+            weight: 1,
+            color: 'red',
+            opacity: 1,
+            fillColor: 'Turquoise',
+            fillOpacity: red,
+          }"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Научно-технологические исследования"
+          :visible="false"
+          :geojson="tech"
+          :options="features"
+          :options-style="{
+            weight: 1,
+            color: 'black',
+            opacity: 1,
+            fillColor: 'Turquoise',
+            fillOpacity: 0.1,
+          }"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Апробация прогнозных ресурсов"
           :visible="false"
           :geojson="cadastre"
           :options="features"
-          :options-style="styleFunction"
+          :options-style="{
+            weight: 0.6,
+            color: 'black',
+            opacity: 1,
+            fillColor: 'yellow',
+            fillOpacity: 0.07,
+          }"
           layer-type="overlay"
         />
       </l-map>
@@ -195,12 +315,18 @@ export default {
       searchAppraisal: null,
       search: null,
       geochem: null,
+      geophys: null,
       region: null,
       method: null,
       mineral: null,
       tech: null,
       forecast: null,
       cadastre: null,
+      forecastSearch: null,
+      develop: null,
+      layout1B: null,
+      layout200K: null,
+      layout100K: null,
       fillColor: "orange",
       baseProviders: [
         {
@@ -227,12 +353,12 @@ export default {
             'Map data: &copy; <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
         },
         {
-          name: "Яндекс.Спутник",
+          name: "Mapbox Satellite",
           visible: false,
           url:
-            "https://sat03.maps.yandex.net/tiles?l=sat&v=3.379.0&x={x}&y={y}&z={z}",
+            "https://a.tiles.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA",
           attribution:
-            '&copy; <a target="_blank" href="https://yandex.ru/legal/maps_termsofuse/?lang=ru">Яндекс</a>',
+            '&copy; <a target="_blank" href="https://www.mapbox.com/about/maps/">Mapbox </a>&copy; <a target="_blank" href="https://www.maxar.com/">Maxar</a>',
         },
       ],
       firstUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology/wms?",
@@ -300,6 +426,11 @@ export default {
         onEachFeature: this.onEachFeatureFunction,
       };
     },
+    layouts() {
+      return {
+        onEachFeature: this.onEachLayoutFunction,
+      };
+    },
     styleFunction() {
       const fillColor = this.fillColor; // important! need touch fillColor in computed for re-calculate when change fillColor
       return () => {
@@ -308,6 +439,17 @@ export default {
           color: "red",
           opacity: 1,
           fillColor: fillColor,
+          fillOpacity: 0.07,
+        };
+      };
+    },
+    styleLayoutFunction() {
+      return () => {
+        return {
+          weight: 0.6,
+          color: "gray",
+          opacity: 1,
+          fillColor: "black",
           fillOpacity: 0.07,
         };
       };
@@ -332,6 +474,18 @@ export default {
         );
       };
     },
+    onEachLayoutFunction() {
+      return (feature, layer) => {
+        layer.bindPopup(
+          "<tr><td><b>Номенклатурный лист: </b></td>" +
+            feature.properties.f1 +
+            '</div><br><br><div><b>Ссылка: </b><a href="' +
+            feature.properties.f2 +
+            '"> перейти к материалам </div></div>',
+          { permanent: false, sticky: true }
+        );
+      };
+    },
   },
   created() {
     axios
@@ -347,6 +501,12 @@ export default {
         axios.get("http://localhost:3000/api/tech"),
         axios.get("http://localhost:3000/api/forecast"),
         axios.get("http://localhost:3000/api/cadastre"),
+        axios.get("http://localhost:3000/api/geophys"),
+        axios.get("http://localhost:3000/api/forecastSearch"),
+        axios.get("http://localhost:3000/api/develop"),
+        axios.get("http://localhost:3000/api/layout1B"),
+        axios.get("http://localhost:3000/api/layout200K"),
+        axios.get("http://localhost:3000/api/layout100K"),
       ])
       .then((resArr) => {
         console.log(
@@ -360,7 +520,13 @@ export default {
           resArr[7].data,
           resArr[8].data,
           resArr[9].data,
-          resArr[10].data
+          resArr[10].data,
+          resArr[11].data,
+          resArr[12].data,
+          resArr[13].data,
+          resArr[14].data,
+          resArr[15].data,
+          resArr[16].data
         );
         this.error = null;
         this.geojson = resArr[0].data;
@@ -374,6 +540,12 @@ export default {
         this.tech = resArr[8].data;
         this.forecast = resArr[9].data;
         this.cadastre = resArr[10].data;
+        this.geophys = resArr[11].data;
+        this.forecastSearch = resArr[12].data;
+        this.develop = resArr[13].data;
+        this.layout1B = resArr[14].data;
+        this.layout200K = resArr[15].data;
+        this.layout100K = resArr[16].data;
       })
       .catch((err) => {
         console.log(err);
