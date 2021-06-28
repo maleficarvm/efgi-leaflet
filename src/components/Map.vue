@@ -23,6 +23,7 @@
           :name="tileProvider.name"
           :visible="tileProvider.visible"
           :url="tileProvider.url"
+          :subdomains="tileProvider.subdomains"
           :attribution="tileProvider.attribution"
           layer-type="base"
         />
@@ -68,10 +69,12 @@
           :imperial="false"
           :metric="true"
         />
-        <vue-leaflet-minimap :layer="layer" :options="options" />
+        <l-control :position="'bottomright'">
+          <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
+        </l-control>
         <v-geosearch :options="geosearchOptions" />
         <l-geo-json
-          name="Материалы ГГК  1:1 000 000"
+          name="Материалы ГГК 1:1 000 000"
           :visible="false"
           :geojson="layout1B"
           :options="layouts"
@@ -108,7 +111,7 @@
           :geojson="method"
           :options="features"
           :options-style="{
-            weight: 0.6,
+            weight: 2,
             color: 'crimson',
             opacity: 1,
             fillColor: 'crimson',
@@ -122,7 +125,7 @@
           :geojson="region"
           :options="features"
           :options-style="{
-            weight: 0.6,
+            weight: 2,
             color: 'Indigo',
             opacity: 1,
             fillColor: 'Indigo',
@@ -206,7 +209,7 @@
           :geojson="geophys"
           :options="features"
           :options-style="{
-            weight: 1,
+            weight: 2,
             color: 'SaddleBrown',
             opacity: 1,
             fillColor: 'SaddleBrown',
@@ -220,7 +223,7 @@
           :geojson="geochem"
           :options="features"
           :options-style="{
-            weight: 0.6,
+            weight: 2,
             color: 'Maroon',
             opacity: 1,
             fillColor: Maroon,
@@ -277,6 +280,7 @@
 
 <script>
 import axios from "axios";
+import { CRS, latlng } from "leaflet";
 import "../assets/css/leaflet.css";
 import "../assets/css/geosearch.css";
 import VGeosearch from "vue2-leaflet-geosearch";
@@ -291,6 +295,7 @@ import {
   LWMSTileLayer,
   LMarker,
   LGeoJson,
+  LControl,
 } from "vue2-leaflet";
 export default {
   components: {
@@ -303,6 +308,8 @@ export default {
     VGeosearch,
     LMarker,
     LGeoJson,
+    LControl,
+    latlng,
     "l-wms-tile-layer": LWMSTileLayer,
   },
   data() {
@@ -346,6 +353,13 @@ export default {
       ],
       tileProviders: [
         {
+          name: "OpenStreetMap",
+          visible: false,
+          url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          attribution:
+            '&copy; Участники<a href="http://osm.org/copyright">OpenStreetMap</a> ',
+        },
+        {
           name: "OpenTopoMap",
           visible: false,
           url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
@@ -353,7 +367,15 @@ export default {
             'Map data: &copy; <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
         },
         {
-          name: "Mapbox Satellite",
+          name: "Яндекс Спутник",
+          visible: false,
+          url:
+            "https://core-sat.maps.yandex.net/tiles?l=sat&v=3.564.0&x={x}&y={y}&z={z}&scale=1&lang=ru_RU",
+          attribution: '&copy; <a href="http://yandex.ru/copyright">Yandex</a>',
+          crs: CRS.EPSG3857,
+        },
+        {
+          name: "Mapbox Спутник",
           visible: false,
           url:
             "https://a.tiles.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA",
@@ -397,19 +419,6 @@ export default {
           transparent: true,
         },
       ],
-      layer: new L.TileLayer(
-        "https://sat01.maps.yandex.net/tiles?l=sat&v=3.379.0&x={x}&y={y}&z={z}"
-      ),
-      options: {
-        position: "bottomright",
-        width: 300,
-        height: 150,
-        collapsedWidth: 25,
-        collapsedHeight: 25,
-        toggleDisplay: true,
-        zoomAnimation: true,
-        zoomLevelOffset: -3,
-      },
       geosearchOptions: {
         provider: new OpenStreetMapProvider(),
         style: "bar",
@@ -564,8 +573,9 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 @import "~leaflet-minimap/dist/Control.MiniMap.min.css";
+
 span {
   font-size: 12px;
 }
@@ -579,8 +589,13 @@ span {
 }
 .leaflet-control-layers-list {
   padding: 0px;
+  max-height: 700px;
 }
 .leaflet-control-layers-selector {
   margin: 0px;
+}
+.vertical-logo-img {
+  width: 150px;
+  margin-left: 50px;
 }
 </style>

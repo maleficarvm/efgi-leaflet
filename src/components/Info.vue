@@ -83,7 +83,7 @@
         <v-btn
           class="font-weight-bold"
           color="white"
-          href="https://twitter.com/vuetifyjs"
+          href="#"
           light
           min-width="168"
           target="_blank"
