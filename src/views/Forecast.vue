@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import VuetifyTable from "@/components/TableAPR.vue";
+import VuetifyTable from "@/components/Forecast.vue";
 
 export default {
-  name: "Table",
+  name: "Forecast",
   components: {
     VuetifyTable,
   },

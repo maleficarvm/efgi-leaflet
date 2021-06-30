@@ -4,13 +4,13 @@
       <v-card>
         <v-card-title>
           <p>
-            Фонд ЦНИГРИ. Таблица объектов учета материалов прогнозных ресурсов
+            Сводная таблица объектов прогнозных ресурсов
           </p>
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            label="Поиск по прогнозным ресурсам..."
+            label="Поиск по реестру прогнозных ресурсов..."
             single-line
             hide-details
           ></v-text-field>

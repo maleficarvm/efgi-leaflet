@@ -20,31 +20,22 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/Table.vue"),
   },
   {
-    path: "/mapgrr",
-    name: "MapGRR",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    path: "/resources",
+    name: "Recources",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/MapGRR.vue"),
+      import(/* webpackChunkName: "about" */ "../views/Resources.vue"),
   },
   {
     path: "/info",
     name: "Info",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Info.vue"),
   },
   {
-    path: "/tableAPR",
-    name: "TableAPR",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    path: "/forecast",
+    name: "Forecast",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/TableAPR.vue"),
+      import(/* webpackChunkName: "about" */ "../views/Forecast.vue"),
   },
 ];
 

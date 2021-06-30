@@ -48,9 +48,9 @@ export default {
       links: [
         { title: "О Едином Банке", url: "/info" },
         { title: "Карта объектов учета", url: "/" },
-        { title: "Карта объектов ГРР", url: "/mapgrr" },
+        { title: "Карта прогнозных ресурсов", url: "/recources" },
         { title: "Реестр объектов учета", url: "/table" },
-        { title: "Реестр прогнозных ресурсов", url: "/tableAPR" },
+        { title: "Реестр прогнозных ресурсов", url: "/forecast" },
       ],
     };
   },
@@ -97,12 +97,12 @@ export default {
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
 .v-data-table > .v-data-table__wrapper > table > thead > tr > th,
 .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
-  font-size: 15px !important;
+  font-size: 12px !important;
 }
 
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
 .v-data-table > .v-data-table__wrapper > table > thead > tr > td,
 .v-data-table > .v-data-table__wrapper > table > tfoot > tr > td {
-  font-size: 13px !important;
+  font-size: 11px !important;
 }
 </style>

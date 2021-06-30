@@ -4,7 +4,7 @@
       <l-map
         @click="addMarker(this)"
         ref="myMap"
-        style="height: 915px"
+        style="height: 885px"
         :zoom="zoom"
         :center="center"
       >
@@ -496,6 +496,11 @@ export default {
       };
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.$refs.myMap.mapObject.ANY_LEAFLET_MAP_METHOD();
+    });
+  },
   created() {
     axios
       .all([
@@ -589,6 +594,7 @@ span {
 }
 .leaflet-control-layers-list {
   padding: 0px;
+  max-height: 700px;
 }
 .leaflet-control-layers-selector {
   margin: 0px;
