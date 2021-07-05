@@ -48,7 +48,7 @@ export default {
       links: [
         { title: "О Едином Банке", url: "/info" },
         { title: "Карта объектов учета", url: "/" },
-        { title: "Карта прогнозных ресурсов", url: "/recources" },
+        { title: "Карта прогнозных ресурсов", url: "/resources" },
         { title: "Реестр объектов учета", url: "/table" },
         { title: "Реестр прогнозных ресурсов", url: "/forecast" },
       ],

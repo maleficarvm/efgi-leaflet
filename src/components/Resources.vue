@@ -4,7 +4,7 @@
       <l-map
         @click="addMarker(this)"
         ref="myMap"
-        style="height: 885px"
+        style="height: 915px"
         :zoom="zoom"
         :center="center"
       >
@@ -98,7 +98,7 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Все фондовые материалы"
+          name="Все прогнозные ресурсы"
           :visible="true"
           :geojson="geojson"
           :options="features"
@@ -106,7 +106,7 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Научно-методические работы"
+          name="Апробированные"
           :visible="false"
           :geojson="method"
           :options="features"
@@ -120,7 +120,7 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Региональные работы"
+          name="Отклоненные"
           :visible="false"
           :geojson="region"
           :options="features"
@@ -134,7 +134,7 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Оценочные работы"
+          name="Ошибки координат"
           :visible="false"
           :geojson="appraisal"
           :options="features"
@@ -148,7 +148,7 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Поисково-оценочные работы"
+          name="Название 1"
           :visible="false"
           :geojson="searchAppraisal"
           :options="features"
@@ -162,7 +162,7 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Поисковые работы"
+          name="Название 2"
           :visible="false"
           :geojson="search"
           :options="features"
@@ -176,7 +176,7 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Прогнозно-поисковые работы"
+          name="Название 3"
           :visible="false"
           :geojson="forecastSearch"
           :options="features"
@@ -185,90 +185,6 @@
             color: 'red',
             opacity: 1,
             fillColor: fillColor,
-            fillOpacity: 0.07,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Освоение"
-          :visible="false"
-          :geojson="develop"
-          :options="features"
-          :options-style="{
-            weight: 2,
-            color: 'red',
-            opacity: 1,
-            fillColor: 'red',
-            fillOpacity: 0.07,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Геофизические исследования"
-          :visible="false"
-          :geojson="geophys"
-          :options="features"
-          :options-style="{
-            weight: 2,
-            color: 'SaddleBrown',
-            opacity: 1,
-            fillColor: 'SaddleBrown',
-            fillOpacity: 0.1,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Геохимические исследования"
-          :visible="false"
-          :geojson="geochem"
-          :options="features"
-          :options-style="{
-            weight: 2,
-            color: 'Maroon',
-            opacity: 1,
-            fillColor: Maroon,
-            fillOpacity: 0.07,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Минералогические исследования"
-          :visible="false"
-          :geojson="mineral"
-          :options="features"
-          :options-style="{
-            weight: 1,
-            color: 'red',
-            opacity: 1,
-            fillColor: 'Turquoise',
-            fillOpacity: red,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Научно-технологические исследования"
-          :visible="false"
-          :geojson="tech"
-          :options="features"
-          :options-style="{
-            weight: 1,
-            color: 'black',
-            opacity: 1,
-            fillColor: 'Turquoise',
-            fillOpacity: 0.1,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Апробация прогнозных ресурсов"
-          :visible="false"
-          :geojson="cadastre"
-          :options="features"
-          :options-style="{
-            weight: 0.6,
-            color: 'black',
-            opacity: 1,
-            fillColor: 'yellow',
             fillOpacity: 0.07,
           }"
           layer-type="overlay"
@@ -331,9 +247,6 @@ export default {
       cadastre: null,
       forecastSearch: null,
       develop: null,
-      layout1B: null,
-      layout200K: null,
-      layout100K: null,
       fillColor: "orange",
       baseProviders: [
         {
@@ -383,27 +296,7 @@ export default {
             '&copy; <a target="_blank" href="https://www.mapbox.com/about/maps/">Mapbox </a>&copy; <a target="_blank" href="https://www.maxar.com/">Maxar</a>',
         },
       ],
-      firstUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology/wms?",
-      secondUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology2/wms?",
       thirdUrl: "http://kastor.tsnigri.ru:8585/geoserver/NET2/wms?",
-      layers: [
-        {
-          name: "ГГК ВСЕГЕИ 1:1 000 000",
-          visible: false,
-          format: "image/png",
-          layers: "RUSSIA_VSEGEI_1M_BLS",
-          transparent: false,
-        },
-      ],
-      customLayers: [
-        {
-          name: "ГГК ВСЕГЕИ 1:200 000",
-          visible: false,
-          format: "image/png",
-          customLayers: "CIS_VSEGEI_200K_BLS",
-          transparent: false,
-        },
-      ],
       baseLayers: [
         {
           name: "Границы субъектов РФ",
@@ -433,11 +326,6 @@ export default {
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
-      };
-    },
-    layouts() {
-      return {
-        onEachFeature: this.onEachLayoutFunction,
       };
     },
     styleFunction() {
@@ -479,18 +367,6 @@ export default {
             '</div><br><div><b>Ссылка: </b><a href="' +
             feature.properties.f6 +
             '"> перейти к файлу </div></div>',
-          { permanent: false, sticky: true }
-        );
-      };
-    },
-    onEachLayoutFunction() {
-      return (feature, layer) => {
-        layer.bindPopup(
-          "<tr><td><b>Номенклатурный лист: </b></td>" +
-            feature.properties.f1 +
-            '</div><br><br><div><b>Ссылка: </b><a href="' +
-            feature.properties.f2 +
-            '"> перейти к материалам </div></div>',
           { permanent: false, sticky: true }
         );
       };
@@ -580,7 +456,6 @@ export default {
 
 <style>
 @import "~leaflet-minimap/dist/Control.MiniMap.min.css";
-
 span {
   font-size: 12px;
 }
@@ -594,7 +469,6 @@ span {
 }
 .leaflet-control-layers-list {
   padding: 0px;
-  max-height: 700px;
 }
 .leaflet-control-layers-selector {
   margin: 0px;

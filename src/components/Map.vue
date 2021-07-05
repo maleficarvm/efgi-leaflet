@@ -2,11 +2,14 @@
   <div class="wrapper-content wrapper-content--fixed">
     <section class="map-container">
       <l-map
-        @click="addMarker(this)"
         ref="myMap"
         style="height: 915px"
         :zoom="zoom"
+        :minZoom="minZoom"
         :center="center"
+        :options="{ attributionControl: false }"
+        @update:zoom="zoomUpdated"
+        @update:center="centerUpdated"
       >
         <l-control-layers position="topright" :collapsed="false" />
         <l-tile-layer
@@ -23,7 +26,6 @@
           :name="tileProvider.name"
           :visible="tileProvider.visible"
           :url="tileProvider.url"
-          :subdomains="tileProvider.subdomains"
           :attribution="tileProvider.attribution"
           layer-type="base"
         />
@@ -60,10 +62,23 @@
           :transparent="baseLayer.transparent"
           layer-type="overlay"
         />
+
         <l-control-fullscreen
           position="topleft"
           :options="{ title: { false: 'На весь экран', true: 'Свернуть' } }"
         />
+        <l-control-attribution
+          position="bottomright"
+          :prefix="[
+            `<span>CRS: WGS-84 EPSG: 3857 Коорд. центра: ` +
+              center.lat +
+              `&nbsp;С.Ш. &nbsp;` +
+              center.lng +
+              `&nbsp;В.Д. &nbsp;Zoom: ` +
+              zoom +
+              `&nbsp; Vue2Leaflet</span> `,
+          ]"
+        ></l-control-attribution>
         <l-control-scale
           position="bottomleft"
           :imperial="false"
@@ -74,7 +89,7 @@
         </l-control>
         <v-geosearch :options="geosearchOptions" />
         <l-geo-json
-          name="Материалы ГГК 1:1 000 000"
+          name="Материалы ГГК 1:1 000 000 и ЦМР"
           :visible="false"
           :geojson="layout1B"
           :options="layouts"
@@ -90,7 +105,7 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="ЦТК и ЦМР 1:100 000"
+          name="ЦТК 1:100 000"
           :visible="false"
           :geojson="layout100K"
           :options="layouts"
@@ -296,7 +311,9 @@ import {
   LMarker,
   LGeoJson,
   LControl,
+  LControlAttribution,
 } from "vue2-leaflet";
+
 export default {
   components: {
     LMap,
@@ -310,11 +327,14 @@ export default {
     LGeoJson,
     LControl,
     latlng,
+    CRS,
+    LControlAttribution,
     "l-wms-tile-layer": LWMSTileLayer,
   },
   data() {
     return {
       zoom: 4,
+      minZoom: 2,
       center: [64.7556, 96.7766],
       show: true,
       geojson: null,
@@ -357,7 +377,7 @@ export default {
           visible: false,
           url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
           attribution:
-            '&copy; Участники<a href="http://osm.org/copyright">OpenStreetMap</a> ',
+            '&copy; Участники <a href="http://osm.org/copyright">OpenStreetMap</a> ',
         },
         {
           name: "OpenTopoMap",
@@ -365,14 +385,6 @@ export default {
           url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
           attribution:
             'Map data: &copy; <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
-        },
-        {
-          name: "Яндекс Спутник",
-          visible: false,
-          url:
-            "https://core-sat.maps.yandex.net/tiles?l=sat&v=3.564.0&x={x}&y={y}&z={z}&scale=1&lang=ru_RU",
-          attribution: '&copy; <a href="http://yandex.ru/copyright">Yandex</a>',
-          crs: CRS.EPSG3857,
         },
         {
           name: "Mapbox Спутник",
@@ -478,7 +490,7 @@ export default {
             feature.properties.f5 +
             '</div><br><div><b>Ссылка: </b><a href="' +
             feature.properties.f6 +
-            '"> перейти к файлу </div></div>',
+            '" target ="_blank"> перейти к файлу </div></div>',
           { permanent: false, sticky: true }
         );
       };
@@ -490,7 +502,7 @@ export default {
             feature.properties.f1 +
             '</div><br><br><div><b>Ссылка: </b><a href="' +
             feature.properties.f2 +
-            '"> перейти к материалам </div></div>',
+            '" target ="_blank"> перейти к материалам </div></div>',
           { permanent: false, sticky: true }
         );
       };
@@ -566,8 +578,11 @@ export default {
     });
   },
   methods: {
-    addMarker(event) {
-      this.markers.push(event.latlng);
+    zoomUpdated(zoom) {
+      this.zoom = zoom;
+    },
+    centerUpdated(center) {
+      this.center = center;
     },
   },
 };
@@ -596,5 +611,17 @@ span {
 .vertical-logo-img {
   width: 150px;
   margin-left: 50px;
+}
+.example-custom-control {
+  background: #fff;
+  padding: 0 0.5em;
+  border: 1px solid #aaa;
+  border-radius: 0.1em;
+}
+.custom-control-watermark {
+  font-size: 200%;
+  font-weight: bolder;
+  color: #aaa;
+  text-shadow: #555;
 }
 </style>

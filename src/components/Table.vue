@@ -19,7 +19,6 @@
         <v-data-table
           :headers="headers"
           :items="items"
-          :additionals="additionals"
           :single-expand="singleExpand"
           :expanded.sync="expanded"
           item-key="oid"
@@ -95,18 +94,12 @@
             </td>
           </template>
           <template v-slot:[`item.path_cloud`]="{ value }">
-            <v-btn
-              class="mx-1"
-              fab
-              dark
-              x-small
-              @click="onButtonClickCloud(value)"
-            >
+            <v-btn class="mx-1" fab x-small @click="onButtonClickCloud(value)">
               <v-icon dark>mdi-application-import</v-icon>
             </v-btn>
           </template>
           <template v-slot:[`item.oid`]="{ value }">
-            <v-btn class="mx-1" fab dark x-small @click="onButtonClick(value)">
+            <v-btn class="mx-1" fab x-small @click="onButtonClick(value)">
               <v-icon dark>mdi-map-search-outline</v-icon>
             </v-btn>
           </template>

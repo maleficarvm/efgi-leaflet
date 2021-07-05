@@ -21,7 +21,7 @@ const routes = [
   },
   {
     path: "/resources",
-    name: "Recources",
+    name: "Resources",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Resources.vue"),
   },
@@ -37,9 +37,15 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Forecast.vue"),
   },
+  {
+    path: "*",
+    name: "404",
+    component: () => import(/* webpackChunkName: "about" */ "../views/404.vue"),
+  },
 ];
 
 const router = new VueRouter({
+  mode: "history",
   routes,
 });
 
