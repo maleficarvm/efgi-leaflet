@@ -13,21 +13,19 @@
       </v-row>
     </v-parallax>
     <base-section dark id="features" class="secondary">
-      <v-responsive class="mx-auto" max-width="1350">
-        <v-container fluid>
-          <v-row>
-            <v-col
-              v-for="card in cards"
-              :key="card.title"
-              cols="12"
-              sm="4"
-              md="3"
-            >
-              <baseInfoCard align="center" dark v-bind="card" />
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-responsive>
+      <v-container fluid>
+        <v-row>
+          <v-col
+            v-for="card in cards"
+            :key="card.title"
+            cols="12"
+            sm="4"
+            md="3"
+          >
+            <baseInfoCard align="center" dark v-bind="card" />
+          </v-col>
+        </v-row>
+      </v-container>
     </base-section>
     <baseSection id="theme-features">
       <baseSectionHeading
@@ -179,7 +177,7 @@ export default {
         icon: "mdi-map-marker-multiple-outline",
         title: "Различные источники",
         text:
-          'Помимо фондовых материалов ФГБУ "ЦНИГРИ", присутствуют материалы ФГБУ "Росгеолфонд", ФГБУ "ВСЕГЕИ", территориальных фондов и прочих отраслевых организаций, прогнозные ресурсы, ГКМ',
+          'Помимо фондовых материалов ФГБУ "ЦНИГРИ", присутствуют материалы ФГБУ "Росгеолфонд", ФГБУ "ВСЕГЕИ", территориальных фондов и прочих отраслевых организаций, прогнозные ресурсы',
       },
       {
         icon: "mdi-table-edit",
@@ -199,6 +197,10 @@ export default {
 </script>
 
 <style lang="scss">
+h1 {
+  margin: 0px 0px 30px;
+}
+
 .text-center-1 {
   text-align: center;
   position: absolute;

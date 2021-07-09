@@ -13,8 +13,6 @@
 
           <base-title :title="title" class="text-uppercase" space="1" />
 
-          <base-divider :color="color" />
-
           <base-body v-if="text || $slots.default" :text="text" space="6">
             <slot />
           </base-body>
@@ -67,3 +65,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+div {
+  margin: 20px;
+}
+</style>

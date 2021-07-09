@@ -274,20 +274,6 @@
           }"
           layer-type="overlay"
         />
-        <l-geo-json
-          name="Апробация прогнозных ресурсов"
-          :visible="false"
-          :geojson="cadastre"
-          :options="features"
-          :options-style="{
-            weight: 0.6,
-            color: 'black',
-            opacity: 1,
-            fillColor: 'yellow',
-            fillOpacity: 0.07,
-          }"
-          layer-type="overlay"
-        />
       </l-map>
     </section>
   </div>
@@ -334,7 +320,7 @@ export default {
   data() {
     return {
       zoom: 4,
-      minZoom: 2,
+      minZoom: 3,
       center: [64.7556, 96.7766],
       show: true,
       geojson: null,
@@ -430,6 +416,20 @@ export default {
           baseLayers: "NET2:ne_10m_admrf_line",
           transparent: true,
         },
+        {
+          name: "Арктическая зона РФ",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:azrf",
+          transparent: true,
+        },
+        {
+          name: "Действующие ООПТ",
+          visible: false,
+          format: "image/png",
+          baseLayers: "NET2:oopt_active",
+          transparent: true,
+        },
       ],
       geosearchOptions: {
         provider: new OpenStreetMapProvider(),
@@ -493,6 +493,14 @@ export default {
             '" target ="_blank"> перейти к файлу </div></div>',
           { permanent: false, sticky: true }
         );
+        layer.bindTooltip(
+          "<p><b>Инвентарный номер: </b>" + feature.properties.f5 + "</p>",
+          {
+            permanent: false,
+            sticky: true,
+            offset: [10, 0],
+          }
+        );
       };
     },
     onEachLayoutFunction() {
@@ -505,6 +513,7 @@ export default {
             '" target ="_blank"> перейти к материалам </div></div>',
           { permanent: false, sticky: true }
         );
+        layer.bindTooltip(feature.properties.f1);
       };
     },
   },
@@ -521,7 +530,6 @@ export default {
         axios.get("http://localhost:3000/api/mineral"),
         axios.get("http://localhost:3000/api/tech"),
         axios.get("http://localhost:3000/api/forecast"),
-        axios.get("http://localhost:3000/api/cadastre"),
         axios.get("http://localhost:3000/api/geophys"),
         axios.get("http://localhost:3000/api/forecastSearch"),
         axios.get("http://localhost:3000/api/develop"),
@@ -546,8 +554,7 @@ export default {
           resArr[12].data,
           resArr[13].data,
           resArr[14].data,
-          resArr[15].data,
-          resArr[16].data
+          resArr[15].data
         );
         this.error = null;
         this.geojson = resArr[0].data;
@@ -560,13 +567,12 @@ export default {
         this.mineral = resArr[7].data;
         this.tech = resArr[8].data;
         this.forecast = resArr[9].data;
-        this.cadastre = resArr[10].data;
-        this.geophys = resArr[11].data;
-        this.forecastSearch = resArr[12].data;
-        this.develop = resArr[13].data;
-        this.layout1B = resArr[14].data;
-        this.layout200K = resArr[15].data;
-        this.layout100K = resArr[16].data;
+        this.geophys = resArr[10].data;
+        this.forecastSearch = resArr[11].data;
+        this.develop = resArr[12].data;
+        this.layout1B = resArr[13].data;
+        this.layout200K = resArr[14].data;
+        this.layout100K = resArr[15].data;
       })
       .catch((err) => {
         console.log(err);

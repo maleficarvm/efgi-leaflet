@@ -18,16 +18,14 @@
       class="text-uppercase"
       space="2"
     />
-
-    <base-divider :color="color" />
-
-    <base-body v-if="$slots.default || text" class="mx-auto" max-width="700">
-      <slot v-if="$slots.default" />
-
-      <template v-else>
-        {{ text }}
-      </template>
-    </base-body>
+    <div class="base-body-download">
+      <base-body class="base-body-download" max-width="700">
+        <slot v-if="$slots.default" />
+        <template v-else>
+          {{ text }}
+        </template>
+      </base-body>
+    </div>
   </div>
 </template>
 
@@ -80,3 +78,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.base-body-download {
+  margin: 25px 100px 5px;
+}
+</style>

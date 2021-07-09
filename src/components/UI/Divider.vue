@@ -54,6 +54,7 @@ export default {
 <style lang="scss">
 .base-divider .v-divider {
   border-width: 3px 0 0 0 !important;
+  margin: 10px 0px 10px;
 }
 
 .base-divider.base-divider--dense .v-divider {
