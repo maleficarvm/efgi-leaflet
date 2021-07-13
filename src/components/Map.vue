@@ -417,7 +417,7 @@ export default {
           transparent: true,
         },
         {
-          name: "Арктическая зона РФ",
+          name: "Граница АЗРФ",
           visible: true,
           format: "image/png",
           baseLayers: "NET2:azrf",
