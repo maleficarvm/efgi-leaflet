@@ -16,6 +16,7 @@
     "proj4": "^2.7.4",
     "proj4leaflet": "^1.0.2",
     "vue": "^2.6.11",
+    "vue-choropleth": "^0.3.1",
     "vue-leaflet-minimap": "^1.0.4",
     "vue-router": "^3.2.0",
     "vue-sidebar-menu": "^4.7.4",

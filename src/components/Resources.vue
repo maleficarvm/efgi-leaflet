@@ -2,12 +2,27 @@
   <div class="wrapper-content wrapper-content--fixed">
     <section class="map-container">
       <l-map
-        @click="addMarker(this)"
         ref="myMap"
         style="height: 915px"
         :zoom="zoom"
+        :minZoom="minZoom"
         :center="center"
+        :options="{ attributionControl: false }"
+        @update:zoom="zoomUpdated"
+        @update:center="centerUpdated"
       >
+        <l-choropleth-layer
+          :data="objectData"
+          titleKey="type_name"
+          idKey="type_id"
+          :value="value"
+          :extraValues="extraValues"
+          geojsonIdKey="id"
+          :geojson="geojson"
+          :colorScale="colorScale"
+        >
+        </l-choropleth-layer>
+
         <l-control-layers position="topright" :collapsed="false" />
         <l-tile-layer
           v-for="baseProvider in baseProviders"
@@ -23,7 +38,6 @@
           :name="tileProvider.name"
           :visible="tileProvider.visible"
           :url="tileProvider.url"
-          :subdomains="tileProvider.subdomains"
           :attribution="tileProvider.attribution"
           layer-type="base"
         />
@@ -60,10 +74,23 @@
           :transparent="baseLayer.transparent"
           layer-type="overlay"
         />
+
         <l-control-fullscreen
           position="topleft"
           :options="{ title: { false: 'На весь экран', true: 'Свернуть' } }"
         />
+        <l-control-attribution
+          position="bottomright"
+          :prefix="[
+            `<span>CRS: WGS-84 EPSG: 3857 Коорд. центра: ` +
+              center.lat +
+              `&nbsp;С.Ш. &nbsp;` +
+              center.lng +
+              `&nbsp;В.Д. &nbsp;Zoom: ` +
+              zoom +
+              `&nbsp; Vue2Leaflet</span> `,
+          ]"
+        ></l-control-attribution>
         <l-control-scale
           position="bottomleft"
           :imperial="false"
@@ -74,119 +101,11 @@
         </l-control>
         <v-geosearch :options="geosearchOptions" />
         <l-geo-json
-          name="Материалы ГГК 1:1 000 000"
-          :visible="false"
-          :geojson="layout1B"
-          :options="layouts"
-          :options-style="styleLayoutFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Материалы ГГК 1:200 000"
-          :visible="false"
-          :geojson="layout200K"
-          :options="layouts"
-          :options-style="styleLayoutFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="ЦТК и ЦМР 1:100 000"
-          :visible="false"
-          :geojson="layout100K"
-          :options="layouts"
-          :options-style="styleLayoutFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Все прогнозные ресурсы"
+          name="Прогнозные ресурсы"
           :visible="true"
           :geojson="geojson"
           :options="features"
           :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Апробированные"
-          :visible="false"
-          :geojson="method"
-          :options="features"
-          :options-style="{
-            weight: 2,
-            color: 'crimson',
-            opacity: 1,
-            fillColor: 'crimson',
-            fillOpacity: 0.03,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Отклоненные"
-          :visible="false"
-          :geojson="region"
-          :options="features"
-          :options-style="{
-            weight: 2,
-            color: 'Indigo',
-            opacity: 1,
-            fillColor: 'Indigo',
-            fillOpacity: 0.2,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Ошибки координат"
-          :visible="false"
-          :geojson="appraisal"
-          :options="features"
-          :options-style="{
-            weight: 1,
-            color: 'OrangeRed',
-            opacity: 1,
-            fillColor: 'OrangeRed',
-            fillOpacity: 0.1,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Название 1"
-          :visible="false"
-          :geojson="searchAppraisal"
-          :options="features"
-          :options-style="{
-            weight: 1,
-            color: 'red',
-            opacity: 1,
-            fillColor: red,
-            fillOpacity: 0.01,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Название 2"
-          :visible="false"
-          :geojson="search"
-          :options="features"
-          :options-style="{
-            weight: 1,
-            color: 'Navy',
-            opacity: 1,
-            fillColor: 'Navy',
-            fillOpacity: 0.1,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Название 3"
-          :visible="false"
-          :geojson="forecastSearch"
-          :options="features"
-          :options-style="{
-            weight: 0.6,
-            color: 'red',
-            opacity: 1,
-            fillColor: fillColor,
-            fillOpacity: 0.07,
-          }"
           layer-type="overlay"
         />
       </l-map>
@@ -212,7 +131,10 @@ import {
   LMarker,
   LGeoJson,
   LControl,
+  LControlAttribution,
 } from "vue2-leaflet";
+import { InfoControl, ReferenceChart, ChoroplethLayer } from "vue-choropleth";
+
 export default {
   components: {
     LMap,
@@ -226,27 +148,24 @@ export default {
     LGeoJson,
     LControl,
     latlng,
+    CRS,
+    LControlAttribution,
     "l-wms-tile-layer": LWMSTileLayer,
+    "l-info-control": InfoControl,
+    "l-reference-chart": ReferenceChart,
+    "l-choropleth-layer": ChoroplethLayer,
   },
   data() {
     return {
       zoom: 4,
+      minZoom: 3,
       center: [64.7556, 96.7766],
       show: true,
+      objectData: null,
       geojson: null,
-      appraisal: null,
-      searchAppraisal: null,
-      search: null,
-      geochem: null,
-      geophys: null,
-      region: null,
-      method: null,
-      mineral: null,
-      tech: null,
-      forecast: null,
-      cadastre: null,
-      forecastSearch: null,
-      develop: null,
+      layout1B: null,
+      layout200K: null,
+      layout100K: null,
       fillColor: "orange",
       baseProviders: [
         {
@@ -270,7 +189,7 @@ export default {
           visible: false,
           url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
           attribution:
-            '&copy; Участники<a href="http://osm.org/copyright">OpenStreetMap</a> ',
+            '&copy; Участники <a href="http://osm.org/copyright">OpenStreetMap</a> ',
         },
         {
           name: "OpenTopoMap",
@@ -278,14 +197,6 @@ export default {
           url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
           attribution:
             'Map data: &copy; <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
-        },
-        {
-          name: "Яндекс Спутник",
-          visible: false,
-          url:
-            "https://core-sat.maps.yandex.net/tiles?l=sat&v=3.564.0&x={x}&y={y}&z={z}&scale=1&lang=ru_RU",
-          attribution: '&copy; <a href="http://yandex.ru/copyright">Yandex</a>',
-          crs: CRS.EPSG3857,
         },
         {
           name: "Mapbox Спутник",
@@ -296,7 +207,27 @@ export default {
             '&copy; <a target="_blank" href="https://www.mapbox.com/about/maps/">Mapbox </a>&copy; <a target="_blank" href="https://www.maxar.com/">Maxar</a>',
         },
       ],
+      firstUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology/wms?",
+      secondUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology2/wms?",
       thirdUrl: "http://kastor.tsnigri.ru:8585/geoserver/NET2/wms?",
+      layers: [
+        {
+          name: "ГГК ВСЕГЕИ 1:1 000 000",
+          visible: false,
+          format: "image/png",
+          layers: "RUSSIA_VSEGEI_1M_BLS",
+          transparent: false,
+        },
+      ],
+      customLayers: [
+        {
+          name: "ГГК ВСЕГЕИ 1:200 000",
+          visible: false,
+          format: "image/png",
+          customLayers: "CIS_VSEGEI_200K_BLS",
+          transparent: false,
+        },
+      ],
       baseLayers: [
         {
           name: "Границы субъектов РФ",
@@ -309,6 +240,20 @@ export default {
           name: "Государственная граница РФ",
           format: "image/png",
           baseLayers: "NET2:ne_10m_admrf_line",
+          transparent: true,
+        },
+        {
+          name: "Граница АЗРФ",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:azrf",
+          transparent: true,
+        },
+        {
+          name: "Действующие ООПТ",
+          visible: false,
+          format: "image/png",
+          baseLayers: "NET2:oopt_active",
           transparent: true,
         },
       ],
@@ -326,6 +271,11 @@ export default {
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
+      };
+    },
+    layouts() {
+      return {
+        onEachFeature: this.onEachLayoutFunction,
       };
     },
     styleFunction() {
@@ -356,86 +306,56 @@ export default {
         layer.bindPopup(
           "<tr><td><b>Название: </b></td>" +
             feature.properties.f1 +
-            "<br><br><div><b>Автор (авторы): </b>" +
-            feature.properties.f2 +
-            "</div><br><div><b>Год составления объекта учета: </b>" +
-            feature.properties.f3 +
-            "</div><br><div><b>Вид работ: </b>" +
+            "<br><br><div><b> Минерагенический таксон: </b>" +
             feature.properties.f4 +
-            "</div><br><div><b>Инвентарные номера в каталогах учета: </b>" +
-            feature.properties.f5 +
-            '</div><br><div><b>Ссылка: </b><a href="' +
+            "</div><br><div><b>ПИ: </b>" +
             feature.properties.f6 +
-            '"> перейти к файлу </div></div>',
+            "</div><br><div><b>Статус: </b>" +
+            feature.properties.f2 +
+            "</div><br><div><b>Категория ресурсов: </b>" +
+            feature.properties.f5 +
+            "</div><br><div><b>Организация: </b>" +
+            feature.properties.f9 +
+            "</div><br><div><b>Финансирование: </b>" +
+            feature.properties.f8 +
+            "</div><br><div><b>Цель работ: </b>" +
+            feature.properties.f7 +
+            '</div><br><div><b>Ссылка: </b><a href="' +
+            feature.properties.f3 +
+            '" target ="_blank"> перейти к файлу </div></div>',
           { permanent: false, sticky: true }
+        );
+        layer.bindTooltip(
+          "<p><b>Объект: </b>" + feature.properties.f1 + "</p>",
+          {
+            permanent: false,
+            sticky: true,
+            offset: [10, 0],
+          }
         );
       };
     },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.$refs.myMap.mapObject.ANY_LEAFLET_MAP_METHOD();
-    });
+    onEachLayoutFunction() {
+      return (feature, layer) => {
+        layer.bindPopup(
+          "<tr><td><b>Номенклатурный лист: </b></td>" +
+            feature.properties.f1 +
+            '</div><br><br><div><b>Ссылка: </b><a href="' +
+            feature.properties.f2 +
+            '" target ="_blank"> перейти к материалам </div></div>',
+          { permanent: false, sticky: true }
+        );
+        layer.bindTooltip(feature.properties.f1);
+      };
+    },
   },
   created() {
     axios
-      .all([
-        axios.get("http://localhost:3000/api/geojson"),
-        axios.get("http://localhost:3000/api/appraisal"),
-        axios.get("http://localhost:3000/api/searchAppraisal"),
-        axios.get("http://localhost:3000/api/search"),
-        axios.get("http://localhost:3000/api/geochem"),
-        axios.get("http://localhost:3000/api/region"),
-        axios.get("http://localhost:3000/api/method"),
-        axios.get("http://localhost:3000/api/mineral"),
-        axios.get("http://localhost:3000/api/tech"),
-        axios.get("http://localhost:3000/api/forecast"),
-        axios.get("http://localhost:3000/api/cadastre"),
-        axios.get("http://localhost:3000/api/geophys"),
-        axios.get("http://localhost:3000/api/forecastSearch"),
-        axios.get("http://localhost:3000/api/develop"),
-        axios.get("http://localhost:3000/api/layout1B"),
-        axios.get("http://localhost:3000/api/layout200K"),
-        axios.get("http://localhost:3000/api/layout100K"),
-      ])
+      .all([axios.get("http://localhost:3000/api/aprgeojson")])
       .then((resArr) => {
-        console.log(
-          resArr[0].data,
-          resArr[1].data,
-          resArr[2].data,
-          resArr[3].data,
-          resArr[4].data,
-          resArr[5].data,
-          resArr[6].data,
-          resArr[7].data,
-          resArr[8].data,
-          resArr[9].data,
-          resArr[10].data,
-          resArr[11].data,
-          resArr[12].data,
-          resArr[13].data,
-          resArr[14].data,
-          resArr[15].data,
-          resArr[16].data
-        );
+        console.log(resArr[0].data);
         this.error = null;
         this.geojson = resArr[0].data;
-        this.appraisal = resArr[1].data;
-        this.searchAppraisal = resArr[2].data;
-        this.search = resArr[3].data;
-        this.geochem = resArr[4].data;
-        this.region = resArr[5].data;
-        this.method = resArr[6].data;
-        this.mineral = resArr[7].data;
-        this.tech = resArr[8].data;
-        this.forecast = resArr[9].data;
-        this.cadastre = resArr[10].data;
-        this.geophys = resArr[11].data;
-        this.forecastSearch = resArr[12].data;
-        this.develop = resArr[13].data;
-        this.layout1B = resArr[14].data;
-        this.layout200K = resArr[15].data;
-        this.layout100K = resArr[16].data;
       })
       .catch((err) => {
         console.log(err);
@@ -447,8 +367,11 @@ export default {
     });
   },
   methods: {
-    addMarker(event) {
-      this.markers.push(event.latlng);
+    zoomUpdated(zoom) {
+      this.zoom = zoom;
+    },
+    centerUpdated(center) {
+      this.center = center;
     },
   },
 };
@@ -456,6 +379,7 @@ export default {
 
 <style>
 @import "~leaflet-minimap/dist/Control.MiniMap.min.css";
+
 span {
   font-size: 12px;
 }
@@ -476,5 +400,17 @@ span {
 .vertical-logo-img {
   width: 150px;
   margin-left: 50px;
+}
+.example-custom-control {
+  background: #fff;
+  padding: 0 0.5em;
+  border: 1px solid #aaa;
+  border-radius: 0.1em;
+}
+.custom-control-watermark {
+  font-size: 200%;
+  font-weight: bolder;
+  color: #aaa;
+  text-shadow: #555;
 }
 </style>

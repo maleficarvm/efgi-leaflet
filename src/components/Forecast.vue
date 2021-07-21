@@ -93,33 +93,19 @@
             </td>
           </template>
           <template v-slot:[`item.path_cloud`]="{ value }">
-            <v-btn
-              class="mx-1"
-              fab
-              dark
-              x-small
-              @click="onButtonClickCloud(value)"
-            >
+            <v-btn class="mx-1" fab x-small @click="onButtonClickCloud(value)">
               <v-icon dark>mdi-application-import</v-icon>
             </v-btn>
           </template>
           <template v-slot:[`item.oid`]="{ value }">
-            <v-btn class="mx-1" fab dark x-small @click="onButtonClick(value)">
+            <v-btn class="mx-1" fab x-small @click="onButtonClick(value)">
               <v-icon dark>mdi-map-search-outline</v-icon>
             </v-btn>
-          </template>
-          <template v-slot:[`item.obj_year`]="{ item }">
-            <v-chip :color="getColor(item.obj_year)" dark>{{
-              item.obj_year
-            }}</v-chip>
           </template>
         </v-data-table>
         <div class="text-center">
           <v-btn color="btn btnDefault" dark @click="downloadExcel">
             Скачать Excel
-          </v-btn>
-          <v-btn color="btn btnDefault" dark @click="downloadShp">
-            Скачать все объекты (.shp)
           </v-btn>
           <v-btn color="btn btnDefault" dark @click="downloadForm">
             Скачать форму заявки
@@ -149,43 +135,37 @@ export default {
           width: "100",
           sortable: false,
         },
-        { text: "Название объекта", value: "obj_name", width: "300" },
-        { text: "Автор (авторы)", value: "obj_authors", width: "150" },
-        { text: "Год составления объекта", value: "obj_year" },
         {
-          text: "Инвентарные номера в каталогах учета",
-          value: "obj_assoc_inv_nums",
-          width: "200",
+          text: "Директория хранения",
+          value: "stor_folder",
+          width: "20",
         },
+        { text: "Название объекта", value: "obj_name", width: "500" },
+        { text: "Синопсис", value: "obj_synopsis", width: "500" },
+        { text: "Год составления объекта", value: "obj_year" },
         {
           text: "Полезные ископаемые основные",
           value: "obj_main_min",
           width: "120",
         },
-        { text: "Вид работ", value: "type_of_work" },
-        { text: "Организации", value: "obj_orgs" },
+
+        { text: "Организации", value: "obj_orgs", width: "120" },
         {
           text: "Сведения о привязке в рамках АТД и АТЕ",
           value: "spat_atd_ate",
-        },
-        {
-          text: "Директория хранения документа",
-          value: "stor_folder",
-          width: "150",
         },
         {
           text: "Ключевые слова",
           value: "obj_terms",
           width: "200",
         },
-        { text: "Форматы материалов, типы файлов", value: "stor_fmts" },
       ],
       items: [],
     };
   },
   created() {
     axios
-      .get("http://127.0.0.1:3000/api/json", {})
+      .get("http://127.0.0.1:3000/api/apr", {})
       .then((res) => {
         this.items = res.data;
         this.loadTable = false;

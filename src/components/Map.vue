@@ -11,6 +11,18 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
       >
+        <l-choropleth-layer
+          :data="objectData"
+          titleKey="type_name"
+          idKey="type_id"
+          :value="value"
+          :extraValues="extraValues"
+          geojsonIdKey="id"
+          :geojson="geojson"
+          :colorScale="colorScale"
+        >
+        </l-choropleth-layer>
+
         <l-control-layers position="topright" :collapsed="false" />
         <l-tile-layer
           v-for="baseProvider in baseProviders"
@@ -120,160 +132,6 @@
           :options-style="styleFunction"
           layer-type="overlay"
         />
-        <l-geo-json
-          name="Научно-методические работы"
-          :visible="false"
-          :geojson="method"
-          :options="features"
-          :options-style="{
-            weight: 2,
-            color: 'crimson',
-            opacity: 1,
-            fillColor: 'crimson',
-            fillOpacity: 0.03,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Региональные работы"
-          :visible="false"
-          :geojson="region"
-          :options="features"
-          :options-style="{
-            weight: 2,
-            color: 'Indigo',
-            opacity: 1,
-            fillColor: 'Indigo',
-            fillOpacity: 0.2,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Оценочные работы"
-          :visible="false"
-          :geojson="appraisal"
-          :options="features"
-          :options-style="{
-            weight: 1,
-            color: 'OrangeRed',
-            opacity: 1,
-            fillColor: 'OrangeRed',
-            fillOpacity: 0.1,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Поисково-оценочные работы"
-          :visible="false"
-          :geojson="searchAppraisal"
-          :options="features"
-          :options-style="{
-            weight: 1,
-            color: 'red',
-            opacity: 1,
-            fillColor: red,
-            fillOpacity: 0.01,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Поисковые работы"
-          :visible="false"
-          :geojson="search"
-          :options="features"
-          :options-style="{
-            weight: 1,
-            color: 'Navy',
-            opacity: 1,
-            fillColor: 'Navy',
-            fillOpacity: 0.1,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Прогнозно-поисковые работы"
-          :visible="false"
-          :geojson="forecastSearch"
-          :options="features"
-          :options-style="{
-            weight: 0.6,
-            color: 'red',
-            opacity: 1,
-            fillColor: fillColor,
-            fillOpacity: 0.07,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Освоение"
-          :visible="false"
-          :geojson="develop"
-          :options="features"
-          :options-style="{
-            weight: 2,
-            color: 'red',
-            opacity: 1,
-            fillColor: 'red',
-            fillOpacity: 0.07,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Геофизические исследования"
-          :visible="false"
-          :geojson="geophys"
-          :options="features"
-          :options-style="{
-            weight: 2,
-            color: 'SaddleBrown',
-            opacity: 1,
-            fillColor: 'SaddleBrown',
-            fillOpacity: 0.1,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Геохимические исследования"
-          :visible="false"
-          :geojson="geochem"
-          :options="features"
-          :options-style="{
-            weight: 2,
-            color: 'Maroon',
-            opacity: 1,
-            fillColor: Maroon,
-            fillOpacity: 0.07,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Минералогические исследования"
-          :visible="false"
-          :geojson="mineral"
-          :options="features"
-          :options-style="{
-            weight: 1,
-            color: 'red',
-            opacity: 1,
-            fillColor: 'Turquoise',
-            fillOpacity: red,
-          }"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Научно-технологические исследования"
-          :visible="false"
-          :geojson="tech"
-          :options="features"
-          :options-style="{
-            weight: 1,
-            color: 'black',
-            opacity: 1,
-            fillColor: 'Turquoise',
-            fillOpacity: 0.1,
-          }"
-          layer-type="overlay"
-        />
       </l-map>
     </section>
   </div>
@@ -299,6 +157,7 @@ import {
   LControl,
   LControlAttribution,
 } from "vue2-leaflet";
+import { InfoControl, ReferenceChart, ChoroplethLayer } from "vue-choropleth";
 
 export default {
   components: {
@@ -316,6 +175,9 @@ export default {
     CRS,
     LControlAttribution,
     "l-wms-tile-layer": LWMSTileLayer,
+    "l-info-control": InfoControl,
+    "l-reference-chart": ReferenceChart,
+    "l-choropleth-layer": ChoroplethLayer,
   },
   data() {
     return {
@@ -323,20 +185,8 @@ export default {
       minZoom: 3,
       center: [64.7556, 96.7766],
       show: true,
+      objectData: null,
       geojson: null,
-      appraisal: null,
-      searchAppraisal: null,
-      search: null,
-      geochem: null,
-      geophys: null,
-      region: null,
-      method: null,
-      mineral: null,
-      tech: null,
-      forecast: null,
-      cadastre: null,
-      forecastSearch: null,
-      develop: null,
       layout1B: null,
       layout200K: null,
       layout100K: null,
@@ -494,7 +344,7 @@ export default {
           { permanent: false, sticky: true }
         );
         layer.bindTooltip(
-          "<p><b>Инвентарный номер: </b>" + feature.properties.f5 + "</p>",
+          "<p><b>Объект: </b>" + feature.properties.f1 + "</p>",
           {
             permanent: false,
             sticky: true,
@@ -521,18 +371,6 @@ export default {
     axios
       .all([
         axios.get("http://localhost:3000/api/geojson"),
-        axios.get("http://localhost:3000/api/appraisal"),
-        axios.get("http://localhost:3000/api/searchAppraisal"),
-        axios.get("http://localhost:3000/api/search"),
-        axios.get("http://localhost:3000/api/geochem"),
-        axios.get("http://localhost:3000/api/region"),
-        axios.get("http://localhost:3000/api/method"),
-        axios.get("http://localhost:3000/api/mineral"),
-        axios.get("http://localhost:3000/api/tech"),
-        axios.get("http://localhost:3000/api/forecast"),
-        axios.get("http://localhost:3000/api/geophys"),
-        axios.get("http://localhost:3000/api/forecastSearch"),
-        axios.get("http://localhost:3000/api/develop"),
         axios.get("http://localhost:3000/api/layout1B"),
         axios.get("http://localhost:3000/api/layout200K"),
         axios.get("http://localhost:3000/api/layout100K"),
@@ -542,37 +380,13 @@ export default {
           resArr[0].data,
           resArr[1].data,
           resArr[2].data,
-          resArr[3].data,
-          resArr[4].data,
-          resArr[5].data,
-          resArr[6].data,
-          resArr[7].data,
-          resArr[8].data,
-          resArr[9].data,
-          resArr[10].data,
-          resArr[11].data,
-          resArr[12].data,
-          resArr[13].data,
-          resArr[14].data,
-          resArr[15].data
+          resArr[3].data
         );
         this.error = null;
         this.geojson = resArr[0].data;
-        this.appraisal = resArr[1].data;
-        this.searchAppraisal = resArr[2].data;
-        this.search = resArr[3].data;
-        this.geochem = resArr[4].data;
-        this.region = resArr[5].data;
-        this.method = resArr[6].data;
-        this.mineral = resArr[7].data;
-        this.tech = resArr[8].data;
-        this.forecast = resArr[9].data;
-        this.geophys = resArr[10].data;
-        this.forecastSearch = resArr[11].data;
-        this.develop = resArr[12].data;
-        this.layout1B = resArr[13].data;
-        this.layout200K = resArr[14].data;
-        this.layout100K = resArr[15].data;
+        this.layout1B = resArr[1].data;
+        this.layout200K = resArr[2].data;
+        this.layout100K = resArr[3].data;
       })
       .catch((err) => {
         console.log(err);
