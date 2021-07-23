@@ -49,42 +49,27 @@
                       <tr>
                         <th>№ п.п.</th>
                         <th>Вид объекта учета</th>
-                        <th>
-                          Сведения о наличии ограничений оборота передаваемых
-                          данных
-                        </th>
+                        <th>Дата составления объекта учета</th>
                         <th>Права на материалы объекта</th>
                         <th>
                           Наименование регламентирующего документа (наименование
                           работ)
                         </th>
-                        <th>
-                          Геологические объекты, ассоциируемые с объектом учета
-                        </th>
-                        <th>Полезные ископаемые попутные</th>
                         <th>Группа полезных ископаемых</th>
-                        <th>Местоположение</th>
+                        <th>Полезные ископаемые попутные</th>
                         <th>Номенклатуры листов НД</th>
-                        <th>Дополнительные сведения о местоположении</th>
-                        <th>Тип информации</th>
-                        <th>Государственная регистация</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td>{{ item.oid }}</td>
                         <td>{{ item.obj_type }}</td>
-                        <td>{{ item.obj_restrict }}</td>
+                        <td>{{ item.obj_date }}</td>
                         <td>{{ item.obj_rights }}</td>
                         <td>{{ item.obj_rdoc_name }}</td>
-                        <td>{{ item.obj_assoc_geol }}</td>
-                        <td>{{ item.obj_supl_min }}</td>
                         <td>{{ item.obj_group_min }}</td>
-                        <td>{{ item.spat_loc }}</td>
+                        <td>{{ item.obj_supl_min }}</td>
                         <td>{{ item.spat_num_grid }}</td>
-                        <td>{{ item.spat_toponim }}</td>
-                        <td>{{ item.inf_type }}</td>
-                        <td>{{ item.path_others }}</td>
                       </tr>
                     </tbody>
                   </template>
@@ -135,29 +120,26 @@ export default {
           width: "100",
           sortable: false,
         },
-        {
-          text: "Директория хранения",
-          value: "stor_folder",
-          width: "20",
-        },
-        { text: "Название объекта", value: "obj_name", width: "500" },
+        { text: "Название объекта", value: "obj_name", width: "400" },
+        { text: "Единицы хранения", value: "stor_units", width: "150" },
         { text: "Синопсис", value: "obj_synopsis", width: "500" },
-        { text: "Год составления объекта", value: "obj_year" },
         {
           text: "Полезные ископаемые основные",
           value: "obj_main_min",
           width: "120",
         },
-
-        { text: "Организации", value: "obj_orgs", width: "120" },
         {
           text: "Сведения о привязке в рамках АТД и АТЕ",
           value: "spat_atd_ate",
         },
         {
-          text: "Ключевые слова",
-          value: "obj_terms",
-          width: "200",
+          text: "Геологические объекты, ассоциируемые с документом",
+          value: "obj_assoc_geol",
+        },
+        {
+          text: "Директория хранения",
+          value: "stor_folder",
+          width: "20",
         },
       ],
       items: [],

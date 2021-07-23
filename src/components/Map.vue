@@ -81,15 +81,15 @@
         />
         <l-control-attribution
           position="bottomright"
-          :prefix="[
+          :prefix="
             `<span>CRS: WGS-84 EPSG: 3857 Коорд. центра: ` +
               center.lat +
               `&nbsp;С.Ш. &nbsp;` +
               center.lng +
               `&nbsp;В.Д. &nbsp;Zoom: ` +
               zoom +
-              `&nbsp; Vue2Leaflet</span> `,
-          ]"
+              `&nbsp; Vue2Leaflet</span>`
+          "
         ></l-control-attribution>
         <l-control-scale
           position="bottomleft"
@@ -351,6 +351,21 @@ export default {
             offset: [10, 0],
           }
         );
+        layer.on("mouseover", function() {
+          this.setStyle({
+            weight: 3.5,
+            color: "#505050",
+          });
+        });
+        layer.on("mouseout", function() {
+          this.setStyle({
+            weight: 0.6,
+            color: "red",
+          });
+        });
+        layer.on("click", function() {
+          this.$refs.map.fitBounds(getBounds());
+        });
       };
     },
     onEachLayoutFunction() {

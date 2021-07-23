@@ -9,7 +9,7 @@
       >
         <header class="modal-header" id="modalTitle">
           <slot name="header">
-            <h2>Добро пожаловать в ЕБГИ ЦНИГРИ! (Alpha testing)</h2>
+            <h2>Добро пожаловать в ЕБГИ ЦНИГРИ! (Alpha)</h2>
           </slot>
         </header>
         <section class="modal-body" id="modalDescription">

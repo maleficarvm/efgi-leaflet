@@ -2,7 +2,7 @@
   <div class="wrapper-content wrapper-content--fixed">
     <section class="map-container">
       <l-map
-        ref="myMap"
+        ref="map"
         style="height: 915px"
         :zoom="zoom"
         :minZoom="minZoom"
@@ -11,18 +11,6 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
       >
-        <l-choropleth-layer
-          :data="objectData"
-          titleKey="type_name"
-          idKey="type_id"
-          :value="value"
-          :extraValues="extraValues"
-          geojsonIdKey="id"
-          :geojson="geojson"
-          :colorScale="colorScale"
-        >
-        </l-choropleth-layer>
-
         <l-control-layers position="topright" :collapsed="false" />
         <l-tile-layer
           v-for="baseProvider in baseProviders"
@@ -74,28 +62,32 @@
           :transparent="baseLayer.transparent"
           layer-type="overlay"
         />
-
         <l-control-fullscreen
           position="topleft"
           :options="{ title: { false: 'На весь экран', true: 'Свернуть' } }"
         />
         <l-control-attribution
           position="bottomright"
-          :prefix="[
+          :prefix="
             `<span>CRS: WGS-84 EPSG: 3857 Коорд. центра: ` +
               center.lat +
               `&nbsp;С.Ш. &nbsp;` +
               center.lng +
               `&nbsp;В.Д. &nbsp;Zoom: ` +
               zoom +
-              `&nbsp; Vue2Leaflet</span> `,
-          ]"
+              `&nbsp; Vue2Leaflet</span> `
+          "
         ></l-control-attribution>
         <l-control-scale
           position="bottomleft"
           :imperial="false"
           :metric="true"
         />
+        <l-control position="bottomright">
+          <v-btn color="btn btnDefault" dark @click="clickHandler">
+            Скачать форму заявки
+          </v-btn>
+        </l-control>
         <l-control :position="'bottomright'">
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
         </l-control>
@@ -136,6 +128,7 @@ import {
 import { InfoControl, ReferenceChart, ChoroplethLayer } from "vue-choropleth";
 
 export default {
+  name: "Resources",
   components: {
     LMap,
     LTileLayer,
@@ -161,7 +154,7 @@ export default {
       minZoom: 3,
       center: [64.7556, 96.7766],
       show: true,
-      objectData: null,
+      map: null,
       geojson: null,
       layout1B: null,
       layout200K: null,
@@ -273,11 +266,6 @@ export default {
         onEachFeature: this.onEachFeatureFunction,
       };
     },
-    layouts() {
-      return {
-        onEachFeature: this.onEachLayoutFunction,
-      };
-    },
     styleFunction() {
       const fillColor = this.fillColor; // important! need touch fillColor in computed for re-calculate when change fillColor
       return () => {
@@ -290,23 +278,12 @@ export default {
         };
       };
     },
-    styleLayoutFunction() {
-      return () => {
-        return {
-          weight: 0.6,
-          color: "gray",
-          opacity: 1,
-          fillColor: "black",
-          fillOpacity: 0.07,
-        };
-      };
-    },
     onEachFeatureFunction() {
       return (feature, layer) => {
         layer.bindPopup(
           "<tr><td><b>Название: </b></td>" +
             feature.properties.f1 +
-            "<br><br><div><b> Минерагенический таксон: </b>" +
+            "<br><br><div><b>Минерагенический таксон: </b>" +
             feature.properties.f4 +
             "</div><br><div><b>ПИ: </b>" +
             feature.properties.f6 +
@@ -314,11 +291,7 @@ export default {
             feature.properties.f2 +
             "</div><br><div><b>Категория ресурсов: </b>" +
             feature.properties.f5 +
-            "</div><br><div><b>Организация: </b>" +
-            feature.properties.f9 +
-            "</div><br><div><b>Финансирование: </b>" +
-            feature.properties.f8 +
-            "</div><br><div><b>Цель работ: </b>" +
+            "</div><br><div><b>Примечание: </b>" +
             feature.properties.f7 +
             '</div><br><div><b>Ссылка: </b><a href="' +
             feature.properties.f3 +
@@ -333,19 +306,21 @@ export default {
             offset: [10, 0],
           }
         );
-      };
-    },
-    onEachLayoutFunction() {
-      return (feature, layer) => {
-        layer.bindPopup(
-          "<tr><td><b>Номенклатурный лист: </b></td>" +
-            feature.properties.f1 +
-            '</div><br><br><div><b>Ссылка: </b><a href="' +
-            feature.properties.f2 +
-            '" target ="_blank"> перейти к материалам </div></div>',
-          { permanent: false, sticky: true }
-        );
-        layer.bindTooltip(feature.properties.f1);
+        layer.on("mouseover", function() {
+          this.setStyle({
+            weight: 3.5,
+            color: "#505050",
+          });
+        });
+        layer.on("mouseout", function() {
+          this.setStyle({
+            weight: 0.6,
+            color: "red",
+          });
+        });
+        layer.on("click", function() {
+          this.$refs.map.fitBounds(getBounds());
+        });
       };
     },
   },
@@ -367,6 +342,10 @@ export default {
     });
   },
   methods: {
+    clickHandler() {
+      const url = "#";
+      window.location.href = url;
+    },
     zoomUpdated(zoom) {
       this.zoom = zoom;
     },
