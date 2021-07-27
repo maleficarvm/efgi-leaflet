@@ -91,6 +91,11 @@
               `&nbsp; Vue2Leaflet</span>`
           "
         ></l-control-attribution>
+        <l-control position="bottomright">
+          <v-btn color="btn btnDefault" dark @click="clickHandler">
+            Скачать форму заявки
+          </v-btn>
+        </l-control>
         <l-control-scale
           position="bottomleft"
           :imperial="false"
@@ -303,15 +308,98 @@ export default {
       };
     },
     styleFunction() {
-      const fillColor = this.fillColor; // important! need touch fillColor in computed for re-calculate when change fillColor
-      return () => {
-        return {
-          weight: 0.6,
-          color: "red",
-          opacity: 1,
-          fillColor: fillColor,
-          fillOpacity: 0.07,
-        };
+      return (feature) => {
+        if (feature.properties.f4 === "Научно-методические работы") {
+          return {
+            weight: 0.6,
+            color: "#FF0000",
+            opacity: 1,
+            fillColor: "#FFA500",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Оценочные работы") {
+          return {
+            weight: 0.6,
+            color: "#FF4500",
+            opacity: 1,
+            fillColor: "#FF4500",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Освоение") {
+          return {
+            weight: 0.6,
+            color: "#FF4500",
+            opacity: 1,
+            fillColor: "#FF4500",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Региональные работы") {
+          return {
+            weight: 0.6,
+            color: "#8B008B",
+            opacity: 1,
+            fillColor: "#8B008B",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Геохимические работы") {
+          return {
+            weight: 0.6,
+            color: "#800000",
+            opacity: 1,
+            fillColor: "#800000",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Научно-методические работы") {
+          return {
+            weight: 0.6,
+            color: "#8B008B",
+            opacity: 1,
+            fillColor: "#8B008B",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Геофизические исследования") {
+          return {
+            weight: 0.6,
+            color: "#000",
+            opacity: 1,
+            fillColor: "#000",
+            fillOpacity: 0.07,
+          };
+        } else if (
+          feature.properties.f4 === "Научно-технологические исследования"
+        ) {
+          return {
+            weight: 0.6,
+            color: "#000",
+            opacity: 1,
+            fillColor: "#000",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Геохимические исследования") {
+          return {
+            weight: 0.6,
+            color: "#000",
+            opacity: 1,
+            fillColor: "#000",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Минералогические исследования") {
+          return {
+            weight: 0.6,
+            color: "#000",
+            opacity: 1,
+            fillColor: "#000",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Поисковые работы") {
+          return {
+            weight: 0.6,
+            color: "#000",
+            opacity: 1,
+            fillColor: "#000",
+            fillOpacity: 0.07,
+          };
+        }
       };
     },
     styleLayoutFunction() {
@@ -328,7 +416,9 @@ export default {
     onEachFeatureFunction() {
       return (feature, layer) => {
         layer.bindPopup(
-          "<tr><td><b>Название: </b></td>" +
+          "<tr><td><b>Объект: </b></td>" +
+            feature.properties.f10 +
+            "<br><br><div><b>Название: </b>" +
             feature.properties.f1 +
             "<br><br><div><b>Автор (авторы): </b>" +
             feature.properties.f2 +
@@ -338,13 +428,15 @@ export default {
             feature.properties.f4 +
             "</div><br><div><b>Инвентарные номера в каталогах учета: </b>" +
             feature.properties.f5 +
+            "</div><br><div><b>Директория хранения: </b>" +
+            feature.properties.f9 +
             '</div><br><div><b>Ссылка: </b><a href="' +
             feature.properties.f6 +
             '" target ="_blank"> перейти к файлу </div></div>',
           { permanent: false, sticky: true }
         );
         layer.bindTooltip(
-          "<p><b>Объект: </b>" + feature.properties.f1 + "</p>",
+          "<p><b>Объект: </b>" + feature.properties.f10 + "</p>",
           {
             permanent: false,
             sticky: true,

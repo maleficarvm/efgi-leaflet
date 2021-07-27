@@ -120,7 +120,7 @@ export default {
           width: "100",
           sortable: false,
         },
-        { text: "Название объекта", value: "obj_name", width: "400" },
+        { text: "Название объекта", value: "obj_name", width: "500" },
         { text: "Единицы хранения", value: "stor_units", width: "150" },
         { text: "Синопсис", value: "obj_synopsis", width: "500" },
         {
@@ -135,6 +135,7 @@ export default {
         {
           text: "Геологические объекты, ассоциируемые с документом",
           value: "obj_assoc_geol",
+          width: "600",
         },
         {
           text: "Директория хранения",

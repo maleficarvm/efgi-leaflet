@@ -154,7 +154,6 @@ export default {
       minZoom: 3,
       center: [64.7556, 96.7766],
       show: true,
-      map: null,
       geojson: null,
       layout1B: null,
       layout200K: null,
@@ -267,15 +266,58 @@ export default {
       };
     },
     styleFunction() {
-      const fillColor = this.fillColor; // important! need touch fillColor in computed for re-calculate when change fillColor
-      return () => {
-        return {
-          weight: 0.6,
-          color: "red",
-          opacity: 1,
-          fillColor: fillColor,
-          fillOpacity: 0.07,
-        };
+      return (feature) => {
+        if (feature.properties.f2 === "Апробировано") {
+          return {
+            weight: 1.5,
+            color: "#FF0000",
+            opacity: 1,
+            fillColor: "#FF0000",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f2 === "Сняты") {
+          return {
+            weight: 1.5,
+            color: "#FF4500",
+            opacity: 1,
+            fillColor: "#FF4500",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f2 === "Отклонено") {
+          return {
+            weight: 1.5,
+            color: "#8B008B",
+            opacity: 1,
+            fillColor: "#8B008B",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f2 === "Некондиция") {
+          return {
+            weight: 1.5,
+            color: "#800000",
+            opacity: 1,
+            fillColor: "#800000",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f2 === "Внутренний учет ЦНИГРИ") {
+          return {
+            weight: 1.5,
+            color: "#8B008B",
+            opacity: 1,
+            fillColor: "#8B008B",
+            fillOpacity: 0.07,
+          };
+        } else if (
+          feature.properties.f2 === "Апробировано. Неверные координаты"
+        ) {
+          return {
+            weight: 1.5,
+            color: "#000",
+            opacity: 1,
+            fillColor: "#000",
+            fillOpacity: 0.07,
+          };
+        }
       };
     },
     onEachFeatureFunction() {
@@ -314,7 +356,7 @@ export default {
         });
         layer.on("mouseout", function() {
           this.setStyle({
-            weight: 0.6,
+            weight: 1.5,
             color: "red",
           });
         });
