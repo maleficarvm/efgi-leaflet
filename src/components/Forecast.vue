@@ -120,7 +120,7 @@ export default {
           width: "100",
           sortable: false,
         },
-        { text: "Название объекта", value: "obj_name", width: "500" },
+        { text: "Название объекта", value: "obj_name", width: "400" },
         { text: "Единицы хранения", value: "stor_units", width: "150" },
         { text: "Синопсис", value: "obj_synopsis", width: "500" },
         {
@@ -129,13 +129,13 @@ export default {
           width: "120",
         },
         {
-          text: "Сведения о привязке в рамках АТД и АТЕ",
-          value: "spat_atd_ate",
-        },
-        {
           text: "Геологические объекты, ассоциируемые с документом",
           value: "obj_assoc_geol",
           width: "600",
+        },
+        {
+          text: "Сведения о привязке в рамках АТД и АТЕ",
+          value: "spat_atd_ate",
         },
         {
           text: "Директория хранения",
@@ -166,11 +166,6 @@ export default {
       console.log("click on " + value + " item");
       this.$router.push("/");
       this.$emit("on-click", value);
-    },
-    getColor(obj_year) {
-      if (obj_year > 1934) return "orange";
-      else if (obj_year > 1950) return "red";
-      else return "grey";
     },
     downloadExcel() {
       const url = "#";

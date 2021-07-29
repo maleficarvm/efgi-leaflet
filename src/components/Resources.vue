@@ -325,9 +325,7 @@ export default {
         layer.bindPopup(
           "<tr><td><b>Название: </b></td>" +
             feature.properties.f1 +
-            "<br><br><div><b>Минерагенический таксон: </b>" +
-            feature.properties.f4 +
-            "</div><br><div><b>ПИ: </b>" +
+            "</div><br><br><div><b>ПИ: </b>" +
             feature.properties.f6 +
             "</div><br><div><b>Статус: </b>" +
             feature.properties.f2 +

@@ -188,7 +188,7 @@ export default {
     return {
       zoom: 4,
       minZoom: 3,
-      center: [64.7556, 96.7766],
+      center: [63.7556, 101.7766],
       show: true,
       objectData: null,
       geojson: null,
@@ -311,89 +311,89 @@ export default {
       return (feature) => {
         if (feature.properties.f4 === "Научно-методические работы") {
           return {
-            weight: 0.6,
+            weight: 1,
             color: "#FF0000",
             opacity: 1,
             fillColor: "#FFA500",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f4 === "Оценочные работы") {
-          return {
-            weight: 0.6,
-            color: "#FF4500",
-            opacity: 1,
-            fillColor: "#FF4500",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f4 === "Освоение") {
-          return {
-            weight: 0.6,
-            color: "#FF4500",
-            opacity: 1,
-            fillColor: "#FF4500",
-            fillOpacity: 0.07,
-          };
         } else if (feature.properties.f4 === "Региональные работы") {
           return {
-            weight: 0.6,
-            color: "#8B008B",
+            weight: 1,
+            color: "#800080",
             opacity: 1,
-            fillColor: "#8B008B",
+            fillColor: "#800080",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f4 === "Геохимические работы") {
+        } else if (feature.properties.f4 === "Поисковые работы") {
           return {
-            weight: 0.6,
+            weight: 1,
             color: "#800000",
             opacity: 1,
             fillColor: "#800000",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f4 === "Научно-методические работы") {
-          return {
-            weight: 0.6,
-            color: "#8B008B",
-            opacity: 1,
-            fillColor: "#8B008B",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f4 === "Геофизические исследования") {
-          return {
-            weight: 0.6,
-            color: "#000",
-            opacity: 1,
-            fillColor: "#000",
             fillOpacity: 0.07,
           };
         } else if (
           feature.properties.f4 === "Научно-технологические исследования"
         ) {
           return {
-            weight: 0.6,
-            color: "#000",
+            weight: 1,
+            color: "#FF00FF",
             opacity: 1,
-            fillColor: "#000",
+            fillColor: "#FF00FF",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Оценочные работы") {
+          return {
+            weight: 1,
+            color: "#C71585",
+            opacity: 1,
+            fillColor: "#C71585",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Поисково-оценочные работы") {
+          return {
+            weight: 1,
+            color: "#008000",
+            opacity: 1,
+            fillColor: "#008000",
             fillOpacity: 0.07,
           };
         } else if (feature.properties.f4 === "Геохимические исследования") {
           return {
-            weight: 0.6,
-            color: "#000",
+            weight: 1,
+            color: "#008080",
             opacity: 1,
-            fillColor: "#000",
+            fillColor: "#008080",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Освоение") {
+          return {
+            weight: 1,
+            color: "#008080",
+            opacity: 1,
+            fillColor: "#008080",
             fillOpacity: 0.07,
           };
         } else if (feature.properties.f4 === "Минералогические исследования") {
           return {
-            weight: 0.6,
-            color: "#000",
+            weight: 1,
+            color: "#8B4513",
             opacity: 1,
-            fillColor: "#000",
+            fillColor: "#8B4513",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f4 === "Поисковые работы") {
+        } else if (feature.properties.f4 === "Геофизические исследования") {
           return {
-            weight: 0.6,
+            weight: 1,
+            color: "#B8860B",
+            opacity: 1,
+            fillColor: "#B8860B",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f4 === "Прогнозно-поисковые работы") {
+          return {
+            weight: 1,
             color: "#000",
             opacity: 1,
             fillColor: "#000",
@@ -451,8 +451,10 @@ export default {
         });
         layer.on("mouseout", function() {
           this.setStyle({
-            weight: 0.6,
-            color: "red",
+            weight: 1,
+            color: "#000",
+            dashArray: "10, 5",
+            dashOffset: "0",
           });
         });
         layer.on("click", function() {

@@ -14,19 +14,19 @@
         </header>
         <section class="modal-body" id="modalDescription">
           <slot name="body">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            Единый банк геологической информации ФГБУ "ЦНИГРИ" (ЕБГИ)
+            предназначен для обеспечения сотрудников ФГБУ "ЦНИГРИ" цифровыми
+            геологическими материалами, необходимыми для выполнения работ по
+            госудаоственным контрактам и государственным заданиям, написания
+            научных трудов и другой деятельности, направленной на выполнение
+            задач организации. Подробная информация находится во вкладке "О
+            Едином Банке"
           </slot>
         </section>
         <footer class="modal-footer">
           <slot name="footer">
             <button type="button" class="btn btnDefault" @click="toInfo">
-              Инфо
+              О Едином Банке
             </button>
             <button
               type="button"
