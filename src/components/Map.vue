@@ -15,11 +15,8 @@
           :data="objectData"
           titleKey="type_name"
           idKey="type_id"
-          :value="value"
-          :extraValues="extraValues"
           geojsonIdKey="id"
           :geojson="geojson"
-          :colorScale="colorScale"
         >
         </l-choropleth-layer>
 
@@ -479,10 +476,10 @@ export default {
   created() {
     axios
       .all([
-        axios.get("http://localhost:3000/api/geojson"),
-        axios.get("http://localhost:3000/api/layout1B"),
-        axios.get("http://localhost:3000/api/layout200K"),
-        axios.get("http://localhost:3000/api/layout100K"),
+        axios.get("http://kastor.tsnigri.ru:3000/api/geojson"),
+        axios.get("http://kastor.tsnigri.ru:3000/api/layout1B"),
+        axios.get("http://kastor.tsnigri.ru:3000/api/layout200K"),
+        axios.get("http://kastor.tsnigri.ru:3000/api/layout100K"),
       ])
       .then((resArr) => {
         console.log(

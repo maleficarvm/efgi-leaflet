@@ -366,7 +366,7 @@ export default {
   },
   created() {
     axios
-      .all([axios.get("http://localhost:3000/api/aprgeojson")])
+      .all([axios.get("http://kastor.tsnigri.ru:3000/api/aprgeojson")])
       .then((resArr) => {
         console.log(resArr[0].data);
         this.error = null;

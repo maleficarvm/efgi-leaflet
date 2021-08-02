@@ -30,24 +30,14 @@
 
       <section>
         <v-layout column wrap class="my-5" align-center>
-          <v-flex xs12 sm4 class="my-3">
-            <div class="text-xs-center">
-              <h2 class="headline">The best way to share your amazing stuff</h2>
-              <span class="subheading">
-                No more restrictions, no more limits
-              </span>
-            </div>
-          </v-flex>
+          <v-flex xs12 sm4 class="my-3"> </v-flex>
           <v-flex xs12>
             <v-container grid-list-xl>
               <v-layout row wrap align-center>
                 <v-flex xs12 md4>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <v-icon
-                        x-large
-                        class="mdi-map-marker-multiple-outline"
-                      ></v-icon>
+                      <v-icon x-large>mdi-map-marker-multiple-outline</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="headline">О ЕБГИ</div>
@@ -66,10 +56,7 @@
                 <v-flex xs12 md4>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <v-icon
-                        x-large
-                        class="mdi-database-check-outline"
-                      ></v-icon>
+                      <v-icon x-large>mdi-database-check-outline</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="headline text-xs-center">
@@ -77,14 +64,12 @@
                       </div>
                     </v-card-title>
                     <v-card-text>
-                      Реестр объектов учеты (поиск фондовых материалов); Реестр
-                      апробации прогнозных ресурсов (поиск материалов по
-                      апробации прогнозных ресурсов); Карта объектов учета
-                      (отображение контуров работ и геологических объектов,
-                      связанных с выполненными работами по фондовым материалам,
-                      поиск фондовых материалов по объектам и местоположению);
-                      Карта прогнозных ресурсов (отображение контуров
-                      геологических объектов, связанных с материалами по
+                      Реестр объектов учета (поиск фондовых материалов); Реестр
+                      прогнозных ресурсов (поиск материалов по апробации
+                      прогнозных ресурсов); Карта объектов учета (отображение
+                      контуров работ и геологических объектов, поиск фондовых
+                      материалов по объектам и местоположению); Карта прогнозных
+                      ресурсов (отображение контуров геологических объектов по
                       апробации прогнозных ресурсов, поиск материалов по
                       объектам и местоположению).
                     </v-card-text>
@@ -93,29 +78,7 @@
                 <v-flex xs12 md4>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <v-icon
-                        x-large
-                        class="mdi-map-marker-multiple-outline"
-                      ></v-icon>
-                    </v-card-text>
-                    <v-card-title primary-title class="layout justify-center">
-                      <div class="headline">Форматы данных</div>
-                    </v-card-title>
-                    <v-card-text
-                      >Более 50 000 единиц данных в текстовых, растровых и
-                      векторных форматах, ГИС-данные, локальные базы данных,
-                      цифровые комплекты ГГК всех поколений, топографические
-                      карты",
-                    </v-card-text>
-                  </v-card>
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-card class="elevation-0 transparent">
-                    <v-card-text class="text-xs-center">
-                      <v-icon
-                        x-large
-                        class="mdi-map-marker-multiple-outline"
-                      ></v-icon>
+                      <v-icon x-large>mdi-map-marker-multiple-outline</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="headline text-xs-center">
@@ -134,7 +97,23 @@
                 <v-flex xs12 md4>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <v-icon x-large class="mdi-cog-outline"></v-icon>
+                      <v-icon x-large>mdi-map-marker-multiple-outline</v-icon>
+                    </v-card-text>
+                    <v-card-title primary-title class="layout justify-center">
+                      <div class="headline">Форматы данных</div>
+                    </v-card-title>
+                    <v-card-text
+                      >Более 50 000 единиц данных в текстовых, растровых и
+                      векторных форматах, ГИС-данные, локальные базы данных,
+                      цифровые комплекты ГГК всех поколений, топографические
+                      карты",
+                    </v-card-text>
+                  </v-card>
+                </v-flex>
+                <v-flex xs12 md4>
+                  <v-card class="elevation-0 transparent">
+                    <v-card-text class="text-xs-center">
+                      <v-icon x-large>mdi-cog-outline</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="headline">Единицы хранения</div>
@@ -150,7 +129,7 @@
                 <v-flex xs12 md4>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <v-icon x-large class="mdi-table-edit"></v-icon>
+                      <v-icon x-large>mdi-table-edit</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="headline">Виды документов</div>
@@ -170,99 +149,18 @@
       </section>
 
       <section>
-        <v-parallax :src="imageLink.main" height="380">
+        <v-parallax src="@/img/stones.gif" height="380">
           <v-layout column align-center justify-center>
             <div class="headline white--text mb-3 text-xs-center">
-              Endorfine is a social network that allows everyone to reach a huge
-              audience with a tap
+              Регулирующие документы
             </div>
             <em
-              >With the power of Endorfine you don't need to be famous or post
-              pics of cute cats in order to get visibility</em
-            >
-            <v-btn
-              class="blue lighten-2 mt-5"
-              dark
-              large
-              href="/pre-made-themes"
-            >
-              Get more info
+              >Cкачав пакет документов вы можете подробнее ознакомиться с
+              процессом выдачи материалов ЕБГИ и получить форму заявки.
+            </em>
+            <v-btn class="dark lighten-2 mt-5" dark large href="#">
+              Скачать
             </v-btn>
-          </v-layout>
-        </v-parallax>
-      </section>
-
-      <section>
-        <v-container grid-list-md>
-          <v-layout row wrap>
-            <v-flex xs12 text-xs-center class="mt-5">
-              <div class="headline">Are you amazed? Stay tuned!</div>
-              <br />
-              <div>
-                We are lunching the beta in a few time. If you want to be one of
-                the first Endorfine users we will email you as soon as we're
-                ready. In the beginning only few people will test before the
-                launch. Let us know how Endorfine will help you!
-              </div>
-            </v-flex>
-            <v-flex xs8 offset-xs2>
-              <v-card class="elevation-0 transparent">
-                <v-card-text>
-                  <v-flex xs12 v-if="!subscribed">
-                    <v-text-field
-                      box
-                      label="Email address"
-                      :rules="emailRules"
-                      v-model="email"
-                      hint="Enter your email!"
-                      persistent-hint
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 v-if="!subscribed">
-                    <v-text-field
-                      box
-                      multi-line
-                      label="Bio and curiosities"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 class="text-xs-center" v-if="!subscribed">
-                    <v-btn
-                      class="blue lighten-2 mb-5"
-                      dark
-                      large
-                      @click="subscribe"
-                      >Get in touch</v-btn
-                    >
-                  </v-flex>
-                  <v-flex xs12 class="text-xs-center" v-if="subscribed">
-                    <v-btn class="green lighten-2 mb-5" dark large
-                      >Welcome on board!</v-btn
-                    >
-                  </v-flex>
-                </v-card-text>
-              </v-card>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </section>
-
-      <section>
-        <v-parallax :src="imageLink.social_cover" height="380">
-          <v-layout column align-center justify-center>
-            <div class="headline white--text mb-3 text-xs-center">
-              We are dropping cool news and opportunities on socials
-            </div>
-          </v-layout>
-          <v-layout justify-space-around justify-center>
-            <v-icon x-large dark>fab fa-facebook-f</v-icon>
-
-            <v-icon x-large dark>fab fa-twitter</v-icon>
-
-            <v-icon x-large dark>fab fa-reddit-alien</v-icon>
-
-            <v-icon x-large dark>fab fa-instagram</v-icon>
-
-            <v-icon x-large dark>fab fa-discord</v-icon>
           </v-layout>
         </v-parallax>
       </section>
@@ -297,7 +195,9 @@
                   обращаться на электронную почту:
                 </v-card-text>
                 <v-card-text>
-                  Муравьев В.С.
+                  <div>
+                    Муравьев В.С.
+                  </div>
                 </v-card-text>
                 <v-card-text>
                   vmuravev@tsnigri.ru
@@ -307,11 +207,14 @@
           </v-layout>
         </v-container>
       </section>
-      <base-section id="affiliates" space="36">
-        <v-container>
-          <base-section-heading title="Основано на открытых технологиях" />
+
+      <base-section id="affiliates" space="20">
+        <v-container class="container__padding">
+          <v-card-title primary-title class="layout justify-center">
+            <div class="headline padding">Основано на открытых технологиях</div>
+          </v-card-title>
           <v-slide-group>
-            <template v-for="n in 9">
+            <template v-for="n in 8">
               <v-slide-item :key="n" class="align-self-center">
                 <baseImg
                   :src="require(`@/img/logo-${n}.png`)"
@@ -339,37 +242,22 @@
 </template>
 
 <script>
+import baseSection from "@/components/UI/Section.vue";
+import baseSectionHeading from "@/components/UI/SectionHeading.vue";
+import baseImg from "@/components/UI/Img.vue";
+
 export default {
+  components: {
+    baseSection,
+    baseSectionHeading,
+    baseImg,
+  },
+
   name: "App",
   data: function() {
     return {
       title: "ugib",
-      imageLink: {
-        main:
-          "https://firebasestorage.googleapis.com/v0/b/endorfinevue.appspot.com/o/assets%2Fb13f0434-b228-11e6-8e5d-5252025056ab_web_scale_0.4666667_0.4666667__.jpg?alt=media&token=660df23e-599e-434b-9313-ba69c973eeea",
-        sub_main:
-          "https://firebasestorage.googleapis.com/v0/b/endorfinevue.appspot.com/o/assets%2FNight-Club-Clubbing-Jobs-Abroad2.jpg?alt=media&token=82bbda7d-5df4-430b-9217-adaf1c8485c5",
-        logo:
-          "https://firebasestorage.googleapis.com/v0/b/endorfinevue.appspot.com/o/assets%2Fandroid-chrome-512x512.png?alt=media&token=8a0a66f6-4741-4ff6-8f28-eb9ec74374df",
-        social_cover:
-          "https://firebasestorage.googleapis.com/v0/b/endorfinevue.appspot.com/o/assets%2Fo-NIGHTCLUB-facebook.jpg?alt=media&token=cefc5c4c-9714-41da-9c22-f63caf5e89a4",
-      },
-      email: "",
-      emailRules: [
-        (v) => {
-          return !!v || "E-mail is required";
-        },
-        (v) =>
-          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-          "E-mail must be valid",
-      ],
-      subscribed: false,
     };
-  },
-  methods: {
-    subscribe: function() {
-      this.subscribed = !this.subscribed;
-    },
   },
 };
 </script>
@@ -377,6 +265,14 @@ export default {
 <style lang="scss" scoped>
 section {
   padding: 30px 0px 30px 0px;
+}
+
+.container__padding {
+  padding: 0px 0px 30px 0px;
+}
+
+.padding {
+  padding: 0px 0px 30px 0px;
 }
 
 .finedTitle {
