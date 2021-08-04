@@ -11,7 +11,7 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
       >
-        <l-control-layers position="topright" :collapsed="false" />
+        <l-control-layers position="topright" :collapsed="true" />
         <l-tile-layer
           v-for="baseProvider in baseProviders"
           :key="baseProvider.name"
@@ -78,11 +78,7 @@
               `&nbsp; Vue2Leaflet</span> `
           "
         ></l-control-attribution>
-        <l-control-scale
-          position="bottomleft"
-          :imperial="false"
-          :metric="true"
-        />
+        <l-control-scale position="bottomleft" :imperial="false" />
         <l-control position="bottomright">
           <v-btn color="btn btnDefault" dark @click="clickHandler">
             Скачать форму заявки
@@ -125,7 +121,6 @@ import {
   LControl,
   LControlAttribution,
 } from "vue2-leaflet";
-import { InfoControl, ReferenceChart, ChoroplethLayer } from "vue-choropleth";
 
 export default {
   name: "Resources",
@@ -144,9 +139,6 @@ export default {
     CRS,
     LControlAttribution,
     "l-wms-tile-layer": LWMSTileLayer,
-    "l-info-control": InfoControl,
-    "l-reference-chart": ReferenceChart,
-    "l-choropleth-layer": ChoroplethLayer,
   },
   data() {
     return {

@@ -12,7 +12,7 @@
               class="white--text mb-2 display-1 text-xs-center"
               style="font-weight: 900; text-shadow: 3px 2px #000000"
             >
-              Единый фонд геологической информации
+              Единый банк геологической информации
             </h1>
             <div
               class="white--text subheading mb-3 text-xs-center"
@@ -21,7 +21,7 @@
               Учет, накопление, безопасное хранение и предоставление сотрудникам
               ФГБУ "ЦНИГРИ" геологической информации
             </div>
-            <v-btn class="dark lighten-2 mt-5" dark large href="/">
+            <v-btn class="lighten-2 mt-5" large href="/">
               Начать
             </v-btn>
           </v-layout>
@@ -155,10 +155,10 @@
               Регулирующие документы
             </div>
             <em
-              >Cкачав пакет документов вы можете подробнее ознакомиться с
+              >Cкачав пакет документов Вы сможете подробнее ознакомиться с
               процессом выдачи материалов ЕБГИ и получить форму заявки.
             </em>
-            <v-btn class="dark lighten-2 mt-5" dark large href="#">
+            <v-btn class="lighten-2 mt-5" large href="#">
               Скачать
             </v-btn>
           </v-layout>

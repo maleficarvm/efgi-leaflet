@@ -9,7 +9,6 @@
               style="height: 48px; margin: 1px 0 1px 19px"
               alt="tsnigri-logo-img"
             />
-            <modal v-show="isModalVisible" @close="closeModal" />
             <ul class="navbar-list">
               <li class="navbar-item" v-for="link in links" :Key="link.title">
                 <router-link
@@ -19,13 +18,40 @@
                   >{{ link.title }}</router-link
                 >
               </li>
-              <v-app-bar-nav-icon></v-app-bar-nav-icon>
+              <v-menu bottom left dark>
+                <template v-slot:activator="{ on: menu, attrs }">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on: tooltip }">
+                      <v-btn
+                        dark
+                        large
+                        icon
+                        v-bind="attrs"
+                        v-on="{ ...tooltip, ...menu }"
+                      >
+                        <v-icon>mdi-menu</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Меню</span>
+                  </v-tooltip>
+                </template>
+                <v-list>
+                  <v-list-item
+                    v-for="(item, i) in items"
+                    :key="i"
+                    :to="item.link"
+                  >
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </ul>
           </div>
         </div>
       </header>
     </div>
     <router-view />
+    <modal v-show="isModalVisible" @close="closeModal" />
     <v-footer dark padless>
       <v-col>
         Отдел геоинформационных систем. Лаборатория ЕБГИ ©
@@ -46,13 +72,16 @@ export default {
   data() {
     return {
       isModalVisible: true,
-      links: [
-        { title: "О Едином Банке", url: "/info" },
-        { title: "Карта объектов учета", url: "/" },
-        { title: "Карта прогнозных ресурсов", url: "/404" },
-        { title: "Реестр объектов учета", url: "/table" },
-        { title: "Реестр прогнозных ресурсов", url: "/404" },
+      items: [
+        { title: "Карта объектов учета", link: "/" },
+        { title: "Карта прогнозных ресурсов", link: "/resources" },
+        { title: "Реестр объектов учета", link: "/table" },
+        { title: "Реестр прогнозных ресурсов", link: "/forecast" },
+        { title: "Реестр фондовых материалов", link: "/404" },
+        { title: "Библиотека", link: "/404" },
       ],
+
+      links: [{ title: "О Едином Банке", url: "/info" }],
     };
   },
   methods: {
@@ -93,6 +122,10 @@ export default {
       color: #d3b36f;
     }
   }
+}
+
+button {
+  border: 0px !important;
 }
 
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
