@@ -289,7 +289,7 @@ export default {
     },
     styleFunction() {
       return (feature) => {
-        if (feature.properties.f4 === "Научно-методические работы") {
+        if (feature.properties.f4 == "Научно-методические работы") {
           return {
             weight: 1,
             color: "#FF0000",
@@ -297,7 +297,7 @@ export default {
             fillColor: "#FFA500",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f4 === "Региональные работы") {
+        } else if (feature.properties.f4 == "Региональные работы") {
           return {
             weight: 1,
             color: "#800080",
@@ -305,7 +305,7 @@ export default {
             fillColor: "#800080",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f4 === "Поисковые работы") {
+        } else if (feature.properties.f4 == "Поисковые работы") {
           return {
             weight: 1,
             color: "#800000",
@@ -314,7 +314,7 @@ export default {
             fillOpacity: 0.07,
           };
         } else if (
-          feature.properties.f4 === "Научно-технологические исследования"
+          feature.properties.f4 == "Научно-технологические исследования"
         ) {
           return {
             weight: 1,
@@ -323,7 +323,7 @@ export default {
             fillColor: "#FF00FF",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f4 === "Оценочные работы") {
+        } else if (feature.properties.f4 == "Оценочные работы") {
           return {
             weight: 1,
             color: "#C71585",
@@ -331,7 +331,7 @@ export default {
             fillColor: "#C71585",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f4 === "Поисково-оценочные работы") {
+        } else if (feature.properties.f4 == "Поисково-оценочные работы") {
           return {
             weight: 1,
             color: "#008000",
@@ -339,7 +339,7 @@ export default {
             fillColor: "#008000",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f4 === "Геохимические исследования") {
+        } else if (feature.properties.f4 == "Геохимические исследования") {
           return {
             weight: 1,
             color: "#008080",
@@ -347,7 +347,7 @@ export default {
             fillColor: "#008080",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f4 === "Освоение") {
+        } else if (feature.properties.f4 == "Освоение") {
           return {
             weight: 1,
             color: "#008080",
@@ -355,7 +355,7 @@ export default {
             fillColor: "#008080",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f4 === "Минералогические исследования") {
+        } else if (feature.properties.f4 == "Минералогические исследования") {
           return {
             weight: 1,
             color: "#8B4513",
@@ -363,7 +363,7 @@ export default {
             fillColor: "#8B4513",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f4 === "Геофизические исследования") {
+        } else if (feature.properties.f4 == "Геофизические исследования") {
           return {
             weight: 1,
             color: "#B8860B",
@@ -371,12 +371,20 @@ export default {
             fillColor: "#B8860B",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f4 === "Прогнозно-поисковые работы") {
+        } else if (feature.properties.f4 == "Прогнозно-поисковые работы") {
           return {
             weight: 1,
             color: "#000",
             opacity: 1,
             fillColor: "#000",
+            fillOpacity: 0.07,
+          };
+        } else {
+          return {
+            weight: 1,
+            color: "#FF0000",
+            opacity: 1,
+            fillColor: "#FFA500",
             fillOpacity: 0.07,
           };
         }
@@ -397,7 +405,7 @@ export default {
       return (feature, layer) => {
         layer.bindPopup(
           "<tr><td><b>Объект: </b></td>" +
-            feature.properties.f10 +
+            feature.object +
             "<br><br><div><b>Название: </b>" +
             feature.properties.f1 +
             "<br><br><div><b>Автор (авторы): </b>" +
@@ -415,14 +423,11 @@ export default {
             '" target ="_blank"> перейти к файлу </div></div>',
           { permanent: false, sticky: true }
         );
-        layer.bindTooltip(
-          "<p><b>Объект: </b>" + feature.properties.f10 + "</p>",
-          {
-            permanent: false,
-            sticky: true,
-            offset: [10, 0],
-          }
-        );
+        layer.bindTooltip("<p><b>Объект: </b>" + feature.object + "</p>", {
+          permanent: false,
+          sticky: true,
+          offset: [10, 0],
+        });
         layer.on("mouseover", function() {
           this.setStyle({
             weight: 3.5,
@@ -459,7 +464,7 @@ export default {
   created() {
     axios
       .all([
-        axios.get("http://kastor.tsnigri.ru:3000/api/geojson"),
+        axios.get("http://localhost:3000/api/test"),
         axios.get("http://kastor.tsnigri.ru:3000/api/layout1B"),
         axios.get("http://kastor.tsnigri.ru:3000/api/layout200K"),
         axios.get("http://kastor.tsnigri.ru:3000/api/layout100K"),
