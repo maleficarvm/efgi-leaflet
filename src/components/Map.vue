@@ -80,7 +80,7 @@
           "
         ></l-control-attribution>
         <l-control position="bottomright">
-          <v-btn color="btn btnDefault" dark @click="clickHandler">
+          <v-btn class="ma-2" dark href="Application.docx" download>
             Скачать форму заявки
           </v-btn>
         </l-control>
@@ -292,9 +292,9 @@ export default {
         if (feature.properties.f4 == "Научно-методические работы") {
           return {
             weight: 1,
-            color: "#FF0000",
+            color: "#D2691E",
             opacity: 1,
-            fillColor: "#FFA500",
+            fillColor: "#D2691E",
             fillOpacity: 0.07,
           };
         } else if (feature.properties.f4 == "Региональные работы") {
@@ -464,10 +464,10 @@ export default {
   created() {
     axios
       .all([
-        axios.get("http://localhost:3000/api/test"),
-        axios.get("http://kastor.tsnigri.ru:3000/api/layout1B"),
-        axios.get("http://kastor.tsnigri.ru:3000/api/layout200K"),
-        axios.get("http://kastor.tsnigri.ru:3000/api/layout100K"),
+        axios.get("http://localhost:3000/api/geojson"),
+        axios.get("http://localhost:3000/api/layout1m"),
+        axios.get("http://localhost:3000/api/layout200K"),
+        axios.get("http://localhost:3000/api/layout100K"),
       ])
       .then((resArr) => {
         console.log(

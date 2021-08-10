@@ -80,7 +80,7 @@
         ></l-control-attribution>
         <l-control-scale position="bottomleft" :imperial="false" />
         <l-control position="bottomright">
-          <v-btn color="btn btnDefault" dark @click="clickHandler">
+          <v-btn class="ma-2" dark href="Application.docx" download>
             Скачать форму заявки
           </v-btn>
         </l-control>
@@ -346,8 +346,10 @@ export default {
         });
         layer.on("mouseout", function() {
           this.setStyle({
-            weight: 1.5,
-            color: "red",
+            weight: 1,
+            color: "#000",
+            dashArray: "10, 5",
+            dashOffset: "0",
           });
         });
         layer.on("click", function() {
@@ -358,7 +360,7 @@ export default {
   },
   created() {
     axios
-      .all([axios.get("http://kastor.tsnigri.ru:3000/api/aprgeojson")])
+      .all([axios.get("http://localhost:3000/api/aprgeojson")])
       .then((resArr) => {
         console.log(resArr[0].data);
         this.error = null;
@@ -375,7 +377,7 @@ export default {
   },
   methods: {
     clickHandler() {
-      const url = "#";
+      const url = "/assets/files/Application.docx";
       window.location.href = url;
     },
     zoomUpdated(zoom) {
@@ -388,7 +390,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 @import "~leaflet-minimap/dist/Control.MiniMap.min.css";
 
 span {

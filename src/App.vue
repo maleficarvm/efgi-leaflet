@@ -18,46 +18,48 @@
                   >{{ link.title }}</router-link
                 >
               </li>
-              <v-menu bottom left dark>
-                <template v-slot:activator="{ on: menu, attrs }">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on: tooltip }">
-                      <v-btn
-                        dark
-                        large
-                        icon
-                        v-bind="attrs"
-                        v-on="{ ...tooltip, ...menu }"
-                      >
-                        <v-icon>mdi-menu</v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Меню</span>
-                  </v-tooltip>
-                </template>
-                <v-list>
-                  <v-list-item
-                    v-for="(item, i) in items"
-                    :key="i"
-                    :to="item.link"
-                  >
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
+              <v-toolbar-title data-app>
+                <v-menu bottom left dark y-offset>
+                  <template v-slot:activator="{ on: menu, attrs }">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on: tooltip }">
+                        <v-btn
+                          dark
+                          large
+                          icon
+                          v-bind="attrs"
+                          v-on="{ ...tooltip, ...menu }"
+                        >
+                          <v-icon>mdi-menu</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Меню</span>
+                    </v-tooltip>
+                  </template>
+                  <v-list>
+                    <v-list-item
+                      v-for="(item, i) in items"
+                      :key="i"
+                      :to="item.link"
+                    >
+                      <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-toolbar-title>
             </ul>
           </div>
         </div>
       </header>
     </div>
     <router-view />
-    <modal v-show="isModalVisible" @close="closeModal" />
     <v-footer dark padless>
       <v-col>
         Отдел геоинформационных систем. Лаборатория ЕБГИ ©
         {{ new Date().getFullYear() }} ФГБУ "ЦНИГРИ"
       </v-col>
     </v-footer>
+    <modal v-show="isModalVisible" @close="closeModal" />
   </div>
 </template>
 

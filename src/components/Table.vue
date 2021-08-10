@@ -4,8 +4,8 @@
       <v-card>
         <v-card-title>
           <p>
-            Фонд ЦНИГРИ. Сводная таблица объектов учета фондовых материалов
-            (1928-2020гг.)
+            Фонд ЦНИГРИ. Сводная таблица оцифрованных объектов учета фондовых
+            материалов (1928-2020гг.)
           </p>
           <v-spacer></v-spacer>
           <v-text-field
@@ -105,10 +105,10 @@
           </template>
         </v-data-table>
         <div class="text-center">
-          <v-btn color="btn btnDefault" dark @click="downloadExcel">
+          <v-btn color="ma-2" dark href="Fund.rar" download>
             Скачать Excel
           </v-btn>
-          <v-btn color="btn btnDefault" dark @click="downloadForm">
+          <v-btn color="ma-2" dark href="Application.docx" download>
             Скачать форму заявки
           </v-btn>
         </div>
@@ -191,23 +191,11 @@ export default {
       else if (obj_year > 1950) return "red";
       else return "grey";
     },
-    downloadExcel() {
-      const url = "#";
-      window.location.href = url;
-    },
-    downloadShp() {
-      const url = "#";
-      window.location.href = url;
-    },
-    downloadForm() {
-      const url = "#";
-      window.location.href = url;
-    },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 input,
 textarea,
 select,
@@ -227,9 +215,6 @@ button {
   padding-top: 30px;
   height: 30px;
 }
-.btnDefault {
-  margin: 0px 10px 10px 0;
-}
 .text-center {
   text-align: left;
   margin-left: 10px;
@@ -238,6 +223,9 @@ button {
   display: flex;
   justify-content: center;
   margin: 20px;
+}
+.ma-2 {
+  margin: 0px 20px 20px 0px;
 }
 //.v-data-table-header th {
 //  white-space: nowrap;

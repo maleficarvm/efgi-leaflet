@@ -2,7 +2,10 @@
 node_modules
 express
 /dist
-
+/public/Application.docx
+/public/Fund.rar
+/public/APR.rar
+/public/UGIB.rar
 
 # local env files
 .env.local

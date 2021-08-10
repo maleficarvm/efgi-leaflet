@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title>
           <p>
-            Сводная таблица прогнозных ресурсов ЦНИГРИ
+            Сводная таблица оцифрованных прогнозных ресурсов ЦНИГРИ
           </p>
           <v-spacer></v-spacer>
           <v-text-field
@@ -89,10 +89,10 @@
           </template>
         </v-data-table>
         <div class="text-center">
-          <v-btn color="btn btnDefault" dark @click="downloadExcel">
+          <v-btn color="ma-2" dark href="APR.rar" download>
             Скачать Excel
           </v-btn>
-          <v-btn color="btn btnDefault" dark @click="downloadForm">
+          <v-btn color="ma-2" dark href="Application.docx" download>
             Скачать форму заявки
           </v-btn>
         </div>
@@ -214,6 +214,9 @@ button {
   display: flex;
   justify-content: center;
   margin: 20px;
+}
+.ma-2 {
+  margin: 0px 20px 20px 0px;
 }
 //.v-data-table-header th {
 //  white-space: nowrap;
