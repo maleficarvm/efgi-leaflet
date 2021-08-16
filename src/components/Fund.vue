@@ -20,7 +20,7 @@
           :items="items"
           :single-expand="singleExpand"
           :expanded.sync="expanded"
-          item-key="oid"
+          item-key="OBJECTID"
           show-expand
           class="elevation-1"
           :footer-props="{
@@ -45,18 +45,18 @@
               <div class="wrapper-simple-table" data-app>
                 <v-simple-table>
                   <template v-slot:default>
-                    <thead>
+                    <thead class="col-4">
                       <tr>
                         <th>№ п.п.</th>
-                        <th>Вид объекта учета</th>
+                        <th>Тип документа</th>
+                        <th>Раздел</th>
                         <th>
                           Сведения о наличии ограничений оборота передаваемых
                           данных
                         </th>
                         <th>Государство</th>
                         <th>
-                          Наименование регламентирующего документа (наименование
-                          работ)
+                          Количество страниц
                         </th>
                         <th>
                           Геологические объекты, ассоциируемые с объектом учета
@@ -66,13 +66,12 @@
                         <th>Местоположение</th>
                         <th>Номенклатуры листов НД</th>
                         <th>Дополнительные сведения о местоположении</th>
-                        <th>Тип информации</th>
-                        <th>Государственная регистрация</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td>{{ item.OBJECTID }}</td>
+                        <td>{{ item.TIP }}</td>
                         <td>{{ item.RAZDEL }}</td>
                         <td>{{ item.SECR }}</td>
                         <td>{{ item.GOSVO }}</td>
@@ -83,8 +82,6 @@
                         <td>{{ item.OBLST_S }}</td>
                         <td>{{ item.NOMALL }}</td>
                         <td>{{ item.MAINOBJ }}</td>
-                        <td>{{ item.inf_type }}</td>
-                        <td>{{ item.path_others }}</td>
                       </tr>
                     </tbody>
                   </template>
@@ -94,7 +91,7 @@
           </template>
         </v-data-table>
         <div class="text-center">
-          <v-btn color="ma-2" dark href="Fund.rar" download>
+          <v-btn color="ma-2" dark href="#" download>
             Скачать Excel
           </v-btn>
           <v-btn color="ma-2" dark href="Application.docx" download>

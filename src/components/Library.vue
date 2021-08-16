@@ -18,7 +18,7 @@
         <v-data-table
           :headers="headers"
           :items="items"
-          item-key="oid"
+          item-key="ind"
           class="elevation-1"
           :footer-props="{
             'items-per-page-options': [20, 100, 200, 500],

@@ -1,5 +1,8 @@
 <template>
   <div class="wrapper-content wrapper-content--fixed">
+    <v-overlay :value="overlay" z-index="99">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <section class="map-container">
       <l-map
         ref="map"
@@ -66,6 +69,7 @@
           position="topleft"
           :options="{ title: { false: 'На весь экран', true: 'Свернуть' } }"
         />
+        <v-geosearch :options="geosearchOptions" />
         <l-control-polyline-measure
           :options="{ showUnitControl: true }"
           position="topleft"
@@ -96,7 +100,7 @@
         <l-control :position="'bottomright'">
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
         </l-control>
-        <v-geosearch :options="geosearchOptions" />
+
         <l-geo-json
           name="Прогнозные ресурсы"
           :visible="true"
@@ -157,6 +161,7 @@ export default {
       minZoom: 3,
       center: [64.7556, 96.7766],
       show: true,
+      overlay: true,
       geojson: null,
       layout1B: null,
       layout200K: null,
@@ -254,11 +259,10 @@ export default {
       ],
       geosearchOptions: {
         provider: new OpenStreetMapProvider(),
-        style: "bar",
+        style: "button",
         animateZoom: true,
+        autoClose: true,
         searchLabel: "Поиск",
-        showMarker: false,
-        showPopup: true,
       },
     };
   },
@@ -376,6 +380,7 @@ export default {
         console.log(resArr[0].data);
         this.error = null;
         this.geojson = resArr[0].data;
+        this.overlay = false;
       })
       .catch((err) => {
         console.log(err);

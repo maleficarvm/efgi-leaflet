@@ -59,7 +59,7 @@
         {{ new Date().getFullYear() }} ФГБУ "ЦНИГРИ"
       </v-col>
     </v-footer>
-    <modal v-show="isModalVisible" @close="closeModal" />
+    <modal v-show="isModalVisible" style="z-index:100;" @close="closeModal" />
   </div>
 </template>
 
