@@ -38,6 +38,18 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/Forecast.vue"),
   },
   {
+    path: "/fund",
+    name: "Fund",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Fund.vue"),
+  },
+  {
+    path: "/library",
+    name: "Library",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Library.vue"),
+  },
+  {
     path: "*",
     name: "404",
     component: () => import(/* webpackChunkName: "about" */ "../views/404.vue"),

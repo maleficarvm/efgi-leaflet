@@ -19,7 +19,7 @@
                 >
               </li>
               <v-toolbar-title data-app>
-                <v-menu bottom left dark y-offset>
+                <v-menu bottom left dark :offset-x="offset">
                   <template v-slot:activator="{ on: menu, attrs }">
                     <v-tooltip bottom>
                       <template v-slot:activator="{ on: tooltip }">
@@ -74,15 +74,15 @@ export default {
   data() {
     return {
       isModalVisible: true,
+      offset: true,
       items: [
         { title: "Карта объектов учета", link: "/" },
         { title: "Карта прогнозных ресурсов", link: "/resources" },
         { title: "Реестр объектов учета", link: "/table" },
         { title: "Реестр прогнозных ресурсов", link: "/forecast" },
-        { title: "Реестр фондовых материалов", link: "/404" },
-        { title: "Библиотека", link: "/404" },
+        { title: "Реестр фондовых материалов", link: "/fund" },
+        { title: "Библиотека", link: "/library" },
       ],
-
       links: [{ title: "О Едином Банке", url: "/info" }],
     };
   },
@@ -128,6 +128,10 @@ export default {
 
 button {
   border: 0px !important;
+}
+
+.v-tooltip__content {
+  padding: 0px;
 }
 
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > th,

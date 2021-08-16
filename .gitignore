@@ -6,6 +6,8 @@ express
 /public/Fund.rar
 /public/APR.rar
 /public/UGIB.rar
+/public/Library.rar
+/public/Funds.rar
 
 # local env files
 .env.local

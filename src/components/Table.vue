@@ -68,7 +68,7 @@
                         <th>Номенклатуры листов НД</th>
                         <th>Дополнительные сведения о местоположении</th>
                         <th>Тип информации</th>
-                        <th>Государственная регистация</th>
+                        <th>Государственная регистрация</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -186,16 +186,11 @@ export default {
       this.$router.push("/");
       this.$emit("on-click", value);
     },
-    getColor(obj_year) {
-      if (obj_year > 1934) return "orange";
-      else if (obj_year > 1950) return "red";
-      else return "grey";
-    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 input,
 textarea,
 select,

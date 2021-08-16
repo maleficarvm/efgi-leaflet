@@ -66,6 +66,10 @@
           position="topleft"
           :options="{ title: { false: 'На весь экран', true: 'Свернуть' } }"
         />
+        <l-control-polyline-measure
+          :options="{ showUnitControl: true }"
+          position="topleft"
+        />
         <l-control-attribution
           position="bottomright"
           :prefix="
@@ -80,7 +84,12 @@
         ></l-control-attribution>
         <l-control-scale position="bottomleft" :imperial="false" />
         <l-control position="bottomright">
-          <v-btn class="ma-2" dark href="Application.docx" download>
+          <v-btn
+            class="ma-2 btn__default"
+            dark
+            href="Application.docx"
+            download
+          >
             Скачать форму заявки
           </v-btn>
         </l-control>
@@ -110,6 +119,7 @@ import VGeosearch from "vue2-leaflet-geosearch";
 import LControlFullscreen from "vue2-leaflet-fullscreen";
 import VueLeafletMinimap from "vue-leaflet-minimap";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
+import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
 import {
   LMap,
   LTileLayer,
@@ -138,6 +148,7 @@ export default {
     latlng,
     CRS,
     LControlAttribution,
+    LControlPolylineMeasure,
     "l-wms-tile-layer": LWMSTileLayer,
   },
   data() {
@@ -425,5 +436,8 @@ span {
   font-weight: bolder;
   color: #aaa;
   text-shadow: #555;
+}
+.btn__default {
+  margin: 0px !important;
 }
 </style>

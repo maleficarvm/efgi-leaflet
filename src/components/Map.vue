@@ -62,10 +62,13 @@
           :transparent="baseLayer.transparent"
           layer-type="overlay"
         />
-
         <l-control-fullscreen
           position="topleft"
           :options="{ title: { false: 'На весь экран', true: 'Свернуть' } }"
+        />
+        <l-control-polyline-measure
+          :options="{ showUnitControl: true }"
+          position="topleft"
         />
         <l-control-attribution
           position="bottomright"
@@ -80,7 +83,12 @@
           "
         ></l-control-attribution>
         <l-control position="bottomright">
-          <v-btn class="ma-2" dark href="Application.docx" download>
+          <v-btn
+            class="ma-2 btn__default"
+            dark
+            href="Application.docx"
+            download
+          >
             Скачать форму заявки
           </v-btn>
         </l-control>
@@ -135,6 +143,7 @@ import VGeosearch from "vue2-leaflet-geosearch";
 import LControlFullscreen from "vue2-leaflet-fullscreen";
 import VueLeafletMinimap from "vue-leaflet-minimap";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
+import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
 import {
   LMap,
   LTileLayer,
@@ -162,6 +171,7 @@ export default {
     latlng,
     CRS,
     LControlAttribution,
+    LControlPolylineMeasure,
     "l-wms-tile-layer": LWMSTileLayer,
   },
   data() {
@@ -170,7 +180,6 @@ export default {
       minZoom: 3,
       center: [63.7556, 101.7766],
       show: true,
-      objectData: null,
       geojson: null,
       layout1B: null,
       layout200K: null,
@@ -449,12 +458,20 @@ export default {
     },
     onEachLayoutFunction() {
       return (feature, layer) => {
+        let textLinkPopup = "перейти к материалам";
+        let linkPopup = "#";
+        feature.properties.f2 !== "null"
+          ? (linkPopup = feature.properties.f2)
+          : (linkPopup = "404"),
+          (textLinkPopup = "Нет данных");
         layer.bindPopup(
           "<tr><td><b>Номенклатурный лист: </b></td>" +
             feature.properties.f1 +
             '</div><br><br><div><b>Ссылка: </b><a href="' +
-            feature.properties.f2 +
-            '" target ="_blank"> перейти к материалам </div></div>',
+            linkPopup +
+            '" target ="_blank">' +
+            textLinkPopup +
+            "</div></div>",
           { permanent: false, sticky: true }
         );
         layer.bindTooltip(feature.properties.f1);
@@ -502,7 +519,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 @import "~leaflet-minimap/dist/Control.MiniMap.min.css";
 
 span {
@@ -537,5 +554,8 @@ span {
   font-weight: bolder;
   color: #aaa;
   text-shadow: #555;
+}
+.btn__default {
+  margin: 0px !important;
 }
 </style>
