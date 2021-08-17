@@ -12,7 +12,7 @@
               class="white--text mb-2 display-1 text-xs-center"
               style="font-weight: 900; text-shadow: 3px 2px #000000"
             >
-              Единый банк геологической информации
+              Единый банк геологической информации v2.2
             </h1>
             <div
               class="white--text subheading mb-3 text-xs-center"
@@ -37,14 +37,14 @@
                 <v-flex xs12 md4>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <v-icon x-large>mdi-map-marker-multiple-outline</v-icon>
+                      <v-icon x-large>mdi-forum-outline</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="headline">О ЕБГИ</div>
                     </v-card-title>
                     <v-card-text>
                       Единый банк геологической информации ФГБУ «ЦНИГРИ» (ЕБГИ)
-                      предназначен для обеспечения сотрудников ФГБУ°«ЦНИГРИ»
+                      предназначен для обеспечения сотрудников ФГБУ «ЦНИГРИ»
                       цифровыми геологическими материалами, необходимыми для
                       выполнения работ по государственным контрактам и
                       государственным заданиям, написания научных трудов и
@@ -56,7 +56,7 @@
                 <v-flex xs12 md4>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <v-icon x-large>mdi-database-check-outline</v-icon>
+                      <v-icon x-large>mdi-database</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="headline text-xs-center">
@@ -78,7 +78,7 @@
                 <v-flex xs12 md4>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <v-icon x-large>mdi-map-marker-multiple-outline</v-icon>
+                      <v-icon x-large>mdi-map-marker-multiple</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="headline text-xs-center">
@@ -97,7 +97,7 @@
                 <v-flex xs12 md4>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <v-icon x-large>mdi-map-marker-multiple-outline</v-icon>
+                      <v-icon x-large>mdi-cog</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="headline">Форматы данных</div>
@@ -113,7 +113,7 @@
                 <v-flex xs12 md4>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <v-icon x-large>mdi-cog-outline</v-icon>
+                      <v-icon x-large>mdi-server</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="headline">Единицы хранения</div>
@@ -129,7 +129,7 @@
                 <v-flex xs12 md4>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <v-icon x-large>mdi-table-edit</v-icon>
+                      <v-icon x-large>mdi-file-table-box-multiple</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="headline">Виды документов</div>

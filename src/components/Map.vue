@@ -274,9 +274,44 @@ export default {
         },
         {
           name: "Действующие ООПТ",
-          visible: false,
+          visible: true,
           format: "image/png",
           baseLayers: "NET2:oopt_active",
+          transparent: true,
+        },
+        {
+          name: "Автодороги федерального значения",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:roads_main_RU",
+          transparent: true,
+        },
+        {
+          name: "Железные дороги ширококоленые",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:rails_main_RU",
+          transparent: true,
+        },
+        {
+          name: "Аэропорты",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:dor_airports_RF",
+          transparent: true,
+        },
+        {
+          name: "Морские и речные порты",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:hyd_seaport",
+          transparent: true,
+        },
+        {
+          name: "ГОК и ЗИФ",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:obr_gokzif",
           transparent: true,
         },
       ],
@@ -304,7 +339,7 @@ export default {
       return (feature) => {
         if (feature.properties.f4 == "Научно-методические работы") {
           return {
-            weight: 1,
+            weight: 1.5,
             color: "#D2691E",
             opacity: 1,
             fillColor: "#D2691E",
@@ -312,7 +347,7 @@ export default {
           };
         } else if (feature.properties.f4 == "Региональные работы") {
           return {
-            weight: 1,
+            weight: 1.5,
             color: "#800080",
             opacity: 1,
             fillColor: "#800080",
@@ -320,7 +355,7 @@ export default {
           };
         } else if (feature.properties.f4 == "Поисковые работы") {
           return {
-            weight: 1,
+            weight: 1.5,
             color: "#800000",
             opacity: 1,
             fillColor: "#800000",
@@ -330,7 +365,7 @@ export default {
           feature.properties.f4 == "Научно-технологические исследования"
         ) {
           return {
-            weight: 1,
+            weight: 1.5,
             color: "#FF00FF",
             opacity: 1,
             fillColor: "#FF00FF",
@@ -338,7 +373,7 @@ export default {
           };
         } else if (feature.properties.f4 == "Оценочные работы") {
           return {
-            weight: 1,
+            weight: 1.5,
             color: "#C71585",
             opacity: 1,
             fillColor: "#C71585",
@@ -346,7 +381,7 @@ export default {
           };
         } else if (feature.properties.f4 == "Поисково-оценочные работы") {
           return {
-            weight: 1,
+            weight: 1.5,
             color: "#008000",
             opacity: 1,
             fillColor: "#008000",
@@ -354,7 +389,7 @@ export default {
           };
         } else if (feature.properties.f4 == "Геохимические исследования") {
           return {
-            weight: 1,
+            weight: 1.5,
             color: "#008080",
             opacity: 1,
             fillColor: "#008080",
@@ -362,7 +397,7 @@ export default {
           };
         } else if (feature.properties.f4 == "Освоение") {
           return {
-            weight: 1,
+            weight: 1.5,
             color: "#008080",
             opacity: 1,
             fillColor: "#008080",
@@ -370,7 +405,7 @@ export default {
           };
         } else if (feature.properties.f4 == "Минералогические исследования") {
           return {
-            weight: 1,
+            weight: 1.5,
             color: "#8B4513",
             opacity: 1,
             fillColor: "#8B4513",
@@ -378,7 +413,7 @@ export default {
           };
         } else if (feature.properties.f4 == "Геофизические исследования") {
           return {
-            weight: 1,
+            weight: 1.5,
             color: "#B8860B",
             opacity: 1,
             fillColor: "#B8860B",
@@ -386,7 +421,7 @@ export default {
           };
         } else if (feature.properties.f4 == "Прогнозно-поисковые работы") {
           return {
-            weight: 1,
+            weight: 1.5,
             color: "#000",
             opacity: 1,
             fillColor: "#000",
@@ -394,7 +429,7 @@ export default {
           };
         } else {
           return {
-            weight: 1,
+            weight: 1.5,
             color: "#FF0000",
             opacity: 1,
             fillColor: "#FFA500",
@@ -443,15 +478,14 @@ export default {
         });
         layer.on("mouseover", function() {
           this.setStyle({
-            weight: 3.5,
+            weight: 5,
             color: "#505050",
           });
         });
         layer.on("mouseout", function() {
           this.setStyle({
-            weight: 1,
-            color: "#000",
-            dashArray: "10, 5",
+            weight: 1.5,
+            color: "#FF0000",
             dashOffset: "0",
           });
         });
@@ -467,7 +501,7 @@ export default {
         feature.properties.f2 !== "null"
           ? (linkPopup = feature.properties.f2)
           : (linkPopup = "404"),
-          (textLinkPopup = "Нет данных");
+          (textLinkPopup = "перейти к материалам");
         layer.bindPopup(
           "<tr><td><b>Номенклатурный лист: </b></td>" +
             feature.properties.f1 +

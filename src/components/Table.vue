@@ -16,6 +16,7 @@
             hide-details
           ></v-text-field>
         </v-card-title>
+
         <v-data-table
           :headers="headers"
           :items="items"
@@ -170,11 +171,10 @@ export default {
       .get("http://127.0.0.1:3000/api/json", {})
       .then((res) => {
         this.items = res.data;
-        this.loadTable = false;
+        this.loadTable = true;
       })
       .catch((error) => {
         console.log(error.response);
-        this.loadTable = true;
       });
   },
   methods: {
