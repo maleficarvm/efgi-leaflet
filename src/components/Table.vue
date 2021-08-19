@@ -168,7 +168,7 @@ export default {
   },
   created() {
     axios
-      .get("http://127.0.0.1:3000/api/json", {})
+      .get("http://kastor.tsnigri.ru/api/json", {})
       .then((res) => {
         this.items = res.data;
         this.loadTable = true;

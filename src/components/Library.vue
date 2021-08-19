@@ -105,7 +105,7 @@ export default {
   },
   created() {
     axios
-      .get("http://localhost:3000/api/library", {})
+      .get("http://kastor.tsnigri.ru/api/library", {})
       .then((res) => {
         this.items = res.data;
         this.loadTable = false;

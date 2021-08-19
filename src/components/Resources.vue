@@ -83,7 +83,7 @@
               center.lng +
               `&nbsp;В.Д. &nbsp;Zoom: ` +
               zoom +
-              `&nbsp; Vue2Leaflet</span> `
+              `&nbsp; Leaflet</span> `
           "
         ></l-control-attribution>
         <l-control-scale position="bottomleft" :imperial="false" />
@@ -256,6 +256,41 @@ export default {
           baseLayers: "NET2:oopt_active",
           transparent: true,
         },
+        {
+          name: "Автодороги федерального значения",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:roads_main_RU",
+          transparent: true,
+        },
+        {
+          name: "Железные дороги ширококоленые",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:rails_main_RU",
+          transparent: true,
+        },
+        {
+          name: "Аэропорты",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:dor_airports_RF",
+          transparent: true,
+        },
+        {
+          name: "Морские и речные порты",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:hyd_seaport",
+          transparent: true,
+        },
+        {
+          name: "ГОК и ЗИФ",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:obr_gokzif",
+          transparent: true,
+        },
       ],
       geosearchOptions: {
         provider: new OpenStreetMapProvider(),
@@ -375,7 +410,7 @@ export default {
   },
   created() {
     axios
-      .all([axios.get("http://localhost:3000/api/aprgeojson")])
+      .all([axios.get("http://kastor.tsnigri.ru:3000/api/aprgeojson")])
       .then((resArr) => {
         console.log(resArr[0].data);
         this.error = null;

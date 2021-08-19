@@ -148,7 +148,7 @@ export default {
   },
   created() {
     axios
-      .get("http://127.0.0.1:3000/api/apr", {})
+      .get("http://kastor.tsnigri.ru/api/apr", {})
       .then((res) => {
         this.items = res.data;
         this.loadTable = false;

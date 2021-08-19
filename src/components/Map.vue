@@ -83,7 +83,7 @@
               center.lng +
               `&nbsp;В.Д. &nbsp;Zoom: ` +
               zoom +
-              `&nbsp; Vue2Leaflet</span>`
+              `&nbsp; Leaflet</span>`
           "
         ></l-control-attribution>
         <l-control position="bottomright">
@@ -452,23 +452,33 @@ export default {
     onEachFeatureFunction() {
       return (feature, layer) => {
         layer.bindPopup(
-          "<tr><td><b>Объект: </b></td>" +
+          '<div style="width: 660px;"><div><h2>' +
             feature.object +
-            "<br><br><div><b>Название: </b>" +
+            "</h2></div>" +
+            "<table class='table'>" +
+            "</td></tr><br>" +
+            "<tr><th>Название материалов</th><td>" +
             feature.properties.f1 +
-            "<br><br><div><b>Автор (авторы): </b>" +
+            "</td></tr>" +
+            "<tr><th>Автор (авторы)</th><td>" +
             feature.properties.f2 +
-            "</div><br><div><b>Год составления объекта учета: </b>" +
+            "</td></tr>" +
+            "<tr><th>Год составления объекта учета</th><td>" +
             feature.properties.f3 +
-            "</div><br><div><b>Вид работ: </b>" +
+            "</td></tr>" +
+            "<tr><th>Вид работ</th><td>" +
             feature.properties.f4 +
-            "</div><br><div><b>Инвентарные номера в каталогах учета: </b>" +
+            "</td></tr>" +
+            "<tr><th>Инвентарные номера в каталогах учета</th><td>" +
             feature.properties.f5 +
-            "</div><br><div><b>Директория хранения: </b>" +
+            "</td></tr>" +
+            "<tr><th>Директория хранения</th><td>" +
             feature.properties.f9 +
-            '</div><br><div><b>Ссылка: </b><a href="' +
+            "</td></tr>" +
+            '<tr><th>Ссылка</th><td><a href="' +
             feature.properties.f6 +
-            '" target ="_blank"> перейти к файлу </div></div>',
+            '" target ="_blank">перейти к материалам</td></tr>',
+          "</table></div>",
           { permanent: false, sticky: true }
         );
         layer.bindTooltip("<p><b>Объект: </b>" + feature.object + "</p>", {
@@ -520,10 +530,10 @@ export default {
   created() {
     axios
       .all([
-        axios.get("http://localhost:3000/api/geojson"),
-        axios.get("http://localhost:3000/api/layout1m"),
-        axios.get("http://localhost:3000/api/layout200K"),
-        axios.get("http://localhost:3000/api/layout100K"),
+        axios.get("http://kastor.tsnigri.ru:3000/api/geojson"),
+        axios.get("http://kastor.tsnigri.ru:3000/api/layout1m"),
+        axios.get("http://kastor.tsnigri.ru:3000/api/layout200K"),
+        axios.get("http://kastor.tsnigri.ru:3000/api/layout100K"),
       ])
       .then((resArr) => {
         console.log(
@@ -597,5 +607,25 @@ span {
 }
 .btn__default {
   margin: 0px !important;
+}
+
+table,
+th,
+td {
+  border-collapse: collapse;
+  text-align: center;
+  padding: 7px;
+  td {
+    text-align: justify;
+  }
+}
+.table tr:nth-child(odd) {
+  background: #fff;
+}
+.table tr:nth-child(even) {
+  background: #f3f3f3;
+}
+.leaflet-popup-content-wrapper {
+  width: 700px;
 }
 </style>
