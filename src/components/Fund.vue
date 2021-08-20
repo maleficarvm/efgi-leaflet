@@ -145,7 +145,7 @@ export default {
   },
   created() {
     axios
-      .get("http://kastor.tsnigri.ru/api/fund", {})
+      .get("http://localhost:3000/api/fund", {})
       .then((res) => {
         this.items = res.data;
         this.loadTable = false;
@@ -179,6 +179,9 @@ textarea,
 select,
 button {
   border: 0px !important;
+}
+td {
+  text-align: center !important;
 }
 .wrapper-table {
   margin: 40px 10px;

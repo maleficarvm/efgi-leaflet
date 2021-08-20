@@ -168,7 +168,7 @@ export default {
   },
   created() {
     axios
-      .get("http://kastor.tsnigri.ru/api/json", {})
+      .get("http://localhost:3000/api/json", {})
       .then((res) => {
         this.items = res.data;
         this.loadTable = true;
@@ -196,6 +196,9 @@ textarea,
 select,
 button {
   border: 0px !important;
+}
+td {
+  text-align: center !important;
 }
 .wrapper-table {
   margin: 40px 10px;

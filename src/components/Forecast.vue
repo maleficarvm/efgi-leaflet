@@ -148,7 +148,7 @@ export default {
   },
   created() {
     axios
-      .get("http://kastor.tsnigri.ru/api/apr", {})
+      .get("http://localhost:3000/api/apr", {})
       .then((res) => {
         this.items = res.data;
         this.loadTable = false;

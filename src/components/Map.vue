@@ -14,7 +14,7 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
       >
-        <l-control-layers position="topright" :collapsed="true" />
+        <l-control-layers position="topright" :collapsed="false" />
         <l-tile-layer
           v-for="baseProvider in baseProviders"
           :key="baseProvider.name"
@@ -22,6 +22,7 @@
           :visible="baseProvider.visible"
           :url="baseProvider.url"
           :attribution="baseProvider.attribution"
+          layer-type="base"
         />
         <l-tile-layer
           v-for="tileProvider in tileProviders"
@@ -102,7 +103,7 @@
         </l-control>
 
         <l-geo-json
-          name="Материалы ГГК 1:1 000 000 и ЦМР"
+          name="Материалы ГГК 1:1 000 000"
           :visible="false"
           :geojson="layout1B"
           :options="layouts"
@@ -253,14 +254,14 @@ export default {
       ],
       baseLayers: [
         {
-          name: "Границы субъектов РФ",
+          name: "Границы субъектов",
           visible: true,
           format: "image/png",
           baseLayers: "NET2:ne_10m_adm_regions_line",
           transparent: true,
         },
         {
-          name: "Государственная граница РФ",
+          name: "Государственная граница",
           format: "image/png",
           baseLayers: "NET2:ne_10m_admrf_line",
           transparent: true,
@@ -280,14 +281,14 @@ export default {
           transparent: true,
         },
         {
-          name: "Автодороги федерального значения",
+          name: "Автодороги федеральные",
           visible: true,
           format: "image/png",
           baseLayers: "NET2:roads_main_RU",
           transparent: true,
         },
         {
-          name: "Железные дороги ширококоленые",
+          name: "Железные дороги",
           visible: true,
           format: "image/png",
           baseLayers: "NET2:rails_main_RU",
@@ -530,10 +531,10 @@ export default {
   created() {
     axios
       .all([
-        axios.get("http://kastor.tsnigri.ru:3000/api/geojson"),
-        axios.get("http://kastor.tsnigri.ru:3000/api/layout1m"),
-        axios.get("http://kastor.tsnigri.ru:3000/api/layout200K"),
-        axios.get("http://kastor.tsnigri.ru:3000/api/layout100K"),
+        axios.get("http://localhost:3000/api/geojson"),
+        axios.get("http://localhost:3000/api/layout1m"),
+        axios.get("http://localhost:3000/api/layout200K"),
+        axios.get("http://localhost:3000/api/layout100K"),
       ])
       .then((resArr) => {
         console.log(
@@ -575,6 +576,37 @@ export default {
 span {
   font-size: 12px;
 }
+
+input[type="checkbox"],
+input[type="radio"] {
+  padding: 0;
+  box-sizing: border-box;
+  width: 12px;
+  height: 12px;
+  margin: 3px 0.5ex;
+  border-radius: 0px;
+}
+
+table,
+th,
+td {
+  border-collapse: collapse;
+  text-align: center;
+  padding: 7px;
+  td {
+    text-align: justify;
+  }
+}
+.table tr:nth-child(odd) {
+  background: #fff;
+}
+.table tr:nth-child(even) {
+  background: #f3f3f3;
+}
+label {
+  text-align: left !important;
+}
+
 .leaflet-container {
   font: 12px/1.5 "Montserrat", Arial, Helvetica, sans-serif;
 }
@@ -609,22 +641,6 @@ span {
   margin: 0px !important;
 }
 
-table,
-th,
-td {
-  border-collapse: collapse;
-  text-align: center;
-  padding: 7px;
-  td {
-    text-align: justify;
-  }
-}
-.table tr:nth-child(odd) {
-  background: #fff;
-}
-.table tr:nth-child(even) {
-  background: #f3f3f3;
-}
 .leaflet-popup-content-wrapper {
   width: 700px;
 }
