@@ -14,7 +14,12 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
       >
-        <l-control-layers position="topright" :collapsed="true" />
+        <l-control-layers position="topright" :collapsed="false" />
+        <l-tile-layer
+          name="ЕЭКО"
+          url="https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/BaseMap/MapServer/tile/{z}/{y}/{x}"
+          layer-type="base"
+        />
         <l-tile-layer
           v-for="baseProvider in baseProviders"
           :key="baseProvider.name"
@@ -230,14 +235,14 @@ export default {
       ],
       baseLayers: [
         {
-          name: "Границы субъектов РФ",
+          name: "Границы субъектов",
           visible: true,
           format: "image/png",
           baseLayers: "NET2:ne_10m_adm_regions_line",
           transparent: true,
         },
         {
-          name: "Государственная граница РФ",
+          name: "Государственная граница",
           format: "image/png",
           baseLayers: "NET2:ne_10m_admrf_line",
           transparent: true,
@@ -251,20 +256,20 @@ export default {
         },
         {
           name: "Действующие ООПТ",
-          visible: false,
+          visible: true,
           format: "image/png",
           baseLayers: "NET2:oopt_active",
           transparent: true,
         },
         {
-          name: "Автодороги федерального значения",
+          name: "Автодороги федеральные",
           visible: true,
           format: "image/png",
           baseLayers: "NET2:roads_main_RU",
           transparent: true,
         },
         {
-          name: "Железные дороги ширококоленые",
+          name: "Железные дороги",
           visible: true,
           format: "image/png",
           baseLayers: "NET2:rails_main_RU",
@@ -365,19 +370,27 @@ export default {
     onEachFeatureFunction() {
       return (feature, layer) => {
         layer.bindPopup(
-          "<tr><td><b>Название: </b></td>" +
+          '<div style="max-width: 350px;"><div><h3>' +
             feature.properties.f1 +
-            "</div><br><br><div><b>ПИ: </b>" +
+            "</h3></div>" +
+            "<table class='table'>" +
+            "</td></tr><br>" +
+            "<tr><th>ПИ</th><td>" +
             feature.properties.f6 +
-            "</div><br><div><b>Статус: </b>" +
+            "</td></tr>" +
+            "<tr><th>Статус</th><td>" +
             feature.properties.f2 +
-            "</div><br><div><b>Категория ресурсов: </b>" +
+            "</td></tr>" +
+            "<tr><th>Категория ресурсов</th><td>" +
             feature.properties.f5 +
-            "</div><br><div><b>Примечание: </b>" +
+            "</td></tr>" +
+            "<tr><th>Примечание</th><td>" +
             feature.properties.f7 +
-            '</div><br><div><b>Ссылка: </b><a href="' +
+            "</td></tr>" +
+            '<tr><th>Ссылка</th><td><a href="' +
             feature.properties.f3 +
-            '" target ="_blank"> перейти к файлу </div></div>',
+            '" target ="_blank">перейти к материалам</td></tr>',
+          "</table></div>",
           { permanent: false, sticky: true }
         );
         layer.bindTooltip(
@@ -390,16 +403,16 @@ export default {
         );
         layer.on("mouseover", function() {
           this.setStyle({
-            weight: 3.5,
+            weight: 5,
             color: "#505050",
           });
         });
         layer.on("mouseout", function() {
           this.setStyle({
-            weight: 1,
-            color: "#000",
-            dashArray: "10, 5",
-            dashOffset: "0",
+            weight: 1.5,
+            color: "#FF0000",
+            opacity: 1,
+            fillOpacity: 0.07,
           });
         });
         layer.on("click", function() {
@@ -410,7 +423,7 @@ export default {
   },
   created() {
     axios
-      .all([axios.get("http://kastor.tsnigri.ru:3000/api/aprgeojson")])
+      .all([axios.get("http://localhost:3000/api/aprgeojson")])
       .then((resArr) => {
         console.log(resArr[0].data);
         this.error = null;
@@ -441,12 +454,44 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "~leaflet-minimap/dist/Control.MiniMap.min.css";
 
 span {
   font-size: 12px;
 }
+
+input[type="checkbox"],
+input[type="radio"] {
+  padding: 0;
+  box-sizing: border-box;
+  width: 12px;
+  height: 12px;
+  margin: 3px 0.5ex;
+  border-radius: 0px;
+}
+
+table,
+th,
+td {
+  border-collapse: collapse;
+  text-align: center;
+  padding: 7px;
+  td {
+    text-align: justify !important;
+  }
+}
+.table tr:nth-child(odd) {
+  background: #fff;
+}
+.table tr:nth-child(even) {
+  background: #f3f3f3;
+}
+
+label {
+  text-align: left !important;
+}
+
 .leaflet-container {
   font: 12px/1.5 "Montserrat", Arial, Helvetica, sans-serif;
 }
@@ -479,5 +524,22 @@ span {
 }
 .btn__default {
   margin: 0px !important;
+}
+
+.leaflet-popup-content-wrapper {
+  width: 340px !important;
+}
+
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  background-clip: padding-box;
+}
+
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  -webkit-box-shadow: 0px 0px 7px 4px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 0px 7px 4px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 0px 7px 4px rgba(34, 60, 80, 0.2);
 }
 </style>

@@ -394,7 +394,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .leaflet-control-layers-selector {
   margin-top: 2px;
   position: relative;
-  top: 1px;
+  top: 2px;
 }
 .leaflet-control-layers label {
   display: block;

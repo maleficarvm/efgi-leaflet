@@ -16,13 +16,17 @@
       >
         <l-control-layers position="topright" :collapsed="false" />
         <l-tile-layer
+          name="ЕЭКО"
+          url="https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/BaseMap/MapServer/tile/{z}/{y}/{x}"
+          layer-type="base"
+        />
+        <l-tile-layer
           v-for="baseProvider in baseProviders"
           :key="baseProvider.name"
           :name="baseProvider.name"
           :visible="baseProvider.visible"
           :url="baseProvider.url"
           :attribution="baseProvider.attribution"
-          layer-type="base"
         />
         <l-tile-layer
           v-for="tileProvider in tileProviders"
@@ -220,7 +224,7 @@ export default {
           visible: false,
           url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
           attribution:
-            'Map data: &copy; <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+            '&copy; Участники <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
         },
         {
           name: "Mapbox Спутник",
@@ -594,7 +598,7 @@ td {
   text-align: center;
   padding: 7px;
   td {
-    text-align: justify;
+    text-align: justify !important;
   }
 }
 .table tr:nth-child(odd) {
@@ -603,6 +607,7 @@ td {
 .table tr:nth-child(even) {
   background: #f3f3f3;
 }
+
 label {
   text-align: left !important;
 }
@@ -643,5 +648,18 @@ label {
 
 .leaflet-popup-content-wrapper {
   width: 700px;
+}
+
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  background-clip: padding-box;
+}
+
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  -webkit-box-shadow: 0px 0px 7px 4px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 0px 7px 4px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 0px 7px 4px rgba(34, 60, 80, 0.2);
 }
 </style>

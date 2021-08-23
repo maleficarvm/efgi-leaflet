@@ -77,7 +77,7 @@ export default {
       offset: true,
       items: [
         { title: "Карта объектов учета", link: "/" },
-        { title: "Карта прогнозных ресурсов", link: "/recources" },
+        { title: "Карта прогнозных ресурсов", link: "/resources" },
         { title: "Реестр объектов учета", link: "/table" },
         { title: "Реестр прогнозных ресурсов", link: "/forecast" },
         { title: "Реестр фондовых материалов", link: "/fund" },

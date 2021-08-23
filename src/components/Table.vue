@@ -24,6 +24,8 @@
           :expanded.sync="expanded"
           item-key="oid"
           show-expand
+          fixed-header
+          height="75vh"
           class="elevation-1"
           :footer-props="{
             'items-per-page-options': [10, 30, 60, 100],
@@ -201,7 +203,7 @@ td {
   text-align: center !important;
 }
 .wrapper-table {
-  margin: 40px 10px;
+  margin: 15px 0px 0px 0px;
 }
 .wrapper-simple-table {
   margin: 20px;

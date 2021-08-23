@@ -22,6 +22,8 @@
           :expanded.sync="expanded"
           item-key="oid"
           show-expand
+          fixed-header
+          height="75vh"
           class="elevation-1"
           :footer-props="{
             'items-per-page-options': [10, 30, 60, 100],
@@ -167,18 +169,6 @@ export default {
       this.$router.push("/");
       this.$emit("on-click", value);
     },
-    downloadExcel() {
-      const url = "#";
-      window.location.href = url;
-    },
-    downloadShp() {
-      const url = "#";
-      window.location.href = url;
-    },
-    downloadForm() {
-      const url = "#";
-      window.location.href = url;
-    },
   },
 };
 </script>
@@ -191,7 +181,7 @@ button {
   border: 0px !important;
 }
 .wrapper-table {
-  margin: 40px 10px;
+  margin: 15px 0px 0px 0px;
 }
 .wrapper-simple-table {
   margin: 20px;
