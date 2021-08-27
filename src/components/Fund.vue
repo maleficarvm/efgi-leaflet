@@ -26,7 +26,7 @@
           height="75vh"
           class="elevation-1"
           :footer-props="{
-            'items-per-page-options': [15, 60, 100, 500],
+            'items-per-page-options': [50, 200, 500],
             showFirstLastPage: true,
             firstIcon: 'mdi-arrow-collapse-left',
             lastIcon: 'mdi-arrow-collapse-right',
@@ -34,7 +34,7 @@
             nextIcon: 'mdi-plus',
             'items-per-page-text': 'Объектов на странице: ',
           }"
-          :items-per-page="15"
+          :items-per-page="50"
           :search="search"
           :sort-desc="[false, true]"
           multi-sort
@@ -93,10 +93,10 @@
           </template>
         </v-data-table>
         <div class="text-center">
-          <v-btn color="ma-2" dark href="#" download>
+          <v-btn color="ma-2" dark href="#">
             Скачать Excel
           </v-btn>
-          <v-btn color="ma-2" dark href="Application.docx" download>
+          <v-btn color="ma-2" dark href="Application.docx">
             Скачать форму заявки
           </v-btn>
         </div>

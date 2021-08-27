@@ -5,7 +5,7 @@
     </v-overlay>
     <section class="map-container">
       <l-map
-        ref="myMap"
+        ref="map"
         style="height: 915px"
         :zoom="zoom"
         :minZoom="minZoom"
@@ -15,11 +15,7 @@
         @update:center="centerUpdated"
       >
         <l-control-layers position="topright" :collapsed="false" />
-        <l-tile-layer
-          name="ЕЭКО"
-          url="https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/BaseMap/MapServer/tile/{z}/{y}/{x}"
-          layer-type="base"
-        />
+        <l-tile-layer :name="pane.name" :url="pane.url" layer-type="base" />
         <l-tile-layer
           v-for="baseProvider in baseProviders"
           :key="baseProvider.name"
@@ -91,13 +87,13 @@
               `&nbsp; Leaflet</span>`
           "
         ></l-control-attribution>
+        <!-- <l-control position="bottomleft">
+          <v-btn class="ma-2 btn__default" dark @click="zoomToGeojson">
+            zoomTogGeoJSON
+          </v-btn>
+        </l-control> -->
         <l-control position="bottomright">
-          <v-btn
-            class="ma-2 btn__default"
-            dark
-            href="Application.docx"
-            download
-          >
+          <v-btn class="ma-2 btn__default" dark href="Application.docx">
             Скачать форму заявки
           </v-btn>
         </l-control>
@@ -105,7 +101,6 @@
         <l-control :position="'bottomright'">
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
         </l-control>
-
         <l-geo-json
           name="Материалы ГГК 1:1 000 000"
           :visible="false"
@@ -145,14 +140,14 @@
 
 <script>
 import axios from "axios";
-import { CRS, latlng } from "leaflet";
+import { CRS, latlng, featureGroup } from "leaflet";
 import "../assets/css/leaflet.css";
 import "../assets/css/geosearch.css";
 import VGeosearch from "vue2-leaflet-geosearch";
 import LControlFullscreen from "vue2-leaflet-fullscreen";
-import VueLeafletMinimap from "vue-leaflet-minimap";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
+import { eventBus } from "../main";
 import {
   LMap,
   LTileLayer,
@@ -166,18 +161,19 @@ import {
 } from "vue2-leaflet";
 
 export default {
+  name: "Map",
   components: {
     LMap,
     LTileLayer,
     LControlLayers,
     LControlScale,
     LControlFullscreen,
-    VueLeafletMinimap,
     VGeosearch,
     LMarker,
     LGeoJson,
     LControl,
     latlng,
+    featureGroup,
     CRS,
     LControlAttribution,
     LControlPolylineMeasure,
@@ -185,6 +181,7 @@ export default {
   },
   data() {
     return {
+      map: null,
       zoom: 4,
       minZoom: 3,
       center: [63.7556, 101.7766],
@@ -194,6 +191,7 @@ export default {
       layout1B: null,
       layout200K: null,
       layout100K: null,
+      value: "",
       fillColor: "orange",
       baseProviders: [
         {
@@ -238,6 +236,13 @@ export default {
       firstUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology/wms?",
       secondUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology2/wms?",
       thirdUrl: "http://kastor.tsnigri.ru:8585/geoserver/NET2/wms?",
+      pane: {
+        name: "ЕЭКО",
+        visible: true,
+        url:
+          "https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/Anno/MapServer/tile/{z}/{y}/{x}",
+      },
+
       layers: [
         {
           name: "ГГК ВСЕГЕИ 1:1 000 000",
@@ -317,6 +322,20 @@ export default {
           visible: true,
           format: "image/png",
           baseLayers: "NET2:obr_gokzif",
+          transparent: true,
+        },
+        {
+          name: "Электростанции",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:eng_powerstation",
+          transparent: true,
+        },
+        {
+          name: "Электроподстанции",
+          visible: false,
+          format: "image/png",
+          baseLayers: "NET2:eng_powersub",
           transparent: true,
         },
       ],
@@ -504,9 +523,6 @@ export default {
             dashOffset: "0",
           });
         });
-        layer.on("click", function() {
-          this.$refs.map.fitBounds(getBounds());
-        });
       };
     },
     onEachLayoutFunction() {
@@ -531,8 +547,8 @@ export default {
       };
     },
   },
-
   created() {
+    console.log("version 2.3 beta");
     axios
       .all([
         axios.get("http://localhost:3000/api/geojson"),
@@ -559,8 +575,9 @@ export default {
         this.geojson = null;
         this.error = "Can`t find this Json";
       });
-    this.$on("changeButton", (value) => {
-      console.log(this.value);
+    eventBus.$on("zoom", (data) => {
+      this.value = data.value;
+      alert("lol");
     });
   },
   methods: {
@@ -570,6 +587,21 @@ export default {
     centerUpdated(center) {
       this.center = center;
     },
+    /* zoomToGeojson() {
+      let group = new featureGroup();
+
+      this.$refs.map.mapObject.eachLayer(function(layer) {
+        if (layer.feature != undefined) group.addLayer(layer);
+      });
+      this.$refs.map.mapObject.flyToBounds(group.getBounds(), {
+        duration: 2,
+        padding: [10, 10],
+      });
+    },
+    zoomToFeature(e) {
+      this.$refs.map.mapObject.fitBounds(e.target.getBounds());
+      console.log(e.target);
+    }, */
   },
 };
 </script>
@@ -598,7 +630,7 @@ td {
   text-align: center;
   padding: 7px;
   td {
-    text-align: justify !important;
+    text-align: justify;
   }
 }
 .table tr:nth-child(odd) {

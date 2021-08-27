@@ -93,12 +93,7 @@
         ></l-control-attribution>
         <l-control-scale position="bottomleft" :imperial="false" />
         <l-control position="bottomright">
-          <v-btn
-            class="ma-2 btn__default"
-            dark
-            href="Application.docx"
-            download
-          >
+          <v-btn class="ma-2 btn__default" dark href="Application.docx">
             Скачать форму заявки
           </v-btn>
         </l-control>
@@ -415,9 +410,6 @@ export default {
             fillOpacity: 0.07,
           });
         });
-        layer.on("click", function() {
-          this.$refs.map.fitBounds(getBounds());
-        });
       };
     },
   },
@@ -478,7 +470,7 @@ td {
   text-align: center;
   padding: 7px;
   td {
-    text-align: justify !important;
+    text-align: justify;
   }
 }
 .table tr:nth-child(odd) {

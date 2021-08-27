@@ -28,7 +28,7 @@
           height="75vh"
           class="elevation-1"
           :footer-props="{
-            'items-per-page-options': [10, 30, 60, 100],
+            'items-per-page-options': [50, 100, 200],
             showFirstLastPage: true,
             firstIcon: 'mdi-arrow-collapse-left',
             lastIcon: 'mdi-arrow-collapse-right',
@@ -36,7 +36,7 @@
             nextIcon: 'mdi-plus',
             'items-per-page-text': 'Объектов на странице: ',
           }"
-          :items-per-page="10"
+          :items-per-page="50"
           :search="search"
           :sort-desc="[false, true]"
           multi-sort
@@ -108,10 +108,10 @@
           </template>
         </v-data-table>
         <div class="text-center">
-          <v-btn color="ma-2" dark href="Fund.rar" download>
+          <v-btn color="ma-2" dark href="Fund.rar">
             Скачать Excel
           </v-btn>
-          <v-btn color="ma-2" dark href="Application.docx" download>
+          <v-btn color="ma-2" dark href="Application.docx">
             Скачать форму заявки
           </v-btn>
         </div>
@@ -122,6 +122,7 @@
 
 <script>
 import axios from "axios";
+import { eventBus } from "../main";
 
 export default {
   data() {
@@ -184,9 +185,10 @@ export default {
       window.open(value, "_blank");
     },
     onButtonClick(value) {
-      console.log("click on " + value + " item");
       this.$router.push("/");
-      this.$emit("on-click", value);
+      eventBus.$emit("zoom", this.value);
+      this.value = "";
+      console.log("click on " + value + " item");
     },
   },
 };

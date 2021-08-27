@@ -158,7 +158,7 @@
               >Cкачав пакет документов Вы сможете подробнее ознакомиться с
               процессом выдачи материалов ЕБГИ и получить форму заявки.
             </em>
-            <v-btn class="lighten-2 mt-5" large href="ugib.rar" download>
+            <v-btn class="lighten-2 mt-5" large href="ugib.rar">
               Скачать
             </v-btn>
           </v-layout>

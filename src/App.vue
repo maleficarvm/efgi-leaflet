@@ -87,10 +87,6 @@ export default {
     };
   },
   methods: {
-    onClick() {
-      this.$emit("on-click", value);
-      console.log("it works" + value);
-    },
     showModal() {
       this.isModalVisible = true;
     },
