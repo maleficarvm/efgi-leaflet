@@ -122,7 +122,7 @@
 
 <script>
 import axios from "axios";
-import { eventBus } from "../main";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -130,6 +130,7 @@ export default {
       expanded: [],
       singleExpand: false,
       loadTable: true,
+      value: "",
       options: {},
       search: "",
       headers: [
@@ -169,10 +170,14 @@ export default {
       items: [],
     };
   },
+  computed: {
+    ...mapGetters(["TEXT"]),
+  },
   created() {
     axios
       .get("http://localhost:3000/api/json", {})
       .then((res) => {
+        console.log(res.data);
         this.items = res.data;
         this.loadTable = true;
       })
@@ -180,14 +185,19 @@ export default {
         console.log(error.response);
       });
   },
+  mounted() {
+    console.log("version 2.3 beta");
+    console.log("Get text >>> " + this.TEXT + " <<<");
+    this.search = this.TEXT;
+  },
   methods: {
     onButtonClickCloud(value) {
       window.open(value, "_blank");
     },
     onButtonClick(value) {
-      this.$router.push("/");
-      eventBus.$emit("zoom", this.value);
       this.value = "";
+      this.$router.push("/");
+      this.$store.commit("SET_VALUE", value);
       console.log("click on " + value + " item");
     },
   },

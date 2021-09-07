@@ -15,11 +15,7 @@
         @update:center="centerUpdated"
       >
         <l-control-layers position="topright" :collapsed="false" />
-        <l-tile-layer
-          name="ЕЭКО"
-          url="https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/BaseMap/MapServer/tile/{z}/{y}/{x}"
-          layer-type="base"
-        />
+        <l-tile-layer :name="pane.name" :url="pane.url" layer-type="base" />
         <l-tile-layer
           v-for="baseProvider in baseProviders"
           :key="baseProvider.name"
@@ -124,6 +120,7 @@ import LControlFullscreen from "vue2-leaflet-fullscreen";
 import VueLeafletMinimap from "vue-leaflet-minimap";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
+import { mapGetters } from "vuex";
 import {
   LMap,
   LTileLayer,
@@ -160,6 +157,10 @@ export default {
       zoom: 4,
       minZoom: 3,
       center: [64.7556, 96.7766],
+      bounds: [
+        [55.63901028125873, 37.3677978515625],
+        [55.348763181988105, 37.3787841796875],
+      ],
       show: true,
       overlay: true,
       geojson: null,
@@ -210,6 +211,12 @@ export default {
       firstUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology/wms?",
       secondUrl: "http://wms.vsegei.ru/VSEGEI_Bedrock_geology2/wms?",
       thirdUrl: "http://kastor.tsnigri.ru:8585/geoserver/NET2/wms?",
+      pane: {
+        name: "ЕЭКО",
+        visible: true,
+        url:
+          "https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/Anno/MapServer/tile/{z}/{y}/{x}",
+      },
       layers: [
         {
           name: "ГГК ВСЕГЕИ 1:1 000 000",
@@ -291,6 +298,20 @@ export default {
           baseLayers: "NET2:obr_gokzif",
           transparent: true,
         },
+        {
+          name: "Электростанции",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:eng_powerstation",
+          transparent: true,
+        },
+        {
+          name: "Электроподстанции",
+          visible: false,
+          format: "image/png",
+          baseLayers: "NET2:eng_powersub",
+          transparent: true,
+        },
       ],
       geosearchOptions: {
         provider: new OpenStreetMapProvider(),
@@ -302,6 +323,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["VALUEAPR"]),
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
@@ -430,6 +452,13 @@ export default {
     this.$on("changeButton", (value) => {
       console.log(this.value);
     });
+  },
+  mounted() {
+    console.log("version 2.3 beta");
+    console.log("Get value apr>>> " + this.VALUEAPR + " <<<");
+    if (this.VALUEAPR != "") {
+      this.$refs.map.mapObject.fitBounds(this.bounds);
+    }
   },
   methods: {
     clickHandler() {

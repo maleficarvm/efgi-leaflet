@@ -112,6 +112,7 @@ export default {
       expanded: [],
       singleExpand: false,
       loadTable: true,
+      value: "",
       options: {},
       search: "",
       headers: [
@@ -165,9 +166,10 @@ export default {
       window.open(value, "_blank");
     },
     onButtonClick(value) {
+      this.value = "";
+      this.$router.push("/resources");
+      this.$store.commit("SET_VALUEAPR", value);
       console.log("click on " + value + " item");
-      this.$router.push("/");
-      this.$emit("on-click", value);
     },
   },
 };

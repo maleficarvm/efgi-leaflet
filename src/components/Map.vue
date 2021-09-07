@@ -87,11 +87,16 @@
               `&nbsp; Leaflet</span>`
           "
         ></l-control-attribution>
-        <!-- <l-control position="bottomleft">
+        <l-control position="bottomleft">
           <v-btn class="ma-2 btn__default" dark @click="zoomToGeojson">
-            zoomTogGeoJSON
+            zoomToGeoJSON
           </v-btn>
-        </l-control> -->
+        </l-control>
+        <l-control position="bottomleft">
+          <v-btn class="ma-2 btn__default" dark @click="goToTable">
+            goToTable
+          </v-btn>
+        </l-control>
         <l-control position="bottomright">
           <v-btn class="ma-2 btn__default" dark href="Application.docx">
             Скачать форму заявки
@@ -147,7 +152,7 @@ import VGeosearch from "vue2-leaflet-geosearch";
 import LControlFullscreen from "vue2-leaflet-fullscreen";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
-import { eventBus } from "../main";
+import { mapGetters } from "vuex";
 import {
   LMap,
   LTileLayer,
@@ -185,13 +190,18 @@ export default {
       zoom: 4,
       minZoom: 3,
       center: [63.7556, 101.7766],
+      bounds: [
+        [55.63901028125873, 37.3677978515625],
+        [55.348763181988105, 37.3787841796875],
+      ],
+      value: "",
+      text: "",
       show: true,
       overlay: true,
       geojson: null,
       layout1B: null,
       layout200K: null,
       layout100K: null,
-      value: "",
       fillColor: "orange",
       baseProviders: [
         {
@@ -242,7 +252,6 @@ export default {
         url:
           "https://pkk.rosreestr.ru/arcgis/rest/services/BaseMaps/Anno/MapServer/tile/{z}/{y}/{x}",
       },
-
       layers: [
         {
           name: "ГГК ВСЕГЕИ 1:1 000 000",
@@ -349,6 +358,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["VALUE"]),
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
@@ -478,7 +488,7 @@ export default {
         layer.bindPopup(
           '<div style="width: 660px;"><div><h2>' +
             feature.object +
-            "</h2></div>" +
+            '</h2><br/><button type="button" class="ma-2 btn__default v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default btn__link" >перейти к данным</button></div>' +
             "<table class='table'>" +
             "</td></tr><br>" +
             "<tr><th>Название материалов</th><td>" +
@@ -498,11 +508,8 @@ export default {
             "</td></tr>" +
             "<tr><th>Директория хранения</th><td>" +
             feature.properties.f9 +
-            "</td></tr>" +
-            '<tr><th>Ссылка</th><td><a href="' +
-            feature.properties.f6 +
-            '" target ="_blank">перейти к материалам</td></tr>',
-          "</table></div>",
+            "</td></tr>",
+          "</table></div> ",
           { permanent: false, sticky: true }
         );
         layer.bindTooltip("<p><b>Объект: </b>" + feature.object + "</p>", {
@@ -548,7 +555,6 @@ export default {
     },
   },
   created() {
-    console.log("version 2.3 beta");
     axios
       .all([
         axios.get("http://localhost:3000/api/geojson"),
@@ -575,10 +581,13 @@ export default {
         this.geojson = null;
         this.error = "Can`t find this Json";
       });
-    eventBus.$on("zoom", (data) => {
-      this.value = data.value;
-      alert("lol");
-    });
+  },
+  mounted() {
+    console.log("version 2.3 beta");
+    console.log("Get value >>> " + this.VALUE + " <<<");
+    if (this.VALUE != "") {
+      this.$refs.map.mapObject.fitBounds(this.bounds);
+    }
   },
   methods: {
     zoomUpdated(zoom) {
@@ -587,7 +596,7 @@ export default {
     centerUpdated(center) {
       this.center = center;
     },
-    /* zoomToGeojson() {
+    zoomToGeojson() {
       let group = new featureGroup();
 
       this.$refs.map.mapObject.eachLayer(function(layer) {
@@ -598,10 +607,12 @@ export default {
         padding: [10, 10],
       });
     },
-    zoomToFeature(e) {
-      this.$refs.map.mapObject.fitBounds(e.target.getBounds());
-      console.log(e.target);
-    }, */
+    goToTable(text) {
+      this.text = "";
+      this.$router.push("/table");
+      this.$store.commit("SET_TEXT", text);
+      console.log("click on " + text + " item");
+    },
   },
 };
 </script>
@@ -676,6 +687,10 @@ label {
 }
 .btn__default {
   margin: 0px !important;
+}
+
+.btn__link {
+  background-color: #777 !important;
 }
 
 .leaflet-popup-content-wrapper {
