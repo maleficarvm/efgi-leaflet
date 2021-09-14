@@ -455,7 +455,7 @@ export default {
   },
   mounted() {
     console.log("version 2.3 beta");
-    console.log("Get value apr>>> " + this.VALUEAPR + " <<<");
+    console.log("Get value apr >>> " + this.VALUEAPR + " <<<");
     if (this.VALUEAPR != "") {
       this.$refs.map.mapObject.fitBounds(this.bounds);
     }

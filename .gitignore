@@ -8,6 +8,8 @@ express
 /public/UGIB.rar
 /public/Library.rar
 /public/Funds.rar
+/public/Users.json
+/public/Users copy.json
 
 # local env files
 .env.local
