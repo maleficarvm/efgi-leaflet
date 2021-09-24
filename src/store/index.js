@@ -54,7 +54,6 @@ export default new Vuex.Store({
         axios({
           url: "http://localhost:3000/api/login",
           data: user,
-          method: "POST",
         })
           .then((res) => {
             const token = res.data.token;
