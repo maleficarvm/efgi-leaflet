@@ -1,4 +1,4 @@
-# efgi-leaflet
+# ugib-app
 
 ## Project setup
 
