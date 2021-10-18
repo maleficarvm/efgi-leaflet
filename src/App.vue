@@ -67,7 +67,7 @@
 import modal from "@/components/UI/Modal.vue";
 
 export default {
-  name: "app",
+  name: "App",
   components: {
     modal,
   },
@@ -81,7 +81,6 @@ export default {
         { title: "Реестр объектов учета", link: "/table" },
         { title: "Реестр прогнозных ресурсов", link: "/forecast" },
         { title: "Реестр фондовых материалов", link: "/fund" },
-        { title: "Библиотека", link: "/library" },
       ],
       links: [{ title: "О Едином Банке", url: "/info" }],
     };

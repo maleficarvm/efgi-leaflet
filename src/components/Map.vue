@@ -6,7 +6,7 @@
     <section class="map-container">
       <l-map
         ref="map"
-        style="height: 915px"
+        style="height: 92vh"
         :zoom="zoom"
         :minZoom="minZoom"
         :center="center"
@@ -660,7 +660,7 @@ label {
 }
 .map-container {
   padding: 0px;
-  margin-top: 30px;
+  margin-top: 28px;
   z-index: 0;
 }
 .leaflet-control-layers-list {

@@ -132,11 +132,6 @@ export default {
           width: "120",
         },
         {
-          text: "Геологические объекты, ассоциируемые с документом",
-          value: "obj_assoc_geol",
-          width: "600",
-        },
-        {
           text: "Сведения о привязке в рамках АТД и АТЕ",
           value: "spat_atd_ate",
         },
@@ -145,16 +140,27 @@ export default {
           value: "stor_folder",
           width: "20",
         },
+        {
+          text: "Геологические объекты, ассоциируемые с документом",
+          value: "obj_assoc_geol",
+          width: "1000",
+        },
       ],
       items: [],
+      protocols: [],
     };
   },
   created() {
     axios
-      .get("http://localhost:3000/api/apr", {})
-      .then((res) => {
-        this.items = res.data;
+      .all([
+        get("http://localhost:3000/api/apr"),
+        get("http://localhost:3000/api/protocols"),
+      ])
+      .then((resArr) => {
+        this.items = resArr[0].data;
+        this.protocols = resArr[1].data;
         this.loadTable = false;
+        console.log(resArr[0], resArr[1]);
       })
       .catch((error) => {
         console.log(error.response);

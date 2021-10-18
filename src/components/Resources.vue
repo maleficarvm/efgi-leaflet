@@ -6,7 +6,7 @@
     <section class="map-container">
       <l-map
         ref="map"
-        style="height: 915px"
+        style="height: 92vh"
         :zoom="zoom"
         :minZoom="minZoom"
         :center="center"
@@ -99,8 +99,16 @@
 
         <l-geo-json
           name="Прогнозные ресурсы"
-          :visible="true"
+          :visible="false"
           :geojson="geojson"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Протоколы"
+          :visible="true"
+          :geojson="protocols"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -164,6 +172,7 @@ export default {
       show: true,
       overlay: true,
       geojson: null,
+      protocols: null,
       layout1B: null,
       layout200K: null,
       layout100K: null,
@@ -331,7 +340,7 @@ export default {
     },
     styleFunction() {
       return (feature) => {
-        if (feature.properties.f2 === "Апробировано") {
+        if (feature.properties.f3 === "Апробировано") {
           return {
             weight: 1.5,
             color: "#FF0000",
@@ -339,7 +348,7 @@ export default {
             fillColor: "#FF0000",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f2 === "Сняты") {
+        } else if (feature.properties.f3 === "Сняты") {
           return {
             weight: 1.5,
             color: "#FF4500",
@@ -347,7 +356,7 @@ export default {
             fillColor: "#FF4500",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f2 === "Отклонено") {
+        } else if (feature.properties.f3 === "Отклонено") {
           return {
             weight: 1.5,
             color: "#8B008B",
@@ -355,7 +364,7 @@ export default {
             fillColor: "#8B008B",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f2 === "Некондиция") {
+        } else if (feature.properties.f3 === "Некондиция") {
           return {
             weight: 1.5,
             color: "#800000",
@@ -363,7 +372,7 @@ export default {
             fillColor: "#800000",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f2 === "Внутренний учет ЦНИГРИ") {
+        } else if (feature.properties.f3 === "Внутренний учет ЦНИГРИ") {
           return {
             weight: 1.5,
             color: "#8B008B",
@@ -371,9 +380,31 @@ export default {
             fillColor: "#8B008B",
             fillOpacity: 0.07,
           };
-        } else if (
-          feature.properties.f2 === "Апробировано. Неверные координаты"
-        ) {
+        } else if (feature.properties.f3 === "Переоценены, другие координаты") {
+          return {
+            weight: 1.5,
+            color: "#000",
+            opacity: 1,
+            fillColor: "#000",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f3 === "Не апробировано") {
+          return {
+            weight: 1.5,
+            color: "#000",
+            opacity: 1,
+            fillColor: "#000",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f3 === "Исключены") {
+          return {
+            weight: 1.5,
+            color: "#000",
+            opacity: 1,
+            fillColor: "#000",
+            fillOpacity: 0.07,
+          };
+        } else if (feature.properties.f3 === "Площадь работ") {
           return {
             weight: 1.5,
             color: "#000",
@@ -393,19 +424,19 @@ export default {
             "<table class='table'>" +
             "</td></tr><br>" +
             "<tr><th>ПИ</th><td>" +
-            feature.properties.f6 +
-            "</td></tr>" +
-            "<tr><th>Статус</th><td>" +
-            feature.properties.f2 +
-            "</td></tr>" +
-            "<tr><th>Категория ресурсов</th><td>" +
             feature.properties.f5 +
             "</td></tr>" +
-            "<tr><th>Примечание</th><td>" +
+            "<tr><th>Статус</th><td>" +
+            feature.properties.f3 +
+            "</td></tr>" +
+            "<tr><th>Категория ресурсов</th><td>" +
             feature.properties.f7 +
             "</td></tr>" +
+            "<tr><th>Примечание</th><td>" +
+            feature.properties.f6 +
+            "</td></tr>" +
             '<tr><th>Ссылка</th><td><a href="' +
-            feature.properties.f3 +
+            feature.properties.f2 +
             '" target ="_blank">перейти к материалам</td></tr>',
           "</table></div>",
           { permanent: false, sticky: true }
@@ -437,16 +468,21 @@ export default {
   },
   created() {
     axios
-      .all([axios.get("http://localhost:3000/api/aprgeojson")])
+      .all([
+        axios.get("http://localhost:3000/api/aprgeojson"),
+        axios.get("http://localhost:3000/api/prgeojson"),
+      ])
       .then((resArr) => {
         console.log(resArr[0].data);
         this.error = null;
         this.geojson = resArr[0].data;
+        this.protocols = resArr[1].data;
         this.overlay = false;
       })
       .catch((err) => {
         console.log(err);
         this.geojson = null;
+        this.protocols = null;
         this.error = "Can`t find this Json";
       });
     this.$on("changeButton", (value) => {

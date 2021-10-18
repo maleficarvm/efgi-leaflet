@@ -215,10 +215,10 @@ td {
   text-align: center !important;
 }
 .wrapper-table {
-  margin: 15px 0px 0px 0px;
+  margin: 30px 0px 0px 0px;
 }
 .wrapper-simple-table {
-  margin: 20px;
+  margin: 0px;
 }
 .v-select__slot {
   height: 25px;
