@@ -184,6 +184,7 @@ export default {
     LControlPolylineMeasure,
     "l-wms-tile-layer": LWMSTileLayer,
   },
+  transition: "fade",
   data() {
     return {
       map: null,

@@ -4,29 +4,31 @@
       <v-card>
         <v-card-title>
           <p>
-            Фонд ЦНИГРИ. Сводная таблица объектов учета в аналоговом виде
+            Фонд ЦНИГРИ. Сводная таблица оцифрованных объектов учета фондовых
+            материалов (1928-2020гг.)
           </p>
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            label="Поиск по фондовым материалам ЕБГИ..."
+            label="Поиск по реестру объектов учета ЕБГИ..."
             single-line
             hide-details
           ></v-text-field>
         </v-card-title>
+
         <v-data-table
           :headers="headers"
           :items="items"
           :single-expand="singleExpand"
           :expanded.sync="expanded"
-          item-key="OBJECTID"
+          item-key="oid"
           show-expand
           fixed-header
-          height="75vh"
+          height="77vh"
           class="elevation-1"
           :footer-props="{
-            'items-per-page-options': [50, 200, 500],
+            'items-per-page-options': [50, 100, 200],
             showFirstLastPage: true,
             firstIcon: 'mdi-arrow-collapse-left',
             lastIcon: 'mdi-arrow-collapse-right',
@@ -47,43 +49,46 @@
               <div class="wrapper-simple-table" data-app>
                 <v-simple-table>
                   <template v-slot:default>
-                    <thead class="col-4">
+                    <thead>
                       <tr>
                         <th>№ п.п.</th>
-                        <th>Тип документа</th>
-                        <th>Раздел</th>
+                        <th>Вид объекта учета</th>
                         <th>
                           Сведения о наличии ограничений оборота передаваемых
                           данных
                         </th>
-                        <th>Государство</th>
+                        <th>Права на материалы объекта</th>
                         <th>
-                          Количество страниц
+                          Наименование регламентирующего документа (наименование
+                          работ)
                         </th>
                         <th>
                           Геологические объекты, ассоциируемые с объектом учета
                         </th>
                         <th>Полезные ископаемые попутные</th>
-                        <th>Тип месторождения</th>
+                        <th>Группа полезных ископаемых</th>
                         <th>Местоположение</th>
                         <th>Номенклатуры листов НД</th>
                         <th>Дополнительные сведения о местоположении</th>
+                        <th>Тип информации</th>
+                        <th>Государственная регистрация</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{{ item.OBJECTID }}</td>
-                        <td>{{ item.TIP }}</td>
-                        <td>{{ item.RAZDEL }}</td>
-                        <td>{{ item.SECR }}</td>
-                        <td>{{ item.GOSVO }}</td>
+                        <td>{{ item.oid }}</td>
+                        <td>{{ item.obj_type }}</td>
+                        <td>{{ item.obj_restrict }}</td>
+                        <td>{{ item.obj_rights }}</td>
                         <td>{{ item.obj_rdoc_name }}</td>
-                        <td>{{ item.SELFOBJ }}</td>
-                        <td>{{ item.METAL_S }}</td>
-                        <td>{{ item.TYPEMST }}</td>
-                        <td>{{ item.OBLST_S }}</td>
-                        <td>{{ item.NOMALL }}</td>
-                        <td>{{ item.MAINOBJ }}</td>
+                        <td>{{ item.obj_assoc_geol }}</td>
+                        <td>{{ item.obj_supl_min }}</td>
+                        <td>{{ item.obj_group_min }}</td>
+                        <td>{{ item.spat_loc }}</td>
+                        <td>{{ item.spat_num_grid }}</td>
+                        <td>{{ item.spat_toponim }}</td>
+                        <td>{{ item.inf_type }}</td>
+                        <td>{{ item.path_others }}</td>
                       </tr>
                     </tbody>
                   </template>
@@ -91,9 +96,19 @@
               </div>
             </td>
           </template>
+          <template v-slot:[`item.path_cloud`]="{ value }">
+            <v-btn class="mx-1" fab x-small @click="onButtonClickCloud(value)">
+              <v-icon dark>mdi-application-import</v-icon>
+            </v-btn>
+          </template>
+          <template v-slot:[`item.oid`]="{ value }">
+            <v-btn class="mx-1" fab x-small @click="onButtonClick(value)">
+              <v-icon dark>mdi-map-search-outline</v-icon>
+            </v-btn>
+          </template>
         </v-data-table>
         <div class="text-center">
-          <v-btn color="ma-2" dark href="#">
+          <v-btn color="ma-2" dark href="Fund.rar">
             Скачать Excel
           </v-btn>
           <v-btn color="ma-2" dark href="Application.docx">
@@ -107,6 +122,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -114,62 +130,75 @@ export default {
       expanded: [],
       singleExpand: false,
       loadTable: true,
+      value: "",
       options: {},
       search: "",
       headers: [
-        { text: "Название объекта", value: "NAZVANIE", width: "350" },
-        { text: "Автор (авторы)", value: "GLAVTOR", width: "300" },
-        { text: "Год издания", value: "GOD_IZD", width: "80" },
+        { text: "Показать на карте", value: "oid", sortable: false },
+        {
+          text: "Перейти в Nextcloud",
+          value: "path_cloud",
+          width: "100",
+          sortable: false,
+        },
+        { text: "Директория хранения", value: "stor_folder", width: "130" },
+        { text: "Название объекта", value: "obj_name", width: "280" },
+        { text: "Автор (авторы)", value: "obj_authors", width: "150" },
+        { text: "Год составления объекта", value: "obj_year", width: "80" },
         {
           text: "Инвентарные номера в каталогах учета",
-          value: "INV_NO",
+          value: "obj_assoc_inv_nums",
           width: "150",
         },
         {
           text: "Полезные ископаемые основные",
-          value: "METAL",
+          value: "obj_main_min",
           width: "120",
         },
-        { text: "Предмет", value: "Predmet", width: "100" },
-        { text: "Организации", value: "IZD_ORG", width: "100" },
+        { text: "Вид работ", value: "type_of_work", width: "100" },
+        { text: "Организации", value: "obj_orgs", width: "100" },
         {
           text: "Сведения о привязке в рамках АТД и АТЕ",
-          value: "OBLST",
+          value: "spat_atd_ate",
         },
         {
-          text: "Участок, площадь, РУ, РП, месторождение",
-          value: "MSTORS",
-          width: "250",
+          text: "Ключевые слова",
+          value: "obj_terms",
+          width: "230",
         },
       ],
       items: [],
     };
   },
+  computed: {
+    ...mapGetters(["TEXT"]),
+  },
   created() {
     axios
-      .get("http://localhost:3000/api/fund", {})
+      .get("http://localhost:3000/api/json")
       .then((res) => {
+        console.log(res.data);
         this.items = res.data;
-        this.loadTable = false;
+        this.loadTable = true;
       })
       .catch((error) => {
         console.log(error.response);
-        this.loadTable = true;
       });
+  },
+  mounted() {
+    console.log("version 2.3 beta");
+    console.log("Get text >>> " + this.TEXT + " <<<");
+    this.search = this.TEXT;
   },
   methods: {
     onButtonClickCloud(value) {
       window.open(value, "_blank");
     },
     onButtonClick(value) {
-      console.log("click on " + value + " item");
+      this.value = "";
       this.$router.push("/");
-      this.$emit("on-click", value);
-    },
-    getColor(obj_year) {
-      if (obj_year > 1934) return "orange";
-      else if (obj_year > 1950) return "red";
-      else return "grey";
+      this.$store.commit("SET_VALUE", value);
+      console.log("click on " + value + " item");
     },
   },
 };
@@ -186,10 +215,10 @@ td {
   text-align: center !important;
 }
 .wrapper-table {
-  margin: 15px 0px 0px 0px;
+  margin: 30px 0px 0px 0px;
 }
 .wrapper-simple-table {
-  margin: 20px;
+  margin: 0px;
 }
 .v-select__slot {
   height: 25px;

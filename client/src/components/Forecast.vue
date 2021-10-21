@@ -23,7 +23,7 @@
           item-key="oid"
           show-expand
           fixed-header
-          height="75vh"
+          height="77vh"
           class="elevation-1"
           :footer-props="{
             'items-per-page-options': [50, 100, 200],
@@ -152,15 +152,11 @@ export default {
   },
   created() {
     axios
-      .all([
-        get("http://localhost:3000/api/apr"),
-        get("http://localhost:3000/api/protocols"),
-      ])
-      .then((resArr) => {
-        this.items = resArr[0].data;
-        this.protocols = resArr[1].data;
+      .get("http://localhost:3000/api/apr")
+      .then((res) => {
+        this.items = res.data;
         this.loadTable = false;
-        console.log(resArr[0], resArr[1]);
+        console.log(resArr);
       })
       .catch((error) => {
         console.log(error.response);
