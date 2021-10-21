@@ -7,5 +7,5 @@ Disallow: /*?*
 
 User-agent: Yandex
 Disallow: /*?*
-Host: http://localhost:8081/
-Sitemap: http://localhost:8081/sitemap.xml
+Host: http://localhost:8080/
+Sitemap: http://localhost:8080/sitemap.xml
