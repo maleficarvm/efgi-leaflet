@@ -3,17 +3,17 @@ const cors = require("cors"); // require Express
 const router = express.Router(); // setup usage of the Express router engine
 /* PostgreSQL and PostGIS module and connection setup */
 const { Client, Query } = require("pg");
-const { MongoClient } = require("mongodb");
-// or as an es module:
-// import { MongoClient } from 'mongodb'
-// Initialize connection once
-MongoClient.connect(
-  "mongodb://192.168.6.201:27017/admin",
-  function (err, database) {
-    if (err) return console.error(err);
-    db = database;
-  }
-);
+// const { MongoClient } = require("mongodb");
+// // or as an es module:
+// // import { MongoClient } from 'mongodb'
+// // Initialize connection once
+// MongoClient.connect(
+//   "mongodb://192.168.6.201:27017/admin",
+//   function (err, database) {
+//     if (err) return console.error(err);
+//     db = database;
+//   }
+// );
 // Setup connection
 const username = "postgres"; // sandbox username
 const password = "postgres"; // read only privileges on our table
