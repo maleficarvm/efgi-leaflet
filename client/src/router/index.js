@@ -1,14 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Map from "../views/Map.vue";
+import Info from "../views/Info.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Map",
-    component: Map,
+    name: "Info",
+    component: Info,
   },
   {
     path: "/table",
@@ -16,43 +16,42 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Table.vue"),
+    component: () => import("../views/Table.vue"),
+  },
+  {
+    path: "/map",
+    name: "Map",
+    component: () => import("../views/Map.vue"),
   },
   {
     path: "/resources",
     name: "Resources",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Resources.vue"),
-  },
-  {
-    path: "/info",
-    name: "Info",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Info.vue"),
+    component: () => import("../views/Resources.vue"),
   },
   {
     path: "/forecast",
     name: "Forecast",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Forecast.vue"),
+    component: () => import("../views/Forecast.vue"),
   },
   {
     path: "/fund",
     name: "Fund",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Fund.vue"),
+    component: () => import("../views/Fund.vue"),
   },
   {
     path: "*",
     name: "404",
-    component: () => import(/* webpackChunkName: "about" */ "../views/404.vue"),
+    component: () => import("../views/404.vue"),
   },
   {
     path: "/login",
     name: "Login",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/LoginPage.vue"),
+    component: () => import("../views/LoginPage.vue"),
+  },
+  {
+    path: "/signup",
+    name: "Signup",
+    component: () => import("../views/Signup.vue"),
   },
 ];
 

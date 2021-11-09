@@ -32,7 +32,7 @@
                 @click:append="passwordShow = !passwordShow"
                 required
               />
-              <v-switch label="Запомнить меня" color="indigo"></v-switch>
+              <!-- <v-switch label="Запомнить меня" color="indigo"></v-switch> -->
             </v-card-text>
             <v-card-actions class="justify-center">
               <v-btn
@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Login",
   data: () => ({
@@ -75,19 +77,28 @@ export default {
       (v) =>
         (v && v.length >= 6) || "Пароль должен содержать не менее 6 символов",
     ],
+    error: "",
   }),
   methods: {
     submitHandler() {
       if (this.$refs.form.validate()) {
-        let email = this.email;
-        let password = this.password;
+        let user = {
+          email: this.email,
+          password: this.password,
+        };
         this.loading = true;
-        this.$store.dispatch("login", { email, password }).then(() => {
-          this.$router.push("/").catch((err) => {
-            console.log(err);
+        axios.post("http://localhost:5000/login", user).then((res) => {
+          // if successful
+          if (res.status === 200) {
+            localStorage.setItem("token", res.data.token);
+            this.$router.push("/");
+          }
+          (err) => {
+            console.log(err.response);
+            this.error = err.response.data.error;
             this.loading = false;
             this.invalidbar = true;
-          });
+          };
         });
       }
     },
@@ -102,7 +113,7 @@ input {
 
 .background {
   background-image: url(../img/banner_main_plus.gif) !important;
-  height: 300px;
+  height: 250px;
   width: 100%;
   display: block;
   position: absolute;

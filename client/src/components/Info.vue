@@ -21,7 +21,7 @@
               Учет, накопление, безопасное хранение и предоставление сотрудникам
               ФГБУ "ЦНИГРИ" геологической информации
             </div>
-            <v-btn class="lighten-2 mt-5" large href="/">
+            <v-btn class="lighten-2 mt-5" large href="/map">
               Начать
             </v-btn>
           </v-layout>
@@ -245,6 +245,7 @@
 import baseSection from "@/components/UI/Section.vue";
 import baseSectionHeading from "@/components/UI/SectionHeading.vue";
 import baseImg from "@/components/UI/Img.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -252,12 +253,36 @@ export default {
     baseSectionHeading,
     baseImg,
   },
-
-  name: "App",
+  name: "Info",
   data: function() {
     return {
       title: "ugib",
+      name: "",
+      email: "",
     };
+  },
+  created() {
+    if (localStorage.getItem("token") === null) {
+      this.$router.push("/login");
+    }
+  },
+  mounted() {
+    axios
+      .get("http://localhost:5000/user", {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        this.name = res.data.user.name;
+        this.email = res.data.user.email;
+      });
+  },
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.$router.push("/login");
+    },
   },
 };
 </script>

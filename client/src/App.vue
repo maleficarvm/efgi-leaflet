@@ -73,10 +73,10 @@ export default {
   },
   data() {
     return {
-      isModalVisible: true,
+      isModalVisible: false,
       offset: true,
       items: [
-        { title: "Карта объектов учета", link: "/" },
+        { title: "Карта объектов учета", link: "/map" },
         { title: "Карта прогнозных ресурсов", link: "/resources" },
         { title: "Реестр объектов учета", link: "/table" },
         { title: "Реестр прогнозных ресурсов", link: "/forecast" },

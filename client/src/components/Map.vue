@@ -158,6 +158,8 @@ import {
   LTileLayer,
   LControlLayers,
   LControlScale,
+
+  
   LWMSTileLayer,
   LMarker,
   LGeoJson,
@@ -359,7 +361,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["VALUE"]),
+    ...mapGetters(["value"]),
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
@@ -374,97 +376,97 @@ export default {
       return (feature) => {
         if (feature.properties.f4 == "Научно-методические работы") {
           return {
-            weight: 1.5,
+            weight: 0.7,
             color: "#D2691E",
             opacity: 1,
             fillColor: "#D2691E",
-            fillOpacity: 0.07,
+            fillOpacity: 0.04,
           };
         } else if (feature.properties.f4 == "Региональные работы") {
           return {
-            weight: 1.5,
+            weight: 0.7,
             color: "#800080",
             opacity: 1,
             fillColor: "#800080",
-            fillOpacity: 0.07,
+            fillOpacity: 0.04,
           };
         } else if (feature.properties.f4 == "Поисковые работы") {
           return {
-            weight: 1.5,
+            weight: 0.7,
             color: "#800000",
             opacity: 1,
             fillColor: "#800000",
-            fillOpacity: 0.07,
+            fillOpacity: 0.04,
           };
         } else if (
           feature.properties.f4 == "Научно-технологические исследования"
         ) {
           return {
-            weight: 1.5,
+            weight: 0.7,
             color: "#FF00FF",
             opacity: 1,
             fillColor: "#FF00FF",
-            fillOpacity: 0.07,
+            fillOpacity: 0.04,
           };
         } else if (feature.properties.f4 == "Оценочные работы") {
           return {
-            weight: 1.5,
+            weight: 0.7,
             color: "#C71585",
             opacity: 1,
             fillColor: "#C71585",
-            fillOpacity: 0.07,
+            fillOpacity: 0.04,
           };
         } else if (feature.properties.f4 == "Поисково-оценочные работы") {
           return {
-            weight: 1.5,
+            weight: 0.7,
             color: "#008000",
             opacity: 1,
             fillColor: "#008000",
-            fillOpacity: 0.07,
+            fillOpacity: 0.04,
           };
         } else if (feature.properties.f4 == "Геохимические исследования") {
           return {
-            weight: 1.5,
+            weight: 0.7,
             color: "#008080",
             opacity: 1,
             fillColor: "#008080",
-            fillOpacity: 0.07,
+            fillOpacity: 0.04,
           };
         } else if (feature.properties.f4 == "Освоение") {
           return {
-            weight: 1.5,
+            weight: 0.7,
             color: "#008080",
             opacity: 1,
             fillColor: "#008080",
-            fillOpacity: 0.07,
+            fillOpacity: 0.04,
           };
         } else if (feature.properties.f4 == "Минералогические исследования") {
           return {
-            weight: 1.5,
+            weight: 0.7,
             color: "#8B4513",
             opacity: 1,
             fillColor: "#8B4513",
-            fillOpacity: 0.07,
+            fillOpacity: 0.04,
           };
         } else if (feature.properties.f4 == "Геофизические исследования") {
           return {
-            weight: 1.5,
+            weight: 0.7,
             color: "#B8860B",
             opacity: 1,
             fillColor: "#B8860B",
-            fillOpacity: 0.07,
+            fillOpacity: 0.04,
           };
         } else if (feature.properties.f4 == "Прогнозно-поисковые работы") {
           return {
-            weight: 1.5,
+            weight: 0.7,
             color: "#000",
             opacity: 1,
             fillColor: "#000",
-            fillOpacity: 0.07,
+            fillOpacity: 0.04,
           };
         } else {
           return {
-            weight: 1.5,
+            weight: 0.7,
             color: "#FF0000",
             opacity: 1,
             fillColor: "#FFA500",
@@ -585,8 +587,8 @@ export default {
   },
   mounted() {
     console.log("version 2.3 beta");
-    console.log("Get value >>> " + this.VALUE + " <<<");
-    if (this.VALUE != "") {
+    console.log("Get value >>> " + this.value + " <<<");
+    if (this.value != "") {
       this.$refs.map.mapObject.fitBounds(this.bounds);
     }
   },
@@ -611,7 +613,7 @@ export default {
     goToTable(text) {
       this.text = "";
       this.$router.push("/table");
-      this.$store.commit("SET_TEXT", text);
+      this.$store.commit("setText", text);
       console.log("click on " + text + " item");
     },
   },

@@ -171,7 +171,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["TEXT"]),
+    ...mapGetters(["text"]),
   },
   created() {
     axios
@@ -187,8 +187,8 @@ export default {
   },
   mounted() {
     console.log("version 2.3 beta");
-    console.log("Get text >>> " + this.TEXT + " <<<");
-    this.search = this.TEXT;
+    console.log("Get text >>> " + this.text + " <<<");
+    this.search = this.text;
   },
   methods: {
     onButtonClickCloud(value) {
@@ -197,7 +197,7 @@ export default {
     onButtonClick(value) {
       this.value = "";
       this.$router.push("/");
-      this.$store.commit("SET_VALUE", value);
+      this.$store.commit("setValue", value);
       console.log("click on " + value + " item");
     },
   },

@@ -332,7 +332,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["VALUEAPR"]),
+    ...mapGetters(["valueApr"]),
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
@@ -343,28 +343,20 @@ export default {
         if (feature.properties.f3 === "Апробировано") {
           return {
             weight: 1.5,
-            color: "#FF0000",
+            color: "#D2691E",
             opacity: 1,
-            fillColor: "#FF0000",
+            fillColor: "#D2691E",
             fillOpacity: 0.07,
           };
         } else if (feature.properties.f3 === "Сняты") {
           return {
             weight: 1.5,
-            color: "#FF4500",
+            color: "#800080",
             opacity: 1,
-            fillColor: "#FF4500",
+            fillColor: "#800080",
             fillOpacity: 0.07,
           };
         } else if (feature.properties.f3 === "Отклонено") {
-          return {
-            weight: 1.5,
-            color: "#8B008B",
-            opacity: 1,
-            fillColor: "#8B008B",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 === "Некондиция") {
           return {
             weight: 1.5,
             color: "#800000",
@@ -372,28 +364,36 @@ export default {
             fillColor: "#800000",
             fillOpacity: 0.07,
           };
+        } else if (feature.properties.f3 === "Некондиция") {
+          return {
+            weight: 1.5,
+            color: "#FF00FF",
+            opacity: 1,
+            fillColor: "#FF00FF",
+            fillOpacity: 0.07,
+          };
         } else if (feature.properties.f3 === "Внутренний учет ЦНИГРИ") {
           return {
             weight: 1.5,
-            color: "#8B008B",
+            color: "#C71585",
             opacity: 1,
-            fillColor: "#8B008B",
+            fillColor: "#C71585",
             fillOpacity: 0.07,
           };
         } else if (feature.properties.f3 === "Переоценены, другие координаты") {
           return {
             weight: 1.5,
-            color: "#000",
+            color: "#008000",
             opacity: 1,
-            fillColor: "#000",
+            fillColor: "#008000",
             fillOpacity: 0.07,
           };
         } else if (feature.properties.f3 === "Не апробировано") {
           return {
             weight: 1.5,
-            color: "#000",
+            color: "#008080",
             opacity: 1,
-            fillColor: "#000",
+            fillColor: "#008080",
             fillOpacity: 0.07,
           };
         } else if (feature.properties.f3 === "Исключены") {
@@ -407,11 +407,19 @@ export default {
         } else if (feature.properties.f3 === "Площадь работ") {
           return {
             weight: 1.5,
-            color: "#000",
+            color: "#8B4513",
             opacity: 1,
-            fillColor: "#000",
+            fillColor: "#8B4513",
             fillOpacity: 0.07,
           };
+        } else {
+          return {
+            weight: 1.5,
+            color: "#FF0000",
+            opacity: 1,
+            fillColor: "#FF0000",
+            fillOpacity: 0.07,
+          }
         }
       };
     },
@@ -491,8 +499,8 @@ export default {
   },
   mounted() {
     console.log("version 2.3 beta");
-    console.log("Get value apr >>> " + this.VALUEAPR + " <<<");
-    if (this.VALUEAPR != "") {
+    console.log("Get value apr >>> " + this.valueApr + " <<<");
+    if (this.valueApr != "") {
       this.$refs.map.mapObject.fitBounds(this.bounds);
     }
   },
