@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const User = require("../routes/models/user");
@@ -13,6 +12,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+const port = process.env.PORT || 5000;
 
 app.post("/signup", (req, res, next) => {
   const newUser = new User({
@@ -33,8 +34,6 @@ app.post("/signup", (req, res, next) => {
     });
   });
 });
-
-const port = process.env.PORT || 5000;
 
 app.post("/login", (req, res, next) => {
   User.findOne({ email: req.body.email }, (err, user) => {

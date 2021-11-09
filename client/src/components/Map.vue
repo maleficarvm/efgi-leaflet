@@ -158,8 +158,6 @@ import {
   LTileLayer,
   LControlLayers,
   LControlScale,
-
-  
   LWMSTileLayer,
   LMarker,
   LGeoJson,
@@ -558,6 +556,9 @@ export default {
     },
   },
   created() {
+    if (localStorage.getItem("token") === null) {
+      this.$router.push("/login");
+    }
     axios
       .all([
         axios.get("http://localhost:3000/api/geojson"),
@@ -588,6 +589,7 @@ export default {
   mounted() {
     console.log("version 2.3 beta");
     console.log("Get value >>> " + this.value + " <<<");
+
     if (this.value != "") {
       this.$refs.map.mapObject.fitBounds(this.bounds);
     }

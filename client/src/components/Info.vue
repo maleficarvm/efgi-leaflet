@@ -24,6 +24,9 @@
             <v-btn class="lighten-2 mt-5" large href="/map">
               Начать
             </v-btn>
+            <v-btn class="lighten-2 mt-5" large @click="logout">
+              Выйти
+            </v-btn>
           </v-layout>
         </v-parallax>
       </section>
@@ -214,14 +217,14 @@
             <div class="headline padding">Основано на открытых технологиях</div>
           </v-card-title>
           <v-slide-group>
-            <template v-for="n in 8">
+            <template v-for="n in 9">
               <v-slide-item :key="n" class="align-self-center">
                 <baseImg
                   :src="require(`@/img/logo-${n}.png`)"
                   color="grey"
                   contain
                   height="40"
-                  width="128"
+                  width="125"
                 />
               </v-slide-item>
               <v-responsive
@@ -263,6 +266,7 @@ export default {
   },
   created() {
     if (localStorage.getItem("token") === null) {
+      console.log("True!");
       this.$router.push("/login");
     }
   },

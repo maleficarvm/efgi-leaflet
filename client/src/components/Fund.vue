@@ -146,6 +146,9 @@ export default {
     };
   },
   created() {
+    if (localStorage.getItem("token") === null) {
+      this.$router.push("/login");
+    }
     axios
       .get("http://localhost:3000/api/fund", {})
       .then((res) => {

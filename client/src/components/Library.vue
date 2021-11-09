@@ -106,6 +106,10 @@ export default {
     };
   },
   created() {
+    if (localStorage.getItem("token") === null) {
+      console.log("True!");
+      this.$router.push("/login");
+    }
     axios
       .get("http://localhost:3000/api/library", {})
       .then((res) => {

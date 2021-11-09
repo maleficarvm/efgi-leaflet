@@ -82,7 +82,7 @@ export default {
         { title: "Реестр прогнозных ресурсов", link: "/forecast" },
         { title: "Реестр фондовых материалов", link: "/fund" },
       ],
-      links: [{ title: "О Едином Банке", url: "/info" }],
+      links: [{ title: "О Едином Банке", url: "/" }],
     };
   },
   methods: {

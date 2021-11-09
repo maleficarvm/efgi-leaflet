@@ -174,6 +174,9 @@ export default {
     ...mapGetters(["text"]),
   },
   created() {
+    if (localStorage.getItem("token") === null) {
+      this.$router.push("/login");
+    }
     axios
       .get("http://localhost:3000/api/json")
       .then((res) => {
