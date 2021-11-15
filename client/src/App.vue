@@ -15,9 +15,16 @@
                   class="navbar-link"
                   :title="link.title"
                   :to="link.url"
-                  >{{ link.title }}</router-link
-                >
+                  >{{ link.title }}
+                </router-link>
               </li>
+              <button
+                class="navbar-item"
+                style="color: white; font-weight: 600"
+                @click="logout"
+              >
+                Выйти
+              </button>
               <v-toolbar-title data-app>
                 <v-menu bottom left dark :offset-x="offset">
                   <template v-slot:activator="{ on: menu, attrs }">
@@ -91,6 +98,10 @@ export default {
     },
     closeModal() {
       this.isModalVisible = false;
+    },
+    logout() {
+      localStorage.clear();
+      this.$router.push("/login");
     },
   },
 };

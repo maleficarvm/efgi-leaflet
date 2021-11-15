@@ -189,7 +189,7 @@ export default {
       });
   },
   mounted() {
-    console.log("version 2.3 beta");
+    console.log("version 2.4 beta");
     console.log("Get text >>> " + this.text + " <<<");
     this.search = this.text;
   },

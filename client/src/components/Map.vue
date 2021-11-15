@@ -87,16 +87,16 @@
               `&nbsp; Leaflet</span>`
           "
         ></l-control-attribution>
-        <l-control position="bottomleft">
+        <!-- <l-control position="bottomleft">
           <v-btn class="ma-2 btn__default" dark @click="zoomToGeojson">
             zoomToGeoJSON
           </v-btn>
-        </l-control>
-        <l-control position="bottomleft">
+        </l-control> -->
+        <!-- <l-control position="bottomleft">
           <v-btn class="ma-2 btn__default" dark @click="goToTable">
             goToTable
           </v-btn>
-        </l-control>
+        </l-control> -->
         <l-control position="bottomright">
           <v-btn class="ma-2 btn__default" dark href="Application.docx">
             Скачать форму заявки
@@ -587,7 +587,7 @@ export default {
       });
   },
   mounted() {
-    console.log("version 2.3 beta");
+    console.log("version 2.4 beta");
     console.log("Get value >>> " + this.value + " <<<");
 
     if (this.value != "") {

@@ -501,7 +501,7 @@ export default {
     });
   },
   mounted() {
-    console.log("version 2.3 beta");
+    console.log("version 2.4 beta");
     console.log("Get value apr >>> " + this.valueApr + " <<<");
     if (this.valueApr != "") {
       this.$refs.map.mapObject.fitBounds(this.bounds);
