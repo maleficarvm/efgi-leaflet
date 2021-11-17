@@ -51,7 +51,7 @@
       Корректный логин и пароль
     </v-snackbar>
     <v-snackbar top color="red" v-model="invalidbar">
-      Некорректный логин и пароль
+      Некорректный логин или пароль
     </v-snackbar>
   </v-app>
 </template>
@@ -75,7 +75,7 @@ export default {
     passwordRules: [
       (v) => !!v || "Введите пароль",
       (v) =>
-        (v && v.length >= 6) || "Пароль должен содержать не менее 6 символов",
+        (v && v.length >= 6) || "Пароль должен содержать не менее 8 символов",
     ],
     error: "",
   }),
@@ -86,20 +86,28 @@ export default {
           email: this.email,
           password: this.password,
         };
-        this.loading = true;
         axios.post("http://localhost:5000/login", user).then((res) => {
           // if successful
           if (res.status === 200) {
             localStorage.setItem("token", res.data.token);
-            this.$router.push("/");
+            this.loading = true;
+            setTimeout(() => {
+              this.snackbar = true;
+            }, 1000);
+            setTimeout(() => {
+              this.$router.push("/");
+            }, 2000);
           }
           (err) => {
             console.log(err.response);
             this.error = err.response.data.error;
-            this.loading = false;
-            this.invalidbar = true;
           };
         });
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+          this.invalidbar = true;
+        }, 2000);
       }
     },
   },
