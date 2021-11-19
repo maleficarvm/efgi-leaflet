@@ -80,17 +80,25 @@ export default {
   },
   data() {
     return {
+      events: ["click", "mousemove", "mousedown", "scroll", "keypress", "load"],
+      logoutTimer: null,
       isModalVisible: false,
       offset: true,
       items: [
         { title: "Карта объектов учета", link: "/map" },
-        { title: "Карта прогнозных ресурсов", link: "/resources" },
+        { title: "Карта протоколов апробации", link: "/resources" },
         { title: "Реестр объектов учета", link: "/table" },
         { title: "Реестр прогнозных ресурсов", link: "/forecast" },
         { title: "Реестр фондовых материалов", link: "/fund" },
       ],
       links: [{ title: "О Едином Банке", url: "/" }],
     };
+  },
+  mounted() {
+    this.events.forEach(function(event) {
+      window.addEventListener(event, this.resetTimer);
+    }, this);
+    this.setTimers();
   },
   methods: {
     showModal() {
@@ -102,6 +110,13 @@ export default {
     logout() {
       localStorage.clear();
       this.$router.push("/login");
+    },
+    setTimers: function() {
+      this.logoutTimer = setTimeout(this.logout, 1000 * 60 * 60);
+    },
+    resetTimer: function() {
+      clearTimeout(this.logoutTimer);
+      this.setTimers();
     },
   },
 };

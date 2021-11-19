@@ -67,14 +67,6 @@ router.get("/", function (req, res, next) {
 
 module.exports = router;
 
-router.get("/api/login", cors(), function (req, res, next) {
-  db.collection("users", function (err, collection) {
-    collection.find({}).toArray(function (err, data) {
-      res.json(data);
-    });
-  });
-});
-
 /* GET Postgres GeoJSON data */
 router.get("/api/geojson", cors(), function (req, res) {
   const client = new Client(conString);

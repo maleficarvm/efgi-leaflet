@@ -173,7 +173,7 @@ export default {
     onButtonClick(value) {
       this.value = "";
       this.$router.push("/resources");
-      this.$store.commit("SET_VALUEAPR", value);
+      this.$store.commit("setValueApr", value);
       console.log("click on " + value + " item");
     },
   },

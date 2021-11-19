@@ -20,6 +20,7 @@ app.post("/signup", (req, res, next) => {
     email: req.body.email,
     name: req.body.name,
     password: bcrypt.hashSync(req.body.password, 10),
+    role: req.body.role,
   });
   console.log(newUser);
   newUser.save((err) => {
@@ -57,10 +58,11 @@ app.post("/login", (req, res, next) => {
       });
     }
     //all is correct - craete a JWT token and go to landing
-    let token = jwt.sign({ userId: user._id }, "secretkey ");
+    let token = jwt.sign({ userId: user._id }, "secretkey");
     return res.status(200).json({
       title: "login success!",
       token: token,
+      role: user.role,
     });
   });
 });

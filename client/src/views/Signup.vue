@@ -1,10 +1,13 @@
 <template>
   <div>
-    NAME:<input type="text" v-model="name" /> EMAIL:<input
-      type="email"
-      v-model="email"
+    NAME:<input type="text" v-model="name" /> ROLE:<input
+      type="text"
+      v-model="role"
     />
-    PASSWORD:<input type="password" v-model="password" />
+    EMAIL:<input type="email" v-model="email" /> PASSWORD:<input
+      type="password"
+      v-model="password"
+    />
     <button type="submit" @click="signup">Signup!</button> {{ error }}
   </div>
 </template>
@@ -19,6 +22,7 @@ export default {
       name: "",
       email: "",
       password: "",
+      role: "",
       error: "",
     };
   },
@@ -28,6 +32,7 @@ export default {
         name: this.name,
         email: this.email,
         password: this.password,
+        role: this.role,
       };
       console.log(newUser);
       axios.post("http://localhost:5000/signup", newUser).then(

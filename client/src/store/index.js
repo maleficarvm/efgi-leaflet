@@ -8,6 +8,7 @@ export default new Vuex.Store({
     value: "",
     valueApr: "",
     text: "",
+    role: "",
   },
   getters: {
     value: (state) => {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     text: (state) => {
       return state.text;
     },
+    role: () => {
+      return state.role;
+    },
   },
   mutations: {
     setValue: (state, payload) => {
@@ -29,6 +33,9 @@ export default new Vuex.Store({
     },
     setText: (state, payload) => {
       state.text = payload;
+    },
+    setRole: (state, payload) => {
+      state.role = payload;
     },
   },
   actions: {},

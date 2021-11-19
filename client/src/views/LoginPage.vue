@@ -51,8 +51,11 @@
       Корректный логин и пароль
     </v-snackbar>
     <v-snackbar top color="red" v-model="invalidbar">
-      Некорректный логин или пароль
+      Некорректный логин или пароль.
     </v-snackbar>
+    <!-- <v-snackbar top color="yellow" v-model="warningbar">
+      Разрыв сессии. Войдите снова.
+    </v-snackbar> -->
   </v-app>
 </template>
 
@@ -75,8 +78,9 @@ export default {
     passwordRules: [
       (v) => !!v || "Введите пароль",
       (v) =>
-        (v && v.length >= 6) || "Пароль должен содержать не менее 8 символов",
+        (v && v.length >= 3) || "Пароль должен содержать не менее 8 символов",
     ],
+    role: "",
     error: "",
   }),
   methods: {
@@ -90,12 +94,14 @@ export default {
           // if successful
           if (res.status === 200) {
             localStorage.setItem("token", res.data.token);
+            this.$store.commit("setRole", res.data.role);
             this.loading = true;
             setTimeout(() => {
               this.snackbar = true;
-            }, 1000);
+            }, 500);
             setTimeout(() => {
-              this.$router.push("/");
+              /* this.$router.push("/"); */
+              console.log(res.data.role);
             }, 2000);
           }
           (err) => {
@@ -107,7 +113,7 @@ export default {
         setTimeout(() => {
           this.loading = false;
           this.invalidbar = true;
-        }, 2000);
+        }, 2500);
       }
     },
   },
