@@ -359,7 +359,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["value"]),
+    ...mapGetters(["valueMap"]),
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
@@ -588,11 +588,11 @@ export default {
   },
   mounted() {
     console.log("version 2.4 beta");
-    console.log("Get value >>> " + this.value + " <<<");
+    console.log("Get value >>> " + this.valueMap + " <<<");
 
-    if (this.value != "") {
+    /* if (this.valueMap != "") {
       this.$refs.map.mapObject.fitBounds(this.bounds);
-    }
+    } */
   },
   methods: {
     zoomUpdated(zoom) {
@@ -607,10 +607,10 @@ export default {
       this.$refs.map.mapObject.eachLayer(function(layer) {
         if (layer.feature != undefined) group.addLayer(layer);
       });
-      this.$refs.map.mapObject.flyToBounds(group.getBounds(), {
+      /* this.$refs.map.mapObject.flyToBounds(group.getBounds(), {
         duration: 2,
         padding: [10, 10],
-      });
+      }); */
     },
     goToTable(text) {
       this.text = "";

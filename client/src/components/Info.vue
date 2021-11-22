@@ -245,7 +245,6 @@
 import baseSection from "@/components/UI/Section.vue";
 import baseSectionHeading from "@/components/UI/SectionHeading.vue";
 import baseImg from "@/components/UI/Img.vue";
-import axios from "axios";
 
 export default {
   components: {
@@ -254,11 +253,10 @@ export default {
     baseImg,
   },
   name: "Info",
+
   data: function() {
     return {
       title: "ugib",
-      name: "",
-      email: "",
     };
   },
   created() {

@@ -5,14 +5,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    value: "",
+    valueMap: "",
     valueApr: "",
     text: "",
     role: "",
   },
   getters: {
     value: (state) => {
-      return state.value;
+      return state.valueMap;
     },
     valueApr: (state) => {
       return state.valueApr;
@@ -20,13 +20,13 @@ export default new Vuex.Store({
     text: (state) => {
       return state.text;
     },
-    role: () => {
+    role: (state) => {
       return state.role;
     },
   },
   mutations: {
-    setValue: (state, payload) => {
-      state.value = payload;
+    setValueMap: (state, payload) => {
+      state.valueMap = payload;
     },
     setValueApr: (state, payload) => {
       state.valueApr = payload;

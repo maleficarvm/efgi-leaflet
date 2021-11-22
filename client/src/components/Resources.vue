@@ -474,26 +474,28 @@ export default {
       };
     },
   },
-  beforCreate() {},
   created() {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
     axios
       .all([
-        /* axios.get("http://localhost:3000/api/aprgeojson"), */
+        axios.get("http://localhost:3000/api/aprgeojson"),
         axios.get("http://localhost:3000/api/prgeojson"),
       ])
       .then((resArr) => {
-        console.log(resArr[0].data);
         this.error = null;
-        /* this.geojson = resArr[0].data; */
-        this.protocols = resArr[0].data;
+        if (this.role == "chief") {
+          this.protocols = resArr[0].data;
+          console.log(resArr[0].data);
+        } else {
+          this.protocols = resArr[1].data;
+          console.log(resArr[1].data);
+        }
         this.overlay = false;
       })
       .catch((err) => {
         console.log(err);
-        /* this.geojson = null; */
         this.protocols = null;
         this.error = "Can`t find this Json";
       });
@@ -504,7 +506,7 @@ export default {
   mounted() {
     console.log("version 2.4 beta");
     console.log("Get value apr >>> " + this.valueApr + " <<<");
-    console.log(this.role);
+    console.log("Get role >>> " + this.role + " <<<");
     if (this.valueApr != "") {
       this.$refs.map.mapObject.fitBounds(this.bounds);
     }

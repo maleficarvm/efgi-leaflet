@@ -94,14 +94,14 @@ export default {
           // if successful
           if (res.status === 200) {
             localStorage.setItem("token", res.data.token);
-            this.$store.commit("setRole", res.data.role);
             this.loading = true;
             setTimeout(() => {
               this.snackbar = true;
             }, 500);
             setTimeout(() => {
-              /* this.$router.push("/"); */
-              console.log(res.data.role);
+              this.$store.commit("setRole", res.data.role);
+              this.$router.push("/");
+              /* console.log(res.data.role); */
             }, 2000);
           }
           (err) => {

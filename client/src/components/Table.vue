@@ -199,7 +199,7 @@ export default {
     },
     onButtonClick(value) {
       this.value = "";
-      this.$router.push("/");
+      this.$router.push("/map");
       this.$store.commit("setValue", value);
       console.log("click on " + value + " item");
     },
