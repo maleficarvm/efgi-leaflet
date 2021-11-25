@@ -96,15 +96,6 @@
         <l-control :position="'bottomright'">
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
         </l-control>
-
-        <!-- <l-geo-json
-          name="Прогнозные ресурсы"
-          :visible="false"
-          :geojson="geojson"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        /> -->
         <l-geo-json
           name="Протоколы"
           :visible="true"

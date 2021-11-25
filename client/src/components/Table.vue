@@ -200,7 +200,7 @@ export default {
     onButtonClick(value) {
       this.value = "";
       this.$router.push("/map");
-      this.$store.commit("setValue", value);
+      this.$store.commit("setValue", valueMap);
       console.log("click on " + value + " item");
     },
   },
