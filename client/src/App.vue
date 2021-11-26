@@ -88,7 +88,7 @@ export default {
         { title: "Карта объектов учета", link: "/map" },
         { title: "Карта протоколов апробации", link: "/resources" },
         { title: "Реестр объектов учета", link: "/table" },
-        { title: "Реестр прогнозных ресурсов", link: "/forecast" },
+        { title: "Реестр протоколов апробации", link: "/forecast" },
         { title: "Реестр фондовых материалов", link: "/fund" },
       ],
       links: [{ title: "О Едином Банке", url: "/" }],

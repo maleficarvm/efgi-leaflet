@@ -97,9 +97,73 @@
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
         </l-control>
         <l-geo-json
-          name="Протоколы"
+          name="Апробировано"
           :visible="true"
-          :geojson="protocols"
+          :geojson="l"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Сняты"
+          :visible="true"
+          :geojson="m"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Отклонено"
+          :visible="true"
+          :geojson="n"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Некондиция"
+          :visible="true"
+          :geojson="o"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Внутренний учет ЦНИГРИ"
+          :visible="true"
+          :geojson="p"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Переоценены, другие координаты"
+          :visible="true"
+          :geojson="r"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Не апробировано"
+          :visible="true"
+          :geojson="s"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Исключены"
+          :visible="true"
+          :geojson="t"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Площадь работ"
+          :visible="true"
+          :geojson="u"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -162,11 +226,16 @@ export default {
       ],
       show: true,
       overlay: true,
-      /* geojson: null, */
-      protocols: null,
-      layout1B: null,
-      layout200K: null,
-      layout100K: null,
+      l: null,
+      m: null,
+      n: null,
+      o: null,
+      p: null,
+      r: null,
+      s: null,
+      t: null,
+      u: null,
+      geojson: null,
       fillColor: "orange",
       baseProviders: [
         {
@@ -476,14 +545,82 @@ export default {
       ])
       .then((resArr) => {
         this.error = null;
-        if (this.role == "chief") {
-          this.protocols = resArr[0].data;
-          console.log(resArr[0].data);
-        } else {
-          this.protocols = resArr[1].data;
-          console.log(resArr[1].data);
-        }
         this.overlay = false;
+        if (this.role == "chief") {
+          const geojson = resArr[0].data.features;
+          console.log(geojson);
+          const l = geojson.filter((e) =>
+            e.properties.f3.includes("Апробировано")
+          );
+          this.l = l;
+          const m = geojson.filter((e) => e.properties.f3.includes("Сняты"));
+          this.m = m;
+          const n = geojson.filter((e) =>
+            e.properties.f3.includes("Отклонено")
+          );
+          this.n = n;
+          const o = geojson.filter((e) =>
+            e.properties.f3.includes("Некондиция")
+          );
+          this.o = o;
+          const p = geojson.filter((e) =>
+            e.properties.f3.includes("Внутренний учет ЦНИГРИ")
+          );
+          this.p = p;
+          const r = geojson.filter((e) =>
+            e.properties.f3.includes("Переоценены, другие координаты")
+          );
+          this.r = r;
+          const s = geojson.filter((e) =>
+            e.properties.f3.includes("Не апробировано")
+          );
+          this.s = s;
+          const t = geojson.filter((e) =>
+            e.properties.f3.includes("Исключены")
+          );
+          this.t = t;
+          const u = geojson.filter((e) =>
+            e.properties.f3.includes("Площадь работ")
+          );
+          this.u = u;
+        } else {
+          const geojson = resArr[1].data.features;
+          const l = geojson.filter((e) =>
+            e.properties.f3.includes("Апробировано")
+          );
+          this.l = l;
+          const m = geojson.filter((e) => e.properties.f3.includes("Сняты"));
+          this.m = m;
+          const n = geojson.filter((e) =>
+            e.properties.f3.includes("Отклонено")
+          );
+          this.n = n;
+          const o = geojson.filter((e) =>
+            e.properties.f3.includes("Некондиция")
+          );
+          this.o = o;
+          const p = geojson.filter((e) =>
+            e.properties.f3.includes("Внутренний учет ЦНИГРИ")
+          );
+          this.p = p;
+          const r = geojson.filter((e) =>
+            e.properties.f3.includes("Переоценены, другие координаты")
+          );
+          this.r = r;
+          const s = geojson.filter((e) =>
+            e.properties.f3.includes("Не апробировано")
+          );
+          this.s = s;
+          const t = geojson.filter((e) =>
+            e.properties.f3.includes("Исключены")
+          );
+          this.t = t;
+          const u = geojson.filter((e) =>
+            e.properties.f3.includes("Площадь работ")
+          );
+          this.u = u;
+          console.log(geojson);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -562,6 +699,9 @@ label {
   padding: 0px;
   margin-top: 30px;
   z-index: 0;
+}
+.leaflet-control-layers {
+  height: 800px;
 }
 .leaflet-control-layers-list {
   padding: 0px;

@@ -109,7 +109,7 @@
         <l-geo-json
           name="Материалы ГГК 1:1 000 000"
           :visible="false"
-          :geojson="layout1B"
+          :geojson="layout1M"
           :options="layouts"
           :options-style="styleLayoutFunction"
           layer-type="overlay"
@@ -133,7 +133,7 @@
         <l-geo-json
           name="Региональные работы"
           :visible="true"
-          :geojson="reg"
+          :geojson="a"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -141,7 +141,7 @@
         <l-geo-json
           name="Научно-методические работы"
           :visible="true"
-          :geojson="nmr"
+          :geojson="b"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -149,7 +149,7 @@
         <l-geo-json
           name="Научно-технологические исследования"
           :visible="true"
-          :geojson="nti"
+          :geojson="c"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -157,7 +157,7 @@
         <l-geo-json
           name="Поисковые работы"
           :visible="true"
-          :geojson="pr"
+          :geojson="d"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -165,7 +165,7 @@
         <l-geo-json
           name="Оценочные работы"
           :visible="true"
-          :geojson="or"
+          :geojson="e"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -173,7 +173,7 @@
         <l-geo-json
           name="Поисково-оценочные работы"
           :visible="true"
-          :geojson="ppr"
+          :geojson="f"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -181,7 +181,7 @@
         <l-geo-json
           name="Геохимические исследования"
           :visible="true"
-          :geojson="gi"
+          :geojson="g"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -189,7 +189,7 @@
         <l-geo-json
           name="Геофизические исследования"
           :visible="true"
-          :geojson="gfi"
+          :geojson="h"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -197,7 +197,15 @@
         <l-geo-json
           name="Минералогические исследования"
           :visible="true"
-          :geojson="mi"
+          :geojson="i"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Прогнозно-поисковые работы"
+          :visible="true"
+          :geojson="j"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -205,7 +213,7 @@
         <l-geo-json
           name="Освоение"
           :visible="true"
-          :geojson="os"
+          :geojson="k"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -271,18 +279,18 @@ export default {
       text: "",
       show: true,
       overlay: true,
-      reg: null,
-      nmr: null,
-      nti: null,
-      pr: null,
-      gi: null,
-      or: null,
-      por: null,
-      ppr: null,
-      gfi: null,
-      mi: null,
-      os: null,
-      layout1B: null,
+      a: null,
+      b: null,
+      c: null,
+      d: null,
+      e: null,
+      f: null,
+      g: null,
+      h: null,
+      i: null,
+      j: null,
+      k: null,
+      layout1M: null,
       layout200K: null,
       layout100K: null,
       fillColor: "orange",
@@ -657,56 +665,50 @@ export default {
         );
         this.error = null;
         this.overlay = false;
-        const reg = resArr[0].data.features.filter(function(feature) {
-          return feature.properties.f4.includes("Региональные работы");
-        });
-        console.log(reg);
-        const nmr = resArr[0].data.features.filter(function(feature) {
-          return feature.properties.f4.includes("Научно-методические работы");
-        });
-        const nti = resArr[0].data.features.filter(function(feature) {
-          return feature.properties.f4.includes(
-            "Научно-технологические исследования"
-          );
-        });
-        const pr = resArr[0].data.features.filter(function(feature) {
-          return feature.properties.f4.includes("Поисковые работы");
-        });
-        const gi = resArr[0].data.features.filter(function(feature) {
-          return feature.properties.f4.includes("Геохимические исследования");
-        });
-        const or = resArr[0].data.features.filter(function(feature) {
-          return feature.properties.f4.includes("Оценочные работы");
-        });
-        const por = resArr[0].data.features.filter(function(feature) {
-          return feature.properties.f4.includes("Поисково-оценочные работы");
-        });
-        const gfi = resArr[0].data.features.filter(function(feature) {
-          return feature.properties.f4.includes("Геофизические исследования");
-        });
-        const mi = resArr[0].data.features.filter(function(feature) {
-          return feature.properties.f4.includes(
-            "Минералогические исследования"
-          );
-        });
-        const ppr = resArr[0].data.features.filter(function(feature) {
-          return feature.properties.f4.includes("Прогнозно-поисковые работы");
-        });
-        const os = resArr[0].data.features.filter(function(feature) {
-          return feature.properties.f4.includes("Освоение");
-        });
-        this.reg = reg;
-        this.nmr = nmr;
-        this.nti = nti;
-        this.pr = pr;
-        this.gi = gi;
-        this.or = or;
-        this.por = por;
-        this.gfi = gfi;
-        this.mi = mi;
-        this.ppr = ppr;
-        this.os = os;
-        this.layout1B = resArr[1].data;
+        const geojson = resArr[0].data.features;
+        const a = geojson.filter((e) =>
+          e.properties.f4.includes("Региональные работы")
+        );
+        this.a = a;
+        const b = geojson.filter((e) =>
+          e.properties.f4.includes("Научно-методические работы")
+        );
+        this.b = b;
+        const c = geojson.filter((e) =>
+          e.properties.f4.includes("Научно-технологические исследования")
+        );
+        this.c = c;
+        const d = geojson.filter((e) =>
+          e.properties.f4.includes("Поисковые работы")
+        );
+        this.d = d;
+        const e = geojson.filter((e) =>
+          e.properties.f4.includes("Оценочные работы")
+        );
+        this.e = e;
+        const f = geojson.filter((e) =>
+          e.properties.f4.includes("Поисково-оценочные работы")
+        );
+        this.f = f;
+        const g = geojson.filter((e) =>
+          e.properties.f4.includes("Геохимические исследования")
+        );
+        this.g = g;
+        const h = geojson.filter((e) =>
+          e.properties.f4.includes("Геофизические исследования")
+        );
+        this.h = h;
+        const i = geojson.filter((e) =>
+          e.feature.properties.f4.includes("Минералогические исследования")
+        );
+        this.i = i;
+        const j = geojson.filter((e) =>
+          e.properties.f4.includes("Прогнозно-поисковые работы")
+        );
+        this.j = j;
+        const k = geojson.filter((e) => e.properties.f4.includes("Освоение"));
+        this.k = k;
+        this.layout1M = resArr[1].data;
         this.layout200K = resArr[2].data;
         this.layout100K = resArr[3].data;
       })
@@ -794,7 +796,7 @@ label {
 }
 .map-container {
   padding: 0px;
-  margin-top: 28px;
+  margin-top: 30px;
   z-index: 0;
 }
 .leaflet-control-layers {
