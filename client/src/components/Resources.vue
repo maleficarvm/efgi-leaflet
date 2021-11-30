@@ -691,7 +691,6 @@ td {
 label {
   text-align: left !important;
 }
-
 .leaflet-container {
   font: 12px/1.5 "Montserrat", Arial, Helvetica, sans-serif;
 }
@@ -701,7 +700,8 @@ label {
   z-index: 0;
 }
 .leaflet-control-layers {
-  height: 800px;
+  max-height: 820px;
+  overflow-y: auto;
 }
 .leaflet-control-layers-list {
   padding: 0px;

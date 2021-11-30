@@ -796,11 +796,13 @@ label {
 }
 .map-container {
   padding: 0px;
-  margin-top: 30px;
+  margin-top: 30px !important;
   z-index: 0;
 }
-.leaflet-control-layers {
-  height: 800px;
+.leaflet-control-layers-scrollbar {
+  display: block;
+  overflow-y: auto;
+  max-height: 800px;
 }
 .leaflet-control-layers-list {
   padding: 0px;

@@ -80,7 +80,15 @@ export default {
   },
   data() {
     return {
-      events: ["click", "mousemove", "mousedown", "scroll", "keypress", "load"],
+      events: [
+        "click",
+        "mousemove",
+        "mousedown",
+        "scroll",
+        "keypress",
+        "load",
+        "beforeunload",
+      ],
       logoutTimer: null,
       isModalVisible: false,
       offset: true,
@@ -98,6 +106,7 @@ export default {
     this.events.forEach(function(event) {
       window.addEventListener(event, this.resetTimer);
     }, this);
+
     this.setTimers();
   },
   methods: {
