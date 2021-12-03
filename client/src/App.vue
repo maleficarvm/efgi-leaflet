@@ -80,23 +80,15 @@ export default {
   },
   data() {
     return {
-      events: [
-        "click",
-        "mousemove",
-        "mousedown",
-        "scroll",
-        "keypress",
-        "load",
-        "beforeunload",
-      ],
+      events: ["click", "mousemove", "mousedown", "scroll", "keypress", "load"],
       logoutTimer: null,
       isModalVisible: false,
       offset: true,
       items: [
         { title: "Карта объектов учета", link: "/map" },
-        { title: "Карта протоколов апробации", link: "/resources" },
+        { title: "Карта объектов апробации", link: "/resources" },
         { title: "Реестр объектов учета", link: "/table" },
-        { title: "Реестр протоколов апробации", link: "/forecast" },
+        { title: "Реестр объектов апробации", link: "/forecast" },
         { title: "Реестр фондовых материалов", link: "/fund" },
       ],
       links: [{ title: "О Едином Банке", url: "/" }],

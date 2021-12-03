@@ -97,73 +97,9 @@
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
         </l-control>
         <l-geo-json
-          name="Апробировано"
+          name="Все объекты апробации"
           :visible="true"
-          :geojson="l"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Сняты"
-          :visible="true"
-          :geojson="m"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Отклонено"
-          :visible="true"
-          :geojson="n"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Некондиция"
-          :visible="true"
-          :geojson="o"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Внутренний учет ЦНИГРИ"
-          :visible="true"
-          :geojson="p"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Переоценены, другие координаты"
-          :visible="true"
-          :geojson="r"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Не апробировано"
-          :visible="true"
-          :geojson="s"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Исключены"
-          :visible="true"
-          :geojson="t"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Площадь работ"
-          :visible="true"
-          :geojson="u"
+          :geojson="geojson"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -486,7 +422,7 @@ export default {
     onEachFeatureFunction() {
       return (feature, layer) => {
         layer.bindPopup(
-          '<div style="max-width: 350px;"><div><h3>' +
+          "<div><div><h3>" +
             feature.properties.f1 +
             "</h3></div>" +
             "<table class='table'>" +
@@ -507,6 +443,32 @@ export default {
             feature.properties.f2 +
             '" target ="_blank">перейти к материалам</td></tr>',
           "</table></div>",
+          { permanent: false, sticky: true }
+        );
+        layer.bindPopup(
+          "<div><h2>" +
+            feature.properties.f1 +
+            "</h2></div>" +
+            "<table class='table'>" +
+            "</td></tr>" +
+            "<tr><th>" +
+            feature.properties.f9 +
+            '</th><td><a href="' +
+            feature.properties.f2 +
+            '" target ="_blank">перейти к материалам</td></tr>' +
+            "<tr><th>ПИ:</th><td>" +
+            feature.properties.f5 +
+            "</td></tr>" +
+            "<tr><th>Статус: </th><td>" +
+            feature.properties.f3 +
+            "</td></tr>" +
+            "<tr><th>Категория ресурсов: </th><td>" +
+            feature.properties.f7 +
+            "</td></tr>" +
+            "<tr><th>Примечание: </th><td>" +
+            feature.properties.f3 +
+            "</td></tr>" +
+            "</table></div> ",
           { permanent: false, sticky: true }
         );
         layer.bindTooltip(
@@ -547,9 +509,10 @@ export default {
         this.error = null;
         this.overlay = false;
         if (this.role == "chief") {
-          const geojson = resArr[0].data.features;
+          const geojson = resArr[0].data;
+          this.geojson = geojson;
           console.log(geojson);
-          const l = geojson.filter((e) =>
+          /* const l = geojson.filter((e) =>
             e.properties.f3.includes("Апробировано")
           );
           this.l = l;
@@ -582,43 +545,10 @@ export default {
           const u = geojson.filter((e) =>
             e.properties.f3.includes("Площадь работ")
           );
-          this.u = u;
+          this.u = u; */
         } else {
-          const geojson = resArr[1].data.features;
-          const l = geojson.filter((e) =>
-            e.properties.f3.includes("Апробировано")
-          );
-          this.l = l;
-          const m = geojson.filter((e) => e.properties.f3.includes("Сняты"));
-          this.m = m;
-          const n = geojson.filter((e) =>
-            e.properties.f3.includes("Отклонено")
-          );
-          this.n = n;
-          const o = geojson.filter((e) =>
-            e.properties.f3.includes("Некондиция")
-          );
-          this.o = o;
-          const p = geojson.filter((e) =>
-            e.properties.f3.includes("Внутренний учет ЦНИГРИ")
-          );
-          this.p = p;
-          const r = geojson.filter((e) =>
-            e.properties.f3.includes("Переоценены, другие координаты")
-          );
-          this.r = r;
-          const s = geojson.filter((e) =>
-            e.properties.f3.includes("Не апробировано")
-          );
-          this.s = s;
-          const t = geojson.filter((e) =>
-            e.properties.f3.includes("Исключены")
-          );
-          this.t = t;
-          const u = geojson.filter((e) =>
-            e.properties.f3.includes("Площадь работ")
-          );
-          this.u = u;
+          const geojson = resArr[1].data;
+          this.geojson = geojson;
           console.log(geojson);
         }
       })
@@ -730,7 +660,7 @@ label {
 }
 
 .leaflet-popup-content-wrapper {
-  width: 340px !important;
+  width: 420px;
 }
 
 .leaflet-touch .leaflet-control-layers,

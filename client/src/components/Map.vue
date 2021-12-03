@@ -131,33 +131,9 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Региональные работы"
+          name="Освоение"
           :visible="true"
-          :geojson="a"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Научно-методические работы"
-          :visible="true"
-          :geojson="b"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Научно-технологические исследования"
-          :visible="true"
-          :geojson="c"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Поисковые работы"
-          :visible="true"
-          :geojson="d"
+          :geojson="k"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -171,33 +147,17 @@
           layer-type="overlay"
         />
         <l-geo-json
+          name="Поисковые работы"
+          :visible="true"
+          :geojson="d"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
           name="Поисково-оценочные работы"
           :visible="true"
           :geojson="f"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Геохимические исследования"
-          :visible="true"
-          :geojson="g"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Геофизические исследования"
-          :visible="true"
-          :geojson="h"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Минералогические исследования"
-          :visible="true"
-          :geojson="i"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -211,9 +171,49 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Освоение"
+          name="Геофизические исследования"
           :visible="true"
-          :geojson="k"
+          :geojson="h"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Геохимические исследования"
+          :visible="true"
+          :geojson="g"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Минералогические исследования"
+          :visible="true"
+          :geojson="i"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Научно-технологические исследования"
+          :visible="true"
+          :geojson="c"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Научно-методические работы"
+          :visible="true"
+          :geojson="b"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Региональные работы"
+          :visible="true"
+          :geojson="a"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -577,30 +577,23 @@ export default {
     onEachFeatureFunction() {
       return (feature, layer) => {
         layer.bindPopup(
-          '<div style="width: 660px;"><div><h2>' +
+          "<div><h2>" +
             feature.object +
-            '</h2><br/><button type="button" class="ma-2 btn__default v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default btn__link" >перейти к данным</button></div>' +
+            "</h2></div>" +
             "<table class='table'>" +
-            "</td></tr><br>" +
-            "<tr><th>Название материалов</th><td>" +
-            feature.properties.f1 +
             "</td></tr>" +
-            "<tr><th>Автор (авторы)</th><td>" +
-            feature.properties.f2 +
-            "</td></tr>" +
-            "<tr><th>Год составления объекта учета</th><td>" +
-            feature.properties.f3 +
-            "</td></tr>" +
-            "<tr><th>Вид работ</th><td>" +
-            feature.properties.f4 +
-            "</td></tr>" +
-            "<tr><th>Инвентарные номера в каталогах учета</th><td>" +
+            "<tr><th>" +
+            feature.properties.f9 +
+            '</th><td><a href="' +
+            feature.properties.f6 +
+            '" target ="_blank">перейти к материалам</td></tr>' +
+            "<tr><th>ПИ:</th><td>" +
             feature.properties.f5 +
             "</td></tr>" +
-            "<tr><th>Директория хранения</th><td>" +
-            feature.properties.f9 +
-            "</td></tr>",
-          "</table></div> ",
+            "<tr><th>Вид работ:</th><td>" +
+            feature.properties.f4 +
+            "</td></tr>" +
+            "</table></div> ",
           { permanent: false, sticky: true }
         );
         layer.bindTooltip("<p><b>Объект: </b>" + feature.object + "</p>", {
@@ -773,11 +766,12 @@ input[type="radio"] {
 table,
 th,
 td {
+  width: 380px;
   border-collapse: collapse;
   text-align: center;
   padding: 7px;
   td {
-    text-align: justify;
+    text-align: center;
   }
 }
 .table tr:nth-child(odd) {
@@ -802,7 +796,7 @@ label {
 .leaflet-control-layers-scrollbar {
   display: block;
   overflow-y: auto;
-  max-height: 800px;
+  max-height: 500px;
 }
 .leaflet-control-layers-list {
   padding: 0px;
@@ -835,7 +829,7 @@ label {
 }
 
 .leaflet-popup-content-wrapper {
-  width: 700px;
+  width: 420px;
 }
 
 .leaflet-touch .leaflet-control-layers,

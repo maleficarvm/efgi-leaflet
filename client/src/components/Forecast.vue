@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title>
           <p>
-            Сводная таблица оцифрованных протоколов апробации ЦНИГРИ
+            Сводная таблица оцифрованных объектов апробации ЦНИГРИ
           </p>
           <v-spacer></v-spacer>
           <v-text-field
@@ -49,7 +49,6 @@
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th>№ п.п.</th>
                         <th>Вид объекта учета</th>
                         <th>Дата составления объекта учета</th>
                         <th>Права на материалы объекта</th>
@@ -64,7 +63,6 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{{ item.oid }}</td>
                         <td>{{ item.obj_type }}</td>
                         <td>{{ item.obj_date }}</td>
                         <td>{{ item.obj_rights }}</td>
@@ -118,7 +116,7 @@ export default {
       headers: [
         { text: "Показать на карте", value: "oid", sortable: false },
         {
-          text: "Перейти в Nextcloud",
+          text: "Перейти к материалам",
           value: "path_cloud",
           width: "100",
           sortable: false,

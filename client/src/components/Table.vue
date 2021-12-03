@@ -51,7 +51,6 @@
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th>№ п.п.</th>
                         <th>Вид объекта учета</th>
                         <th>
                           Сведения о наличии ограничений оборота передаваемых
@@ -76,7 +75,6 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{{ item.oid }}</td>
                         <td>{{ item.obj_type }}</td>
                         <td>{{ item.obj_restrict }}</td>
                         <td>{{ item.obj_rights }}</td>
@@ -136,7 +134,7 @@ export default {
       headers: [
         { text: "Показать на карте", value: "oid", sortable: false },
         {
-          text: "Перейти в Nextcloud",
+          text: "Перейти к материалам",
           value: "path_cloud",
           width: "100",
           sortable: false,
@@ -221,7 +219,7 @@ td {
   margin: 30px 0px 0px 0px;
 }
 .wrapper-simple-table {
-  margin: 0px;
+  margin: 20px;
 }
 .v-select__slot {
   height: 25px;
