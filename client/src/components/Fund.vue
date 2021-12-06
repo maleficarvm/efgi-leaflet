@@ -23,7 +23,7 @@
           item-key="OBJECTID"
           show-expand
           fixed-header
-          height="77vh"
+          height="79vh"
           class="elevation-1"
           :footer-props="{
             'items-per-page-options': [50, 200, 500],
@@ -211,7 +211,7 @@ td {
   margin: 20px;
 }
 .ma-2 {
-  margin: 0px 20px 20px 0px;
+  margin: -20px 20px 20px 0px;
 }
 //.v-data-table-header th {
 //  white-space: nowrap;

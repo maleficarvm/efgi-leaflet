@@ -2,11 +2,11 @@
   <v-app>
     <div class="background"></div>
     <v-main class="d-flex justify-center align-center">
-      <v-col cols="10" lg="3" class="mx-auto">
-        <v-card class="pa-4" max-width="450px">
+      <v-col cols="10" lg="2" class="mx-auto">
+        <v-card class="pa-3" width="400px">
           <div class="text-center">
-            <v-avatar size="100" color="grey lighten-1">
-              <v-icon size="40" color="dark">mdi-account</v-icon>
+            <v-avatar size="80" color="brown lighten-4">
+              <v-icon size="40" color="dark">mdi-account-group</v-icon>
             </v-avatar>
             <h2 class="dark--text">Войти в ЕБГИ</h2>
           </div>
@@ -17,7 +17,7 @@
                 :rules="emailRules"
                 type="email"
                 label="Email"
-                placeholder="Email"
+                placeholder=""
                 prepend-inner-icon="mdi-account"
                 required
               />
@@ -26,7 +26,7 @@
                 :rules="passwordRules"
                 :type="passwordShow ? 'text' : 'password'"
                 label="Пароль"
-                placeholder="Пароль"
+                placeholder=""
                 prepend-inner-icon="mdi-key"
                 :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
                 @click:append="passwordShow = !passwordShow"
@@ -44,6 +44,12 @@
               </v-btn>
             </v-card-actions>
           </v-form>
+          <div>
+            <a class="link" @click="showModal">Не удалось войти?</a>
+          </div>
+          <div>
+            <a href="Application.docx" class="link">Правила использования</a>
+          </div>
         </v-card>
       </v-col>
     </v-main>
@@ -56,15 +62,21 @@
     <!-- <v-snackbar top color="yellow" v-model="warningbar">
       Разрыв сессии. Войдите снова.
     </v-snackbar> -->
+    <modal v-show="isModalVisible" style="z-index:100;" @close="closeModal" />
   </v-app>
 </template>
 
 <script>
+import modal from "@/components/UI/Modal.vue";
 import axios from "axios";
 
 export default {
   name: "Login",
+  components: {
+    modal,
+  },
   data: () => ({
+    isModalVisible: false,
     loading: false,
     snackbar: false,
     invalidbar: false,
@@ -116,10 +128,19 @@ export default {
         }, 2500);
       }
     },
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
   },
 };
 </script>
 <style lang="scss">
+html {
+  overflow-y: hidden;
+}
 input {
   border: none !important;
   margin-bottom: 5px;
@@ -127,7 +148,7 @@ input {
 
 .background {
   background-image: url(../img/banner_main_plus.gif) !important;
-  height: 250px;
+  height: 95%;
   width: 100%;
   display: block;
   position: absolute;

@@ -749,6 +749,9 @@ export default {
 <style lang="scss">
 @import "~leaflet-minimap/dist/Control.MiniMap.min.css";
 
+html {
+  overflow-y: hidden;
+}
 span {
   font-size: 12px;
 }
@@ -790,7 +793,7 @@ label {
 }
 .map-container {
   padding: 0px;
-  margin-top: 30px !important;
+  margin-top: 23px !important;
   z-index: 0;
 }
 .leaflet-control-layers-scrollbar {

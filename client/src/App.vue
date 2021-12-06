@@ -60,7 +60,7 @@
       </header>
     </div>
     <router-view />
-    <v-footer dark padless>
+    <v-footer app bottom fixed dark padless>
       <v-col>
         Отдел геоинформационных систем. Лаборатория ЕБГИ ©
         {{ new Date().getFullYear() }} ФГБУ "ЦНИГРИ"

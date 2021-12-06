@@ -422,30 +422,6 @@ export default {
     onEachFeatureFunction() {
       return (feature, layer) => {
         layer.bindPopup(
-          "<div><div><h3>" +
-            feature.properties.f1 +
-            "</h3></div>" +
-            "<table class='table'>" +
-            "</td></tr><br>" +
-            "<tr><th>ПИ</th><td>" +
-            feature.properties.f5 +
-            "</td></tr>" +
-            "<tr><th>Статус</th><td>" +
-            feature.properties.f3 +
-            "</td></tr>" +
-            "<tr><th>Категория ресурсов</th><td>" +
-            feature.properties.f7 +
-            "</td></tr>" +
-            "<tr><th>Примечание</th><td>" +
-            feature.properties.f6 +
-            "</td></tr>" +
-            '<tr><th>Ссылка</th><td><a href="' +
-            feature.properties.f2 +
-            '" target ="_blank">перейти к материалам</td></tr>',
-          "</table></div>",
-          { permanent: false, sticky: true }
-        );
-        layer.bindPopup(
           "<div><h2>" +
             feature.properties.f1 +
             "</h2></div>" +
@@ -604,11 +580,12 @@ input[type="radio"] {
 table,
 th,
 td {
+  width: 380px;
   border-collapse: collapse;
   text-align: center;
   padding: 7px;
   td {
-    text-align: justify;
+    text-align: center;
   }
 }
 .table tr:nth-child(odd) {
@@ -626,7 +603,7 @@ label {
 }
 .map-container {
   padding: 0px;
-  margin-top: 30px;
+  margin-top: 23px !important;
   z-index: 0;
 }
 .leaflet-control-layers {

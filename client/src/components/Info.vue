@@ -269,6 +269,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+html {
+  overflow-y: auto;
+}
 section {
   padding: 30px 0px 30px 0px;
 }

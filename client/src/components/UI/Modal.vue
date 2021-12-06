@@ -9,7 +9,7 @@
       >
         <header class="modal-header" id="modalTitle">
           <slot name="header">
-            <h2>Добро пожаловать в ЕБГИ ЦНИГРИ! (Beta)</h2>
+            <h2>Добро пожаловать в ЕБГИ ЦНИГРИ (Beta)!</h2>
           </slot>
         </header>
         <section class="modal-body" id="modalDescription">
@@ -19,23 +19,33 @@
             геологическими материалами, необходимыми для выполнения работ по
             государственным контрактам и государственным заданиям, написания
             научных трудов и другой деятельности, направленной на выполнение
-            задач организации. Подробная информация находится во вкладке "О
-            Едином Банке"
+            задач организации.
           </slot>
         </section>
+        <div class="modal-answer" id="modalAnswer">
+          <slot name="info">
+            Для входа в ЕБГИ введите свой адрес электронной почты ЦНИГРИ и
+            пароль. Для получения и восстановления доступа к ЕБГИ обращайтесь на
+            электронную почту
+            <a
+              href="https://mail1.tsnigri.ru/?client=advanced#1"
+              target="_blank"
+              >uvarova@tsnigri.ru</a
+            >
+          </slot>
+        </div>
         <footer class="modal-footer">
           <slot name="footer">
-            <button type="button" class="btn btnDefault" @click="toInfo">
+            <!-- <button type="button" class="btn btnDefault" @click="toInfo">
               О Едином Банке
-            </button>
-            <button
+            </button> -->
+            <v-btn
               type="button"
-              class="btn btnDefault"
+              class="ma-2 btn__default v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default"
               @click="close"
-              aria-label="Close modal"
             >
-              Закрыть
-            </button>
+              <span class="white--text px-8">Закрыть</span>
+            </v-btn>
           </slot>
         </footer>
       </div>
@@ -44,7 +54,9 @@
 </template>
 
 <script>
+import Section from "./Section.vue";
 export default {
+  components: { Section },
   name: "modal",
   methods: {
     close() {
@@ -77,11 +89,11 @@ export default {
   overflow-x: auto;
   display: flex;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 .modal-header,
 .modal-footer {
-  padding: 20px;
+  padding: 15px;
   display: flex;
 }
 .modal-header {
@@ -92,7 +104,14 @@ export default {
 }
 .modal-body {
   position: relative;
-  padding: 20px 10px;
+  text-align: justify;
+  padding: 10px 15px;
+}
+.modal-answer {
+  position: relative;
+  font-weight: bolder;
+  text-align: center;
+  padding: 0px 15px;
 }
 .btn-close {
   border: none;
