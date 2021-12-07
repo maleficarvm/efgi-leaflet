@@ -131,79 +131,7 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Освоение"
-          :visible="true"
-          :geojson="k"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Оценочные работы"
-          :visible="true"
-          :geojson="e"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Поисковые работы"
-          :visible="true"
-          :geojson="d"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Поисково-оценочные работы"
-          :visible="true"
-          :geojson="f"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Прогнозно-поисковые работы"
-          :visible="true"
-          :geojson="j"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Геофизические исследования"
-          :visible="true"
-          :geojson="h"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Геохимические исследования"
-          :visible="true"
-          :geojson="g"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Минералогические исследования"
-          :visible="true"
-          :geojson="i"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Научно-технологические исследования"
-          :visible="true"
-          :geojson="c"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Научно-методические работы"
+          name="Фондовые материалы"
           :visible="true"
           :geojson="b"
           :options="features"
@@ -581,12 +509,11 @@ export default {
             feature.object +
             "</h2></div>" +
             "<table class='table'>" +
-            "</td></tr>" +
             "<tr><th>" +
             feature.properties.f9 +
             '</th><td><a href="' +
             feature.properties.f6 +
-            '" target ="_blank">перейти к материалам</td></tr>' +
+            '" target ="_blank">Материалы</td><td><a @click="goToTable">Реестр</a></div></td></tr>' +
             "<tr><th>ПИ:</th><td>" +
             feature.properties.f5 +
             "</td></tr>" +
@@ -658,52 +585,18 @@ export default {
         );
         this.error = null;
         this.overlay = false;
+        this.layout1M = resArr[1].data;
+        this.layout200K = resArr[2].data;
+        this.layout100K = resArr[3].data;
         const geojson = resArr[0].data.features;
         const a = geojson.filter((e) =>
           e.properties.f4.includes("Региональные работы")
         );
         this.a = a;
-        const b = geojson.filter((e) =>
-          e.properties.f4.includes("Научно-методические работы")
+        const b = geojson.filter(
+          (e) => !e.properties.f4.includes("Региональные работы")
         );
         this.b = b;
-        const c = geojson.filter((e) =>
-          e.properties.f4.includes("Научно-технологические исследования")
-        );
-        this.c = c;
-        const d = geojson.filter((e) =>
-          e.properties.f4.includes("Поисковые работы")
-        );
-        this.d = d;
-        const e = geojson.filter((e) =>
-          e.properties.f4.includes("Оценочные работы")
-        );
-        this.e = e;
-        const f = geojson.filter((e) =>
-          e.properties.f4.includes("Поисково-оценочные работы")
-        );
-        this.f = f;
-        const g = geojson.filter((e) =>
-          e.properties.f4.includes("Геохимические исследования")
-        );
-        this.g = g;
-        const h = geojson.filter((e) =>
-          e.properties.f4.includes("Геофизические исследования")
-        );
-        this.h = h;
-        const i = geojson.filter((e) =>
-          e.feature.properties.f4.includes("Минералогические исследования")
-        );
-        this.i = i;
-        const j = geojson.filter((e) =>
-          e.properties.f4.includes("Прогнозно-поисковые работы")
-        );
-        this.j = j;
-        const k = geojson.filter((e) => e.properties.f4.includes("Освоение"));
-        this.k = k;
-        this.layout1M = resArr[1].data;
-        this.layout200K = resArr[2].data;
-        this.layout100K = resArr[3].data;
       })
       .catch((err) => {
         console.log(err);
@@ -749,9 +642,6 @@ export default {
 <style lang="scss">
 @import "~leaflet-minimap/dist/Control.MiniMap.min.css";
 
-html {
-  overflow-y: hidden;
-}
 span {
   font-size: 12px;
 }

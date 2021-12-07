@@ -88,9 +88,10 @@ export default {
     ],
     password: "",
     passwordRules: [
-      (v) => !!v || "Введите пароль",
+      (v) => !!v || "Введите пароль без CAPS LOCK",
       (v) =>
-        (v && v.length >= 3) || "Пароль должен содержать не менее 8 символов",
+        (v && v.length >= 3) ||
+        "Пароль должен содержать не менее 8 символов без CAPS LOCK",
     ],
     role: "",
     error: "",
@@ -138,12 +139,9 @@ export default {
 };
 </script>
 <style lang="scss">
-html {
-  overflow-y: hidden;
-}
 input {
   border: none !important;
-  margin-bottom: 5px;
+  margin: 0 !important;
 }
 
 .background {

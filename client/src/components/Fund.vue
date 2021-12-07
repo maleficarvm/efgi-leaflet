@@ -49,7 +49,6 @@
                   <template v-slot:default>
                     <thead class="col-4">
                       <tr>
-                        <th>№ п.п.</th>
                         <th>Тип документа</th>
                         <th>Раздел</th>
                         <th>
@@ -72,7 +71,6 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{{ item.OBJECTID }}</td>
                         <td>{{ item.TIP }}</td>
                         <td>{{ item.RAZDEL }}</td>
                         <td>{{ item.SECR }}</td>

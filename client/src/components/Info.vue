@@ -177,11 +177,15 @@
                   По вопросам получения данных ЕБГИ просим обращаться на
                   электронную почту:
                 </v-card-text>
-                <v-card-text>
+                <v-card-text class="font-weight-bold">
                   Уварова Е.А.
                 </v-card-text>
                 <v-card-text>
-                  uvarova@tsnigri.ru
+                  <a
+                    href="https://mail1.tsnigri.ru/?client=advanced#1"
+                    target="_blank"
+                    >uvarova@tsnigri.ru</a
+                  >
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -194,13 +198,17 @@
                   В случае возникновения проблем с работой ЕБГИ просим
                   обращаться на электронную почту:
                 </v-card-text>
-                <v-card-text>
+                <v-card-text class="font-weight-bold">
                   <div>
                     Муравьев В.С.
                   </div>
                 </v-card-text>
                 <v-card-text>
-                  vmuravev@tsnigri.ru
+                  <a
+                    href="https://mail1.tsnigri.ru/?client=advanced#1"
+                    target="_blank"
+                    >vmuravev@tsnigri.ru</a
+                  >
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -269,11 +277,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-html {
-  overflow-y: auto;
-}
 section {
-  padding: 30px 0px 30px 0px;
+  padding: 0px 0px 30px 0px;
 }
 
 .container__padding {
