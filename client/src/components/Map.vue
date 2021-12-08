@@ -98,7 +98,7 @@
           </v-btn>
         </l-control> -->
         <l-control position="bottomright">
-          <v-btn class="ma-2 btn__default" dark href="Application.docx">
+          <v-btn class="ma-2 btn__default" dark href="Бланк_заявки.doc">
             Скачать форму заявки
           </v-btn>
         </l-control>
