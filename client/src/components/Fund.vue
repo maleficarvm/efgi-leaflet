@@ -23,7 +23,7 @@
           item-key="OBJECTID"
           show-expand
           fixed-header
-          height="77vh"
+          height="79vh"
           class="elevation-1"
           :footer-props="{
             'items-per-page-options': [50, 200, 500],
@@ -49,7 +49,6 @@
                   <template v-slot:default>
                     <thead class="col-4">
                       <tr>
-                        <th>№ п.п.</th>
                         <th>Тип документа</th>
                         <th>Раздел</th>
                         <th>
@@ -72,7 +71,6 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{{ item.OBJECTID }}</td>
                         <td>{{ item.TIP }}</td>
                         <td>{{ item.RAZDEL }}</td>
                         <td>{{ item.SECR }}</td>
@@ -96,7 +94,7 @@
           <v-btn color="ma-2" dark href="#">
             Скачать Excel
           </v-btn>
-          <v-btn color="ma-2" dark href="Application.docx">
+          <v-btn color="ma-2" dark href="Бланк_заявки.doc">
             Скачать форму заявки
           </v-btn>
         </div>
@@ -150,7 +148,7 @@ export default {
       this.$router.push("/login");
     }
     axios
-      .get("http://localhost:3000/api/fund", {})
+      .get("http://kastor.tsnigri.ru:3000/api/fund", {})
       .then((res) => {
         this.items = res.data;
         this.loadTable = false;
@@ -211,7 +209,7 @@ td {
   margin: 20px;
 }
 .ma-2 {
-  margin: 0px 20px 20px 0px;
+  margin: -20px 20px 20px 0px;
 }
 //.v-data-table-header th {
 //  white-space: nowrap;

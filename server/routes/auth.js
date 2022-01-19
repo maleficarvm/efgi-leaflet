@@ -58,7 +58,7 @@ app.post("/login", (req, res, next) => {
       });
     }
     //all is correct - craete a JWT token and go to landing
-    let token = jwt.sign({ userId: user._id }, "secretkey");
+    let token = jwt.sign({ userId: user._id }, "secretkey ");
     return res.status(200).json({
       title: "login success!",
       token: token,

@@ -89,7 +89,7 @@
         ></l-control-attribution>
         <l-control-scale position="bottomleft" :imperial="false" />
         <l-control position="bottomright">
-          <v-btn class="ma-2 btn__default" dark href="Application.docx">
+          <v-btn class="ma-2 btn__default" dark href="Бланк_заявки.doc">
             Скачать форму заявки
           </v-btn>
         </l-control>
@@ -97,73 +97,9 @@
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
         </l-control>
         <l-geo-json
-          name="Апробировано"
+          name="Все объекты апробации"
           :visible="true"
-          :geojson="l"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Сняты"
-          :visible="true"
-          :geojson="m"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Отклонено"
-          :visible="true"
-          :geojson="n"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Некондиция"
-          :visible="true"
-          :geojson="o"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Внутренний учет ЦНИГРИ"
-          :visible="true"
-          :geojson="p"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Переоценены, другие координаты"
-          :visible="true"
-          :geojson="r"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Не апробировано"
-          :visible="true"
-          :geojson="s"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Исключены"
-          :visible="true"
-          :geojson="t"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Площадь работ"
-          :visible="true"
-          :geojson="u"
+          :geojson="geojson"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -485,32 +421,44 @@ export default {
     },
     onEachFeatureFunction() {
       return (feature, layer) => {
-        layer.bindPopup(
-          '<div style="max-width: 350px;"><div><h3>' +
-            feature.properties.f1 +
-            "</h3></div>" +
-            "<table class='table'>" +
-            "</td></tr><br>" +
-            "<tr><th>ПИ</th><td>" +
-            feature.properties.f5 +
-            "</td></tr>" +
-            "<tr><th>Статус</th><td>" +
-            feature.properties.f3 +
-            "</td></tr>" +
-            "<tr><th>Категория ресурсов</th><td>" +
-            feature.properties.f7 +
-            "</td></tr>" +
-            "<tr><th>Примечание</th><td>" +
-            feature.properties.f6 +
-            "</td></tr>" +
-            '<tr><th>Ссылка</th><td><a href="' +
-            feature.properties.f2 +
-            '" target ="_blank">перейти к материалам</td></tr>',
-          "</table></div>",
+        let a = ""
+        let aa = ""
+        let uniqueArray = [...new Set(feature.properties.f1)]	
+        let b = ""
+        uniqueArray.forEach(function(item1, i1, arr1){			
+          a = a + '<div><h3>' + item1 + '</h3></div>'
+          b = b + '<div><h3>' + item1 + '</h3></div>'
+          feature.properties.f1.forEach(function(item, i, arr){
+            if (item1 == feature.properties.f1[i])
+            aa = feature.properties.f5[i] + ', ' + feature.properties.f4[i] + '. ' + feature.properties.f3[i] + ' ' + feature.properties.f7[i]
+          }),
+          a = a + '<h3>' + aa + '</h3>'
+          b = b + '<h3>' + aa + '</h3>'
+          a = a + "<table class='table'><tbody>" +
+          '<tr style="height: 18px;">'
+          b = b + "<table class='table'><tbody>" +
+          '<tr style="height: 18px;">'
+          feature.properties.f1.forEach(function(item, i, arr){					
+            if (item1 == feature.properties.f1[i])
+            a = a +
+            '<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +            
+            '<td style="width: 20%; height: 19px;"><a href="' + feature.properties.f2[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' + 
+            '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
+            '</tr>'	
+            b = b + 
+            '<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +  
+            '<td style="width: 20%; height: 19px;"><a href="' + feature.properties.f2[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +           
+            '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
+            '</tr>'	
+            }), 
+            a = a + "</tbody></table>"
+            b = b + "</tbody></table>"
+            }),
+		layer.bindPopup( a,
           { permanent: false, sticky: true }
         );
         layer.bindTooltip(
-          "<p><b>Объект: </b>" + feature.properties.f1 + "</p>",
+          "<p><b>Объект: </b>" + feature.properties.f1[0] + "</p>",
           {
             permanent: false,
             sticky: true,
@@ -539,17 +487,22 @@ export default {
       this.$router.push("/login");
     }
     axios
-      .all([
-        axios.get("http://localhost:3000/api/aprgeojson"),
-        axios.get("http://localhost:3000/api/prgeojson"),
-      ])
+      .all([	  
+		axios.get("http://192.168.44.170:3000/api/aprgeojson"),
+        axios.get("http://192.168.44.170:3000/api/prgeojson"),
+	  /*
+        axios.get("http://kastor.tsnigri.ru:3000/api/aprgeojson"),
+        axios.get("http://kastor.tsnigri.ru:3000/api/prgeojson"),
+      */
+	  ])
       .then((resArr) => {
         this.error = null;
         this.overlay = false;
         if (this.role == "chief") {
-          const geojson = resArr[0].data.features;
+          const geojson = resArr[0].data;
+          this.geojson = geojson;
           console.log(geojson);
-          const l = geojson.filter((e) =>
+          /* const l = geojson.filter((e) =>
             e.properties.f3.includes("Апробировано")
           );
           this.l = l;
@@ -582,43 +535,10 @@ export default {
           const u = geojson.filter((e) =>
             e.properties.f3.includes("Площадь работ")
           );
-          this.u = u;
+          this.u = u; */
         } else {
-          const geojson = resArr[1].data.features;
-          const l = geojson.filter((e) =>
-            e.properties.f3.includes("Апробировано")
-          );
-          this.l = l;
-          const m = geojson.filter((e) => e.properties.f3.includes("Сняты"));
-          this.m = m;
-          const n = geojson.filter((e) =>
-            e.properties.f3.includes("Отклонено")
-          );
-          this.n = n;
-          const o = geojson.filter((e) =>
-            e.properties.f3.includes("Некондиция")
-          );
-          this.o = o;
-          const p = geojson.filter((e) =>
-            e.properties.f3.includes("Внутренний учет ЦНИГРИ")
-          );
-          this.p = p;
-          const r = geojson.filter((e) =>
-            e.properties.f3.includes("Переоценены, другие координаты")
-          );
-          this.r = r;
-          const s = geojson.filter((e) =>
-            e.properties.f3.includes("Не апробировано")
-          );
-          this.s = s;
-          const t = geojson.filter((e) =>
-            e.properties.f3.includes("Исключены")
-          );
-          this.t = t;
-          const u = geojson.filter((e) =>
-            e.properties.f3.includes("Площадь работ")
-          );
-          this.u = u;
+          const geojson = resArr[1].data;
+          this.geojson = geojson;
           console.log(geojson);
         }
       })
@@ -674,18 +594,19 @@ input[type="radio"] {
 table,
 th,
 td {
+  width: 380px;
   border-collapse: collapse;
   text-align: center;
   padding: 7px;
   td {
-    text-align: justify;
+    text-align: center;
   }
 }
 .table tr:nth-child(odd) {
-  background: #fff;
+  background: #f3f3f3;
 }
 .table tr:nth-child(even) {
-  background: #f3f3f3;
+  background: #fff;
 }
 
 label {
@@ -696,7 +617,7 @@ label {
 }
 .map-container {
   padding: 0px;
-  margin-top: 30px;
+  margin-top: 23px !important;
   z-index: 0;
 }
 .leaflet-control-layers {
@@ -730,7 +651,7 @@ label {
 }
 
 .leaflet-popup-content-wrapper {
-  width: 340px !important;
+  width: 420px;
 }
 
 .leaflet-touch .leaflet-control-layers,

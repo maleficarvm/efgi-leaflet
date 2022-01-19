@@ -2,11 +2,11 @@
   <v-app>
     <div class="background"></div>
     <v-main class="d-flex justify-center align-center">
-      <v-col cols="10" lg="3" class="mx-auto">
-        <v-card class="pa-4" max-width="450px">
+      <v-col cols="10" lg="2" class="mx-auto">
+        <v-card class="pa-3" width="400px">
           <div class="text-center">
-            <v-avatar size="100" color="grey lighten-1">
-              <v-icon size="40" color="dark">mdi-account</v-icon>
+            <v-avatar size="80" color="brown lighten-4">
+              <v-icon size="40" color="dark">mdi-account-group</v-icon>
             </v-avatar>
             <h2 class="dark--text">Войти в ЕБГИ</h2>
           </div>
@@ -17,7 +17,7 @@
                 :rules="emailRules"
                 type="email"
                 label="Email"
-                placeholder="Email"
+                placeholder=""
                 prepend-inner-icon="mdi-account"
                 required
               />
@@ -26,7 +26,7 @@
                 :rules="passwordRules"
                 :type="passwordShow ? 'text' : 'password'"
                 label="Пароль"
-                placeholder="Пароль"
+                placeholder=""
                 prepend-inner-icon="mdi-key"
                 :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
                 @click:append="passwordShow = !passwordShow"
@@ -44,6 +44,14 @@
               </v-btn>
             </v-card-actions>
           </v-form>
+          <div>
+            <a class="link" @click="showModal">Не удалось войти?</a>
+          </div>
+          <div>
+            <a href="Порядок_предоставления_информации.docx" class="link"
+              >Правила использования</a
+            >
+          </div>
         </v-card>
       </v-col>
     </v-main>
@@ -56,15 +64,21 @@
     <!-- <v-snackbar top color="yellow" v-model="warningbar">
       Разрыв сессии. Войдите снова.
     </v-snackbar> -->
+    <modal v-show="isModalVisible" style="z-index:100;" @close="closeModal" />
   </v-app>
 </template>
 
 <script>
+import modal from "@/components/UI/Modal.vue";
 import axios from "axios";
 
 export default {
   name: "Login",
+  components: {
+    modal,
+  },
   data: () => ({
+    isModalVisible: false,
     loading: false,
     snackbar: false,
     invalidbar: false,
@@ -76,9 +90,10 @@ export default {
     ],
     password: "",
     passwordRules: [
-      (v) => !!v || "Введите пароль",
+      (v) => !!v || "Введите пароль без CAPS LOCK",
       (v) =>
-        (v && v.length >= 3) || "Пароль должен содержать не менее 8 символов",
+        (v && v.length >= 3) ||
+        "Пароль должен содержать не менее 8 символов без CAPS LOCK",
     ],
     role: "",
     error: "",
@@ -90,7 +105,7 @@ export default {
           email: this.email,
           password: this.password,
         };
-        axios.post("http://localhost:5000/login", user).then((res) => {
+        axios.post("http://kastor.tsnigri.ru:5000/login", user).then((res) => {
           // if successful
           if (res.status === 200) {
             localStorage.setItem("token", res.data.token);
@@ -116,18 +131,24 @@ export default {
         }, 2500);
       }
     },
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
   },
 };
 </script>
 <style lang="scss">
 input {
   border: none !important;
-  margin-bottom: 5px;
+  margin: 0 !important;
 }
 
 .background {
   background-image: url(../img/banner_main_plus.gif) !important;
-  height: 250px;
+  height: 95%;
   width: 100%;
   display: block;
   position: absolute;

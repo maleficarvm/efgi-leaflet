@@ -98,7 +98,7 @@
           </v-btn>
         </l-control> -->
         <l-control position="bottomright">
-          <v-btn class="ma-2 btn__default" dark href="Application.docx">
+          <v-btn class="ma-2 btn__default" dark href="Бланк_заявки.doc">
             Скачать форму заявки
           </v-btn>
         </l-control>
@@ -131,15 +131,7 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Региональные работы"
-          :visible="true"
-          :geojson="a"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Научно-методические работы"
+          name="Фондовые материалы"
           :visible="true"
           :geojson="b"
           :options="features"
@@ -147,73 +139,9 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Научно-технологические исследования"
+          name="Региональные работы"
           :visible="true"
-          :geojson="c"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Поисковые работы"
-          :visible="true"
-          :geojson="d"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Оценочные работы"
-          :visible="true"
-          :geojson="e"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Поисково-оценочные работы"
-          :visible="true"
-          :geojson="f"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Геохимические исследования"
-          :visible="true"
-          :geojson="g"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Геофизические исследования"
-          :visible="true"
-          :geojson="h"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Минералогические исследования"
-          :visible="true"
-          :geojson="i"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Прогнозно-поисковые работы"
-          :visible="true"
-          :geojson="j"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Освоение"
-          :visible="true"
-          :geojson="k"
+          :geojson="a"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -575,35 +503,46 @@ export default {
       };
     },
     onEachFeatureFunction() {
-      return (feature, layer) => {
-        layer.bindPopup(
-          '<div style="width: 660px;"><div><h2>' +
-            feature.object +
-            '</h2><br/><button type="button" class="ma-2 btn__default v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default btn__link" >перейти к данным</button></div>' +
-            "<table class='table'>" +
-            "</td></tr><br>" +
-            "<tr><th>Название материалов</th><td>" +
-            feature.properties.f1 +
-            "</td></tr>" +
-            "<tr><th>Автор (авторы)</th><td>" +
-            feature.properties.f2 +
-            "</td></tr>" +
-            "<tr><th>Год составления объекта учета</th><td>" +
-            feature.properties.f3 +
-            "</td></tr>" +
-            "<tr><th>Вид работ</th><td>" +
-            feature.properties.f4 +
-            "</td></tr>" +
-            "<tr><th>Инвентарные номера в каталогах учета</th><td>" +
-            feature.properties.f5 +
-            "</td></tr>" +
-            "<tr><th>Директория хранения</th><td>" +
-            feature.properties.f9 +
-            "</td></tr>",
-          "</table></div> ",
+      return (feature, layer) => { 
+		let a = ""
+		let aa = ""
+		let uniqueArray = [...new Set(feature.properties.f1)]	
+		let b = ""
+		uniqueArray.forEach(function(item1, i1, arr1){			
+			a = a + '<div><h3>' + item1 + '</h3></div>'
+			b = b + '<div><h3>' + item1 + '</h3></div>'
+			feature.properties.f1.forEach(function(item, i, arr){
+				if (item1 == feature.properties.f1[i])
+				aa = feature.properties.f13[i]
+			}),
+			a = a + '<h3>' + aa + '</h3>'
+			b = b + '<h3>' + aa + '</h3>'
+			a = a + "<table class='table'><tbody>" +
+			'<tr style="height: 18px;">'
+			b = b + "<table class='table'><tbody>" +
+			'<tr style="height: 18px;">'
+			feature.properties.f1.forEach(function(item, i, arr){					
+				if (item1 == feature.properties.f1[i])
+				a = a +
+				'<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f10[i] + '</td>' +
+				'<td style="width: 30%; height: 19px;  text-align: left;">' + feature.properties.f5[i] + '</td>' +
+				'<td style="width: 20%; height: 19px;"><a href="' + feature.properties.f7[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' + 
+				'<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
+				'</tr>'	
+				b = b + 
+				'<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f10[i] + '</td>' +
+				'<td style="width: 30%; height: 19px;  text-align: left;">' + feature.properties.f5[i] + '</td>' +
+				'<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
+				'</tr>'	
+				}), 
+				a = a + "</tbody></table>"
+				b = b + "</tbody></table>"
+				}),
+
+		layer.bindPopup(a,			
           { permanent: false, sticky: true }
         );
-        layer.bindTooltip("<p><b>Объект: </b>" + feature.object + "</p>", {
+        layer.bindTooltip("<p><b>Объект: </b>" + uniqueArray + "</p>", {
           permanent: false,
           sticky: true,
           offset: [10, 0],
@@ -651,10 +590,16 @@ export default {
     }
     axios
       .all([
-        axios.get("http://localhost:3000/api/geojson"),
-        axios.get("http://localhost:3000/api/layout1m"),
-        axios.get("http://localhost:3000/api/layout200K"),
-        axios.get("http://localhost:3000/api/layout100K"),
+        axios.get("http://192.168.44.170:3000/api/geojson"),
+        axios.get("http://192.168.44.170:3000/api/layout1m"),
+        axios.get("http://192.168.44.170:3000/api/layout200K"),
+        axios.get("http://192.168.44.170:3000/api/layout100K"),
+		/*
+		axios.get("http://kastor.tsnigri.ru:3000/api/geojson"),
+        axios.get("http://kastor.tsnigri.ru:3000/api/layout1m"),
+        axios.get("http://kastor.tsnigri.ru:3000/api/layout200K"),
+        axios.get("http://kastor.tsnigri.ru:3000/api/layout100K"),
+		*/
       ])
       .then((resArr) => {
         console.log(
@@ -665,52 +610,18 @@ export default {
         );
         this.error = null;
         this.overlay = false;
+        this.layout1M = resArr[1].data;
+        this.layout200K = resArr[2].data;
+        this.layout100K = resArr[3].data;
         const geojson = resArr[0].data.features;
         const a = geojson.filter((e) =>
           e.properties.f4.includes("Региональные работы")
         );
         this.a = a;
-        const b = geojson.filter((e) =>
-          e.properties.f4.includes("Научно-методические работы")
+        const b = geojson.filter(
+          (e) => !e.properties.f4.includes("Региональные работы")
         );
         this.b = b;
-        const c = geojson.filter((e) =>
-          e.properties.f4.includes("Научно-технологические исследования")
-        );
-        this.c = c;
-        const d = geojson.filter((e) =>
-          e.properties.f4.includes("Поисковые работы")
-        );
-        this.d = d;
-        const e = geojson.filter((e) =>
-          e.properties.f4.includes("Оценочные работы")
-        );
-        this.e = e;
-        const f = geojson.filter((e) =>
-          e.properties.f4.includes("Поисково-оценочные работы")
-        );
-        this.f = f;
-        const g = geojson.filter((e) =>
-          e.properties.f4.includes("Геохимические исследования")
-        );
-        this.g = g;
-        const h = geojson.filter((e) =>
-          e.properties.f4.includes("Геофизические исследования")
-        );
-        this.h = h;
-        const i = geojson.filter((e) =>
-          e.feature.properties.f4.includes("Минералогические исследования")
-        );
-        this.i = i;
-        const j = geojson.filter((e) =>
-          e.properties.f4.includes("Прогнозно-поисковые работы")
-        );
-        this.j = j;
-        const k = geojson.filter((e) => e.properties.f4.includes("Освоение"));
-        this.k = k;
-        this.layout1M = resArr[1].data;
-        this.layout200K = resArr[2].data;
-        this.layout100K = resArr[3].data;
       })
       .catch((err) => {
         console.log(err);
@@ -773,18 +684,19 @@ input[type="radio"] {
 table,
 th,
 td {
+  width: 380px;
   border-collapse: collapse;
   text-align: center;
   padding: 7px;
   td {
-    text-align: justify;
+    text-align: center;
   }
 }
 .table tr:nth-child(odd) {
-  background: #fff;
+  background: #f3f3f3;
 }
 .table tr:nth-child(even) {
-  background: #f3f3f3;
+  background: #fff;
 }
 
 label {
@@ -796,13 +708,13 @@ label {
 }
 .map-container {
   padding: 0px;
-  margin-top: 30px !important;
+  margin-top: 23px !important;
   z-index: 0;
 }
 .leaflet-control-layers-scrollbar {
   display: block;
   overflow-y: auto;
-  max-height: 800px;
+  max-height: 500px;
 }
 .leaflet-control-layers-list {
   padding: 0px;
@@ -835,7 +747,7 @@ label {
 }
 
 .leaflet-popup-content-wrapper {
-  width: 700px;
+  width: 420px;
 }
 
 .leaflet-touch .leaflet-control-layers,

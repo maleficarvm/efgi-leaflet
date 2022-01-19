@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title>
           <p>
-            Сводная таблица оцифрованных протоколов апробации ЦНИГРИ
+            Сводная таблица оцифрованных объектов апробации ЦНИГРИ
           </p>
           <v-spacer></v-spacer>
           <v-text-field
@@ -23,7 +23,7 @@
           item-key="oid"
           show-expand
           fixed-header
-          height="77vh"
+          height="79vh"
           class="elevation-1"
           :footer-props="{
             'items-per-page-options': [50, 100, 200],
@@ -49,7 +49,6 @@
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th>№ п.п.</th>
                         <th>Вид объекта учета</th>
                         <th>Дата составления объекта учета</th>
                         <th>Права на материалы объекта</th>
@@ -64,7 +63,6 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{{ item.oid }}</td>
                         <td>{{ item.obj_type }}</td>
                         <td>{{ item.obj_date }}</td>
                         <td>{{ item.obj_rights }}</td>
@@ -94,7 +92,7 @@
           <v-btn color="ma-2" dark href="APR.rar">
             Скачать Excel
           </v-btn>
-          <v-btn color="ma-2" dark href="Application.docx">
+          <v-btn color="ma-2" dark href="Бланк_заявки.doc">
             Скачать форму заявки
           </v-btn>
         </div>
@@ -118,7 +116,7 @@ export default {
       headers: [
         { text: "Показать на карте", value: "oid", sortable: false },
         {
-          text: "Перейти в Nextcloud",
+          text: "Перейти к материалам",
           value: "path_cloud",
           width: "100",
           sortable: false,
@@ -155,7 +153,7 @@ export default {
       this.$router.push("/login");
     }
     axios
-      .get("http://localhost:3000/api/apr")
+      .get("http://kastor.tsnigri.ru:3000/api/apr")
       .then((res) => {
         this.items = res.data;
         this.loadTable = false;
@@ -213,7 +211,7 @@ button {
   margin: 20px;
 }
 .ma-2 {
-  margin: 0px 20px 20px 0px;
+  margin: -20px 20px 20px 0px;
 }
 //.v-data-table-header th {
 //  white-space: nowrap;
