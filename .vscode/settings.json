@@ -1,0 +1,50 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 100,
+      "server": "kastor.tsnigri.ru",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "kastor",
+      "database": "net",
+      "username": "postgres",
+      "password": "postgres"
+    },
+    {
+      "previewLimit": 100,
+      "server": "kastor.tsnigri.ru",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "kastor",
+      "database": "bd_reestr_v3",
+      "username": "postgres",
+      "password": "postgres"
+    },
+    {
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "previewLimit": 50,
+      "server": "192.168.6.205",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "mysql",
+      "database": "wordpress_user",
+      "username": "root",
+      "password": "Password2Admin"
+    },
+    {
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "previewLimit": 50,
+      "server": "192.168.6.205",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "wordpress",
+      "database": "wordpress_user",
+      "username": "wordpress_user",
+      "password": "12345666hell"
+    }
+  ]
+}

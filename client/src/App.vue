@@ -80,7 +80,19 @@ export default {
   },
   data() {
     return {
+<<<<<<< HEAD
       events: ["click", "mousemove", "mousedown", "scroll", "keypress", "load"],
+=======
+      events: [
+        "click",
+        "mousemove",
+        "mousedown",
+        "scroll",
+        "keypress",
+        "load",
+        "unload",
+      ],
+>>>>>>> 341a9dbdeffb94eaa81b9493a452caa8e5d5844b
       logoutTimer: null,
       isModalVisible: false,
       offset: true,
@@ -98,12 +110,14 @@ export default {
     this.events.forEach(function(event) {
       window.addEventListener(event, this.resetTimer);
     }, this);
+    window.addEventListener("beforeunload", this.deleteToken);
 
     this.setTimers();
   },
   methods: {
     showModal() {
       this.isModalVisible = true;
+      alert("lol");
     },
     closeModal() {
       this.isModalVisible = false;
@@ -118,6 +132,9 @@ export default {
     resetTimer: function() {
       clearTimeout(this.logoutTimer);
       this.setTimers();
+    },
+    deleteToken() {
+      if (confirm("are you sure?")) localStorage.clear();
     },
   },
 };

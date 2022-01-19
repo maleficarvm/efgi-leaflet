@@ -503,6 +503,7 @@ export default {
       };
     },
     onEachFeatureFunction() {
+<<<<<<< HEAD
       return (feature, layer) => { 
 		let a = ""
 		let aa = ""
@@ -540,6 +541,26 @@ export default {
 				}),
 
 		layer.bindPopup(a,			
+=======
+      return (feature, layer) => {
+        layer.bindPopup(
+          "<div><h2>" +
+            feature.object +
+            "</h2></div>" +
+            "<table class='table'>" +
+            "<tr><th>" +
+            feature.properties.f9 +
+            '</th><td><a href="' +
+            feature.properties.f6 +
+            '" target ="_blank">Материалы</td><td><a @click="goToTable">Реестр</a></div></td></tr>' +
+            "<tr><th>ПИ:</th><td>" +
+            feature.properties.f5 +
+            "</td></tr>" +
+            "<tr><th>Вид работ:</th><td>" +
+            feature.properties.f4 +
+            "</td></tr>" +
+            "</table></div> ",
+>>>>>>> 341a9dbdeffb94eaa81b9493a452caa8e5d5844b
           { permanent: false, sticky: true }
         );
         layer.bindTooltip("<p><b>Объект: </b>" + uniqueArray + "</p>", {

@@ -421,6 +421,7 @@ export default {
     },
     onEachFeatureFunction() {
       return (feature, layer) => {
+<<<<<<< HEAD
         let a = ""
         let aa = ""
         let uniqueArray = [...new Set(feature.properties.f1)]	
@@ -455,6 +456,32 @@ export default {
             b = b + "</tbody></table>"
             }),
 		layer.bindPopup( a,
+=======
+        layer.bindPopup(
+          "<div><h2>" +
+            feature.properties.f1 +
+            "</h2></div>" +
+            "<table class='table'>" +
+            "</td></tr>" +
+            "<tr><th>" +
+            feature.properties.f9 +
+            '</th><td><a href="' +
+            feature.properties.f2 +
+            '" target ="_blank">перейти к материалам</td></tr>' +
+            "<tr><th>ПИ:</th><td>" +
+            feature.properties.f5 +
+            "</td></tr>" +
+            "<tr><th>Статус: </th><td>" +
+            feature.properties.f3 +
+            "</td></tr>" +
+            "<tr><th>Категория ресурсов: </th><td>" +
+            feature.properties.f7 +
+            "</td></tr>" +
+            "<tr><th>Примечание: </th><td>" +
+            feature.properties.f3 +
+            "</td></tr>" +
+            "</table></div> ",
+>>>>>>> 341a9dbdeffb94eaa81b9493a452caa8e5d5844b
           { permanent: false, sticky: true }
         );
         layer.bindTooltip(
