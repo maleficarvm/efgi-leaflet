@@ -148,7 +148,7 @@ export default {
       this.$router.push("/login");
     }
     axios
-      .get("http://kastor.tsnigri.ru:3000/api/fund", {})
+      .get("http://192.168.44.170:3000/api/fund", {})
       .then((res) => {
         this.items = res.data;
         this.loadTable = false;

@@ -80,9 +80,6 @@ export default {
   },
   data() {
     return {
-<<<<<<< HEAD
-      events: ["click", "mousemove", "mousedown", "scroll", "keypress", "load"],
-=======
       events: [
         "click",
         "mousemove",
@@ -92,7 +89,6 @@ export default {
         "load",
         "unload",
       ],
->>>>>>> 341a9dbdeffb94eaa81b9493a452caa8e5d5844b
       logoutTimer: null,
       isModalVisible: false,
       offset: true,
