@@ -390,7 +390,7 @@ export default {
     },
     styleFunction() {
       return (feature) => {
-        if (feature.properties.f4 == "Научно-методические работы") {
+        if (feature.properties.f5 == "Научно-методические работы") {
           return {
             weight: 0.7,
             color: "#D2691E",
@@ -398,7 +398,7 @@ export default {
             fillColor: "#D2691E",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Региональные работы") {
+        } else if (feature.properties.f5 == "Региональные работы") {
           return {
             weight: 0.7,
             color: "#800080",
@@ -406,7 +406,7 @@ export default {
             fillColor: "#800080",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Поисковые работы") {
+        } else if (feature.properties.f5 == "Поисковые работы") {
           return {
             weight: 0.7,
             color: "#800000",
@@ -415,7 +415,7 @@ export default {
             fillOpacity: 0.04,
           };
         } else if (
-          feature.properties.f4 == "Научно-технологические исследования"
+          feature.properties.f5 == "Научно-технологические исследования"
         ) {
           return {
             weight: 0.7,
@@ -424,7 +424,7 @@ export default {
             fillColor: "#FF00FF",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Оценочные работы") {
+        } else if (feature.properties.f5 == "Оценочные работы") {
           return {
             weight: 0.7,
             color: "#C71585",
@@ -432,7 +432,7 @@ export default {
             fillColor: "#C71585",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Поисково-оценочные работы") {
+        } else if (feature.properties.f5 == "Поисково-оценочные работы") {
           return {
             weight: 0.7,
             color: "#008000",
@@ -440,7 +440,7 @@ export default {
             fillColor: "#008000",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Геохимические исследования") {
+        } else if (feature.properties.f5 == "Геохимические исследования") {
           return {
             weight: 0.7,
             color: "#008080",
@@ -448,7 +448,7 @@ export default {
             fillColor: "#008080",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Освоение") {
+        } else if (feature.properties.f5 == "Освоение") {
           return {
             weight: 0.7,
             color: "#008080",
@@ -456,7 +456,7 @@ export default {
             fillColor: "#008080",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Минералогические исследования") {
+        } else if (feature.properties.f5 == "Минералогические исследования") {
           return {
             weight: 0.7,
             color: "#8B4513",
@@ -464,7 +464,7 @@ export default {
             fillColor: "#8B4513",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Геофизические исследования") {
+        } else if (feature.properties.f5 == "Геофизические исследования") {
           return {
             weight: 0.7,
             color: "#B8860B",
@@ -472,7 +472,7 @@ export default {
             fillColor: "#B8860B",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Прогнозно-поисковые работы") {
+        } else if (feature.properties.f5 == "Прогнозно-поисковые работы") {
           return {
             weight: 0.7,
             color: "#000",
@@ -504,7 +504,7 @@ export default {
     },
     onEachFeatureFunction() {
       return (feature, layer) => { 
-		let a = ""
+	  let a = ""
 		let aa = ""
 		let uniqueArray = [...new Set(feature.properties.f1)]	
 		let b = ""
@@ -515,8 +515,8 @@ export default {
 				if (item1 == feature.properties.f1[i])
 				aa = feature.properties.f13[i]
 			}),
-			a = a + '<h3>' + aa + '</h3>'
-			b = b + '<h3>' + aa + '</h3>'
+			a = a + '<h4>' + aa + '</h4>'
+			b = b + '<h4>' + aa + '</h4>'
 			a = a + "<table class='table'><tbody>" +
 			'<tr style="height: 18px;">'
 			b = b + "<table class='table'><tbody>" +
@@ -539,7 +539,7 @@ export default {
 				b = b + "</tbody></table>"
 				}),
 
-		layer.bindPopup(a,			
+		layer.bindPopup('<h1 style="text-align: center;">Для руководства</h1>' + a + '<p style="text-align: center;">__________________________</p>' + '<h1 style="text-align: center;">Для сотрудника</h1>' + b,			
           { permanent: false, sticky: true }
         );
         layer.bindTooltip("<p><b>Объект: </b>" + uniqueArray + "</p>", {
@@ -590,10 +590,10 @@ export default {
     }
     axios
       .all([
-        axios.get("http://192.168.44.170:3000/api/geojson"),
-        axios.get("http://192.168.44.170:3000/api/layout1m"),
-        axios.get("http://192.168.44.170:3000/api/layout200K"),
-        axios.get("http://192.168.44.170:3000/api/layout100K"),		
+        axios.get("http://localhost:3000/api/geojson"),
+        axios.get("http://localhost:3000/api/layout1m"),
+        axios.get("http://localhost:3000/api/layout200K"),
+        axios.get("http://localhost:3000/api/layout100K"),		
       ])
       .then((resArr) => {
         console.log(
