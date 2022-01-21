@@ -176,7 +176,7 @@ export default {
       this.$router.push("/login");
     }
     axios
-      .get("http://192.168.44.170:3000/api/json")
+      .get("http://localhost:3000/api/json")
       .then((res) => {
         console.log(res.data);
         this.items = res.data;
