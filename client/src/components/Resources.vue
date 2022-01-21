@@ -421,16 +421,34 @@ export default {
     },
     onEachFeatureFunction() {
       return (feature, layer) => {
-<<<<<<< HEAD
         let a = "";
         let aa = "";
+        let ArraySub = [];
+        let uniqueArraySub = [];
         let uniqueArray = [...new Set(feature.properties.f1)];
         let b = "";
+        feature.properties.f1.forEach(function(item, i, arr) {
+          ArraySub[i] =
+            feature.properties.f5[i] +
+            ", " +
+            feature.properties.f4[i] +
+            ". " +
+            feature.properties.f3[i] +
+            " " +
+            feature.properties.f7[i];
+        }),
+          (uniqueArraySub = [...new Set(ArraySub)]);
         uniqueArray.forEach(function(item1, i1, arr1) {
           a = a + "<div><h3>" + item1 + "</h3></div>";
           b = b + "<div><h3>" + item1 + "</h3></div>";
-          feature.properties.f1.forEach(function(item, i, arr) {
-            if (item1 == feature.properties.f1[i])
+          uniqueArraySub.forEach(function(item2, i2, arr2) {
+            a = a + "<h4>" + item2 + "</h4>";
+            b = b + "<h4>" + item2 + "</h4>";
+            a =
+              a + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
+            b =
+              b + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
+            feature.properties.f1.forEach(function(item, i, arr) {
               aa =
                 feature.properties.f5[i] +
                 ", " +
@@ -439,126 +457,41 @@ export default {
                 feature.properties.f3[i] +
                 " " +
                 feature.properties.f7[i];
-          }),
-            (a = a + "<h3>" + aa + "</h3>");
-          b = b + "<h3>" + aa + "</h3>";
-          a = a + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
-          b = b + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
-          feature.properties.f1.forEach(function(item, i, arr) {
-            if (item1 == feature.properties.f1[i])
-              a =
-                a +
-                '<td style="width: 50%; height: 19px;  text-align: left;">' +
-                feature.properties.f11[i] +
-                "</td>" +
-                '<td style="width: 20%; height: 19px;"><a href="' +
-                feature.properties.f2[i] +
-                '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
-                '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
-                "</tr>";
-            b =
-              b +
-              '<td style="width: 50%; height: 19px;  text-align: left;">' +
-              feature.properties.f11[i] +
-              "</td>" +
-              '<td style="width: 20%; height: 19px;"><a href="' +
-              feature.properties.f2[i] +
-              '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +
-              '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
-              "</tr>";
-          }),
-            (a = a + "</tbody></table>");
-          b = b + "</tbody></table>";
-        }),
-          /*let a = ""        
-        let aa = ""
-        let arr0 = new Array()
-        let arr00 = new Array()
-        let uniqueArray = []
-        arr0 = []        
-        feature.properties.f1.forEach(function(item, i, arr){        
-        arr0[i] =  feature.properties.f1[i] + ". " + feature.properties.f5[i] + ', ' + feature.properties.f4[i] + '. ' + feature.properties.f3[i] + ' ' + feature.properties.f7[i]
-        }),
-
-
-        uniqueArray = [...new Set(feature.properties.f1)]	
-        let b = ""
-        uniqueArray.forEach(function(item1, i1, arr1){			
-          a = a + '<div><h3>' + item1 + '</h3></div>'
-          b = b + '<div><h3>' + item1 + '</h3></div>'
-          feature.properties.f1.forEach(function(item, i, arr){
-            if (item1 == feature.properties.f1[i])
-            aa = feature.properties.f5[i] + ', ' + feature.properties.f4[i] + '. ' + feature.properties.f3[i] + ' ' + feature.properties.f7[i]
-          }),
-          a = a + '<h3>' + aa + '</h3>'
-          b = b + '<h3>' + aa + '</h3>'
-          a = a + "<table class='table'><tbody>" +
-          '<tr style="height: 18px;">'
-          b = b + "<table class='table'><tbody>" +
-          '<tr style="height: 18px;">'
-          feature.properties.f1.forEach(function(item, i, arr){					
-            if (item1 == feature.properties.f1[i])
-            a = a +
-            '<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +            
-            '<td style="width: 20%; height: 19px;"><a href="' + feature.properties.f2[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' + 
-            '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
-            '</tr>'	
-            //aa = feature.properties.f5[i] + ', ' + feature.properties.f4[i] + '. ' + feature.properties.f3[i] + ' ' + feature.properties.f7[i]
-            //a = a + aa
-            b = b + 
-            '<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +  
-            '<td style="width: 20%; height: 19px;"><a href="' + feature.properties.f2[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +           
-            '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
-            '</tr>'	
-            }), 
-            a = a + "</tbody></table>"
-            b = b + "</tbody></table>"
-            }),*/
-          layer.bindPopup(a, { permanent: false, sticky: true });
-=======
-        let a = ""
-        let aa = ""
-        let ArraySub = []
-        let uniqueArraySub = []
-        let uniqueArray = [...new Set(feature.properties.f1)]	
-        let b = ""
-        feature.properties.f1.forEach(function(item, i, arr){            
-            ArraySub[i] = feature.properties.f5[i] + ', ' + feature.properties.f4[i] + '. ' + feature.properties.f3[i] + ' ' + feature.properties.f7[i]
-          }),
-        uniqueArraySub = [...new Set(ArraySub)]
-        uniqueArray.forEach(function(item1, i1, arr1){			
-          a = a + '<div><h3>' + item1 + '</h3></div>'
-          b = b + '<div><h3>' + item1 + '</h3></div>'
-          uniqueArraySub.forEach(function(item2, i2, arr2){
-            a = a + '<h4>' + item2 + '</h4>'
-            b = b + '<h4>' + item2 + '</h4>'
-            a = a + "<table class='table'><tbody>" +
-            '<tr style="height: 18px;">'
-            b = b + "<table class='table'><tbody>" +
-            '<tr style="height: 18px;">'              
-              feature.properties.f1.forEach(function(item, i, arr){	
-                aa = feature.properties.f5[i] + ', ' + feature.properties.f4[i] + '. ' + feature.properties.f3[i] + ' ' + feature.properties.f7[i]
-                if (item1 == feature.properties.f1[i] && item2 == aa){
-                  a = a +
-                  '<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +            
-                  '<td style="width: 20%; height: 19px;"><a href="' + feature.properties.f2[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' + 
-                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
-                  '</tr>'	
-                  b = b + 
-                  '<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +  
-                  '<td style="width: 20%; height: 19px;"><a href="' + feature.properties.f2[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +           
-                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
-                  '</tr>'	
-                } 
-              }),
-              a = a + "</tbody></table>"
-              b = b + "</tbody></table>"
-            })            
+              if (item1 == feature.properties.f1[i] && item2 == aa) {
+                a =
+                  a +
+                  '<td style="width: 50%; height: 19px;  text-align: left;">' +
+                  feature.properties.f11[i] +
+                  "</td>" +
+                  '<td style="width: 20%; height: 19px;"><a href="' +
+                  feature.properties.f2[i] +
+                  '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
+                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                  "</tr>";
+                b =
+                  b +
+                  '<td style="width: 50%; height: 19px;  text-align: left;">' +
+                  feature.properties.f11[i] +
+                  "</td>" +
+                  '<td style="width: 20%; height: 19px;"><a href="' +
+                  feature.properties.f2[i] +
+                  '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +
+                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                  "</tr>";
+              }
             }),
-		layer.bindPopup('<h1 style="text-align: center;">Для руководства</h1>' + a + '<p style="text-align: center;">__________________________</p>' + '<h1 style="text-align: center;">Для сотрудника</h1>' + b,
-          { permanent: false, sticky: true }
-        );
->>>>>>> abfdfed4d9e361a0fa20d0d22af1159065bf0d35
+              (a = a + "</tbody></table>");
+            b = b + "</tbody></table>";
+          });
+        }),
+          layer.bindPopup(
+            '<h1 style="text-align: center;">Для руководства</h1>' +
+              a +
+              '<p style="text-align: center;">__________________________</p>' +
+              '<h1 style="text-align: center;">Для сотрудника</h1>' +
+              b,
+            { permanent: false, sticky: true }
+          );
         layer.bindTooltip(
           "<p><b>Объект: </b>" + feature.properties.f1[0] + "</p>",
           {
@@ -589,17 +522,10 @@ export default {
       this.$router.push("/login");
     }
     axios
-<<<<<<< HEAD
       .all([
         axios.get("http://localhost:3000/api/aprgeojson"),
         axios.get("http://localhost:3000/api/prgeojson"),
       ])
-=======
-      .all([	  
-		    axios.get("http://localhost:3000/api/aprgeojson"),
-        axios.get("http://localhost:3000/api/prgeojson"),	  
-	  ])
->>>>>>> abfdfed4d9e361a0fa20d0d22af1159065bf0d35
       .then((resArr) => {
         this.error = null;
         this.overlay = false;
