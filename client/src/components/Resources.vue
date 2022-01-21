@@ -428,7 +428,11 @@ export default {
         let uniqueArray = [...new Set(feature.properties.f1)]	
         let b = ""
         feature.properties.f1.forEach(function(item, i, arr){            
-            ArraySub[i] = feature.properties.f5[i] + ', ' + feature.properties.f4[i] + '. ' + feature.properties.f3[i] + ' ' + feature.properties.f7[i]
+            ArraySub[i] = feature.properties.f5[i] + ', ' 
+            if (feature.properties.f4[i] === null){ArraySub[i] = ArraySub[i] + ""} else {ArraySub[i] = ArraySub[i] + feature.properties.f4[i] + '. '}
+            ArraySub[i] = ArraySub[i] + feature.properties.f3[i] +
+             ' ' + 
+            feature.properties.f7[i]
           }),
         uniqueArraySub = [...new Set(ArraySub)]
         uniqueArray.forEach(function(item1, i1, arr1){			
@@ -442,7 +446,12 @@ export default {
             b = b + "<table class='table'><tbody>" +
             '<tr style="height: 18px;">'              
               feature.properties.f1.forEach(function(item, i, arr){	
-                aa = feature.properties.f5[i] + ', ' + feature.properties.f4[i] + '. ' + feature.properties.f3[i] + ' ' + feature.properties.f7[i]
+                aa = feature.properties.f5[i] +
+                 ', '
+                  if (feature.properties.f4[i] === null){aa + ""} else {aa + feature.properties.f4[i]+ '. '}
+                  aa = aa + feature.properties.f3[i] +
+                  ' ' +
+                  feature.properties.f7[i]
                 if (item1 == feature.properties.f1[i] && item2 == aa){
                   a = a +
                   '<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +            

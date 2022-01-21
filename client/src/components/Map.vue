@@ -513,7 +513,7 @@ export default {
 			b = b + '<div><h3>' + item1 + '</h3></div>'
 			feature.properties.f1.forEach(function(item, i, arr){
 				if (item1 == feature.properties.f1[i])
-				aa = feature.properties.f13[i]
+				if (feature.properties.f13[i] === null){aa = ""} else {aa = feature.properties.f13[i]}        
 			}),
 			a = a + '<h4>' + aa + '</h4>'
 			b = b + '<h4>' + aa + '</h4>'
