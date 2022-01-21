@@ -390,7 +390,7 @@ export default {
     },
     styleFunction() {
       return (feature) => {
-        if (feature.properties.f4 == "Научно-методические работы") {
+        if (feature.properties.f5 == "Научно-методические работы") {
           return {
             weight: 0.7,
             color: "#D2691E",
@@ -398,7 +398,7 @@ export default {
             fillColor: "#D2691E",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Региональные работы") {
+        } else if (feature.properties.f5 == "Региональные работы") {
           return {
             weight: 0.7,
             color: "#800080",
@@ -406,7 +406,7 @@ export default {
             fillColor: "#800080",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Поисковые работы") {
+        } else if (feature.properties.f5 == "Поисковые работы") {
           return {
             weight: 0.7,
             color: "#800000",
@@ -415,7 +415,7 @@ export default {
             fillOpacity: 0.04,
           };
         } else if (
-          feature.properties.f4 == "Научно-технологические исследования"
+          feature.properties.f5 == "Научно-технологические исследования"
         ) {
           return {
             weight: 0.7,
@@ -424,7 +424,7 @@ export default {
             fillColor: "#FF00FF",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Оценочные работы") {
+        } else if (feature.properties.f5 == "Оценочные работы") {
           return {
             weight: 0.7,
             color: "#C71585",
@@ -432,7 +432,7 @@ export default {
             fillColor: "#C71585",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Поисково-оценочные работы") {
+        } else if (feature.properties.f5 == "Поисково-оценочные работы") {
           return {
             weight: 0.7,
             color: "#008000",
@@ -440,7 +440,7 @@ export default {
             fillColor: "#008000",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Геохимические исследования") {
+        } else if (feature.properties.f5 == "Геохимические исследования") {
           return {
             weight: 0.7,
             color: "#008080",
@@ -448,7 +448,7 @@ export default {
             fillColor: "#008080",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Освоение") {
+        } else if (feature.properties.f5 == "Освоение") {
           return {
             weight: 0.7,
             color: "#008080",
@@ -456,7 +456,7 @@ export default {
             fillColor: "#008080",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Минералогические исследования") {
+        } else if (feature.properties.f5 == "Минералогические исследования") {
           return {
             weight: 0.7,
             color: "#8B4513",
@@ -464,7 +464,7 @@ export default {
             fillColor: "#8B4513",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Геофизические исследования") {
+        } else if (feature.properties.f5 == "Геофизические исследования") {
           return {
             weight: 0.7,
             color: "#B8860B",
@@ -472,7 +472,7 @@ export default {
             fillColor: "#B8860B",
             fillOpacity: 0.04,
           };
-        } else if (feature.properties.f4 == "Прогнозно-поисковые работы") {
+        } else if (feature.properties.f5 == "Прогнозно-поисковые работы") {
           return {
             weight: 0.7,
             color: "#000",
@@ -503,6 +503,7 @@ export default {
       };
     },
     onEachFeatureFunction() {
+<<<<<<< HEAD
       return (feature, layer) => {
         let a = "";
         let aa = "";
@@ -549,6 +550,47 @@ export default {
           b = b + "</tbody></table>";
         }),
           layer.bindPopup(a, { permanent: false, sticky: true });
+=======
+      return (feature, layer) => { 
+	  let a = ""
+		let aa = ""
+		let uniqueArray = [...new Set(feature.properties.f1)]	
+		let b = ""
+		uniqueArray.forEach(function(item1, i1, arr1){			
+			a = a + '<div><h3>' + item1 + '</h3></div>'
+			b = b + '<div><h3>' + item1 + '</h3></div>'
+			feature.properties.f1.forEach(function(item, i, arr){
+				if (item1 == feature.properties.f1[i])
+				aa = feature.properties.f13[i]
+			}),
+			a = a + '<h4>' + aa + '</h4>'
+			b = b + '<h4>' + aa + '</h4>'
+			a = a + "<table class='table'><tbody>" +
+			'<tr style="height: 18px;">'
+			b = b + "<table class='table'><tbody>" +
+			'<tr style="height: 18px;">'
+			feature.properties.f1.forEach(function(item, i, arr){					
+				if (item1 == feature.properties.f1[i])
+				a = a +
+				'<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f10[i] + '</td>' +
+				'<td style="width: 30%; height: 19px;  text-align: left;">' + feature.properties.f5[i] + '</td>' +
+				'<td style="width: 20%; height: 19px;"><a href="' + feature.properties.f7[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' + 
+				'<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
+				'</tr>'	
+				b = b + 
+				'<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f10[i] + '</td>' +
+				'<td style="width: 30%; height: 19px;  text-align: left;">' + feature.properties.f5[i] + '</td>' +
+				'<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
+				'</tr>'	
+				}), 
+				a = a + "</tbody></table>"
+				b = b + "</tbody></table>"
+				}),
+
+		layer.bindPopup('<h1 style="text-align: center;">Для руководства</h1>' + a + '<p style="text-align: center;">__________________________</p>' + '<h1 style="text-align: center;">Для сотрудника</h1>' + b,			
+          { permanent: false, sticky: true }
+        );
+>>>>>>> abfdfed4d9e361a0fa20d0d22af1159065bf0d35
         layer.bindTooltip("<p><b>Объект: </b>" + uniqueArray + "</p>", {
           permanent: false,
           sticky: true,
@@ -600,7 +642,11 @@ export default {
         axios.get("http://localhost:3000/api/geojson"),
         axios.get("http://localhost:3000/api/layout1m"),
         axios.get("http://localhost:3000/api/layout200K"),
+<<<<<<< HEAD
         axios.get("http://localhost:3000/api/layout100K"),
+=======
+        axios.get("http://localhost:3000/api/layout100K"),		
+>>>>>>> abfdfed4d9e361a0fa20d0d22af1159065bf0d35
       ])
       .then((resArr) => {
         console.log(
