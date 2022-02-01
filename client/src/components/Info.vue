@@ -21,9 +21,10 @@
               Учет, накопление, безопасное хранение и предоставление сотрудникам
               ФГБУ "ЦНИГРИ" геологической информации
             </div>
-            <v-btn class="lighten-2 mt-5" large href="/map">
+            <v-btn class="lighten-2 mt-5" large @click="clickHandler">
               Начать
             </v-btn>
+            <debugger></debugger>
           </v-layout>
         </v-parallax>
       </section>
@@ -276,6 +277,11 @@ export default {
       console.log("True!");
       this.$router.push("/login");
     }
+  },
+  methods: {
+    clickHandler() {
+      this.$router.push("/map");
+    },
   },
 };
 </script>

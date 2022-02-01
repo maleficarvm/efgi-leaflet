@@ -377,7 +377,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["valueMap"]),
+    ...mapGetters(["valueMap", "role"]),
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
@@ -504,58 +504,65 @@ export default {
     },
     onEachFeatureFunction() {
       return (feature, layer) => {
+        let userRole = this.role;
+        console.log(userRole);
         let a = "";
         let aa = "";
         let uniqueArray = [...new Set(feature.properties.f1)];
         let b = "";
         uniqueArray.forEach(function(item1, i1, arr1) {
-          a = a + "<div><h3>" + item1 + "</h3></div>";
-          b = b + "<div><h3>" + item1 + "</h3></div>";
-          feature.properties.f1.forEach(function(item, i, arr) {
-            if (item1 == feature.properties.f1[i])
-              aa = feature.properties.f13[i];
-          }),
-            (a = a + "<h4>" + aa + "</h4>");
-          b = b + "<h4>" + aa + "</h4>";
-          a = a + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
-          b = b + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
-          feature.properties.f1.forEach(function(item, i, arr) {
-            if (item1 == feature.properties.f1[i])
-              a =
-                a +
-                '<td style="width: 50%; height: 19px;  text-align: left;">' +
-                feature.properties.f10[i] +
-                "</td>" +
-                '<td style="width: 30%; height: 19px;  text-align: left;">' +
-                feature.properties.f5[i] +
-                "</td>" +
-                '<td style="width: 20%; height: 19px;"><a href="' +
-                feature.properties.f7[i] +
-                '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
-                '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
-                "</tr>";
+          if (userRole === "chief") {
+            a = a + "<div><h3>" + item1 + "</h3></div>";
+            feature.properties.f1.forEach(function(item, i, arr) {
+              if (item1 == feature.properties.f1[i])
+                aa = feature.properties.f13[i];
+            }),
+              (a = a + "<h4>" + aa + "</h4>");
+            a =
+              a + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
+            feature.properties.f1.forEach(function(item, i, arr) {
+              if (item1 == feature.properties.f1[i])
+                a =
+                  a +
+                  '<td style="width: 50%; height: 19px;  text-align: left;">' +
+                  feature.properties.f10[i] +
+                  "</td>" +
+                  '<td style="width: 30%; height: 19px;  text-align: left;">' +
+                  feature.properties.f5[i] +
+                  "</td>" +
+                  '<td style="width: 20%; height: 19px;"><a href="' +
+                  feature.properties.f7[i] +
+                  '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
+                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                  "</tr>";
+            }),
+              (a = a + "</tbody></table>");
+          } else {
+            b = b + "<div><h3>" + item1 + "</h3></div>";
+            feature.properties.f1.forEach(function(item, i, arr) {
+              if (item1 == feature.properties.f1[i])
+                aa = feature.properties.f13[i];
+            }),
+              (b = b + "<h4>" + aa + "</h4>");
             b =
-              b +
-              '<td style="width: 50%; height: 19px;  text-align: left;">' +
-              feature.properties.f10[i] +
-              "</td>" +
-              '<td style="width: 30%; height: 19px;  text-align: left;">' +
-              feature.properties.f5[i] +
-              "</td>" +
-              '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
-              "</tr>";
-          }),
-            (a = a + "</tbody></table>");
-          b = b + "</tbody></table>";
+              b + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
+            feature.properties.f1.forEach(function(item, i, arr) {
+              if (item1 == feature.properties.f1[i])
+                b =
+                  b +
+                  '<td style="width: 50%; height: 19px;  text-align: left;">' +
+                  feature.properties.f10[i] +
+                  "</td>" +
+                  '<td style="width: 30%; height: 19px;  text-align: left;">' +
+                  feature.properties.f5[i] +
+                  "</td>" +
+                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                  "</tr>";
+            }),
+              (b = b + "</tbody></table>");
+          }
         }),
-          layer.bindPopup(
-            '<h1 style="text-align: center;">Для руководства</h1>' +
-              a +
-              '<p style="text-align: center;">__________________________</p>' +
-              '<h1 style="text-align: center;">Для сотрудника</h1>' +
-              b,
-            { permanent: false, sticky: true }
-          );
+          layer.bindPopup(a || b, { permanent: false, sticky: true });
         layer.bindTooltip("<p><b>Объект: </b>" + uniqueArray + "</p>", {
           permanent: false,
           sticky: true,
@@ -640,6 +647,7 @@ export default {
   mounted() {
     console.log("version 2.4 beta");
     console.log("Get value >>> " + this.valueMap + " <<<");
+    console.log("Get role >>> " + this.role + " <<<");
     /* if (this.valueMap != "") {
       this.$refs.map.mapObject.fitBounds(this.bounds);
     } */
@@ -755,7 +763,7 @@ label {
 }
 
 .leaflet-popup-content-wrapper {
-  width: 420px;
+  width: 520px;
 }
 
 .leaflet-touch .leaflet-control-layers,
