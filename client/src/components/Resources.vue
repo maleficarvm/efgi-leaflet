@@ -442,9 +442,9 @@ export default {
           (uniqueArraySub = [...new Set(ArraySub)]);
         uniqueArray.forEach(function(item1, i1, arr1, item2) {
           if (userRole === "chief") {
-            a = a + "<div><h3>" + item1 + "</h3></div>";
+            a = a + "<div><h3 style='width: 450px'>" + item1 + "</h3></div>";
             uniqueArraySub.forEach(function(item2, i2, arr2) {
-              a = a + "<h4>" + item2 + "</h4>";
+              a = a + "<h4 style='width: 450px'>" + item2 + "</h4><br/>";
               a =
                 a +
                 "<table class='table'><tbody>" +
@@ -474,9 +474,9 @@ export default {
                 (a = a + "</tbody></table>");
             });
           } else {
-            b = b + "<h4>" + item1 + "</h4>";
+            b = b + "<div><h3 style='width: 450px'>" + item1 + "</h3></div>";
             uniqueArraySub.forEach(function(item2, i2, arr2) {
-              b = b + "<h4>" + item2 + "</h4>";
+              b = b + "<h4 style='width: 450px'>" + item2 + "</h4><br/>";
               b =
                 b +
                 "<table class='table'><tbody>" +
@@ -641,7 +641,7 @@ input[type="radio"] {
 table,
 th,
 td {
-  width: 380px;
+  width: 480px;
   border-collapse: collapse;
   text-align: center;
   padding: 7px;
@@ -698,7 +698,7 @@ label {
 }
 
 .leaflet-popup-content-wrapper {
-  width: 420px;
+  width: 520px;
 }
 
 .leaflet-touch .leaflet-control-layers,

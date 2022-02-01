@@ -512,22 +512,22 @@ export default {
         let b = "";
         uniqueArray.forEach(function(item1, i1, arr1) {
           if (userRole === "chief") {
-            a = a + "<div><h3>" + item1 + "</h3></div>";
+            a = a + "<div><h3 style='width: 400px'>" + item1 + "</h3></div>";
             feature.properties.f1.forEach(function(item, i, arr) {
               if (item1 == feature.properties.f1[i])
                 aa = feature.properties.f13[i];
             }),
-              (a = a + "<h4>" + aa + "</h4>");
+              (a = a + "<h4 style='width: 450px'>" + aa + "</h4><br/>");
             a =
               a + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
             feature.properties.f1.forEach(function(item, i, arr) {
               if (item1 == feature.properties.f1[i])
                 a =
                   a +
-                  '<td style="width: 50%; height: 19px;  text-align: left;">' +
+                  '<td style="width: 40%; height: 19px;  text-align: left;">' +
                   feature.properties.f10[i] +
                   "</td>" +
-                  '<td style="width: 30%; height: 19px;  text-align: left;">' +
+                  '<td style="width: 40%; height: 19px;  text-align: left;">' +
                   feature.properties.f5[i] +
                   "</td>" +
                   '<td style="width: 20%; height: 19px;"><a href="' +
@@ -538,22 +538,22 @@ export default {
             }),
               (a = a + "</tbody></table>");
           } else {
-            b = b + "<div><h3>" + item1 + "</h3></div>";
+            b = b + "<div><h3 style='width: 400px'>" + item1 + "</h3></div>";
             feature.properties.f1.forEach(function(item, i, arr) {
               if (item1 == feature.properties.f1[i])
                 aa = feature.properties.f13[i];
             }),
-              (b = b + "<h4>" + aa + "</h4>");
+              (b = b + "<h4 style='width: 450px'>" + aa + "</h4><br/>");
             b =
               b + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
             feature.properties.f1.forEach(function(item, i, arr) {
               if (item1 == feature.properties.f1[i])
                 b =
                   b +
-                  '<td style="width: 50%; height: 19px;  text-align: left;">' +
+                  '<td style="width: 50%; height: 19px;  text-align: center;">' +
                   feature.properties.f10[i] +
                   "</td>" +
-                  '<td style="width: 30%; height: 19px;  text-align: left;">' +
+                  '<td style="width: 30%; height: 19px;  text-align: center;">' +
                   feature.properties.f5[i] +
                   "</td>" +
                   '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
@@ -700,7 +700,7 @@ input[type="radio"] {
 table,
 th,
 td {
-  width: 380px;
+  width: 480px;
   border-collapse: collapse;
   text-align: center;
   padding: 7px;

@@ -24,7 +24,6 @@
             <v-btn class="lighten-2 mt-5" large @click="clickHandler">
               Начать
             </v-btn>
-            <debugger></debugger>
           </v-layout>
         </v-parallax>
       </section>
