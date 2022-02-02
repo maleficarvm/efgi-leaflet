@@ -504,7 +504,7 @@ export default {
     },
     onEachFeatureFunction() {
       return (feature, layer) => {
-        let userRole = this.role;
+        let userRole = localStorage.getItem("role");
         console.log(userRole);
         let a = "";
         let aa = "";
@@ -647,7 +647,6 @@ export default {
   mounted() {
     console.log("version 2.4 beta");
     console.log("Get value >>> " + this.valueMap + " <<<");
-    console.log("Get role >>> " + this.role + " <<<");
     /* if (this.valueMap != "") {
       this.$refs.map.mapObject.fitBounds(this.bounds);
     } */

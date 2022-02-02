@@ -109,6 +109,7 @@ export default {
           // if successful
           if (res.status === 200) {
             localStorage.setItem("token", res.data.token);
+            localStorage.setItem("role", res.data.role);
             this.loading = true;
             setTimeout(() => {
               this.snackbar = true;

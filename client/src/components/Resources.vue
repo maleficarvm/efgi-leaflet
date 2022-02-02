@@ -156,21 +156,12 @@ export default {
       zoom: 4,
       minZoom: 3,
       center: [64.7556, 96.7766],
-      bounds: [
-        [55.63901028125873, 37.3677978515625],
-        [55.348763181988105, 37.3787841796875],
-      ],
+      // bounds: [
+      //   [55.63901028125873, 37.3677978515625],
+      //   [55.348763181988105, 37.3787841796875],
+      // ],
       show: true,
       overlay: true,
-      l: null,
-      m: null,
-      n: null,
-      o: null,
-      p: null,
-      r: null,
-      s: null,
-      t: null,
-      u: null,
       geojson: null,
       fillColor: "orange",
       baseProviders: [
@@ -328,7 +319,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["valueApr", "role"]),
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
@@ -336,7 +326,7 @@ export default {
     },
     styleFunction() {
       return (feature) => {
-        if (feature.properties.f3 === "Апробировано") {
+        if (feature.properties.f3 == "Апробировано") {
           return {
             weight: 1.5,
             color: "#D2691E",
@@ -344,7 +334,7 @@ export default {
             fillColor: "#D2691E",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f3 === "Сняты") {
+        } else if (feature.properties.f3 == "Сняты") {
           return {
             weight: 1.5,
             color: "#800080",
@@ -352,7 +342,7 @@ export default {
             fillColor: "#800080",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f3 === "Отклонено") {
+        } else if (feature.properties.f3 == "Отклонено") {
           return {
             weight: 1.5,
             color: "#800000",
@@ -360,7 +350,7 @@ export default {
             fillColor: "#800000",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f3 === "Некондиция") {
+        } else if (feature.properties.f3 == "Некондиция") {
           return {
             weight: 1.5,
             color: "#FF00FF",
@@ -368,7 +358,7 @@ export default {
             fillColor: "#FF00FF",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f3 === "Внутренний учет ЦНИГРИ") {
+        } else if (feature.properties.f3 == "Внутренний учет ЦНИГРИ") {
           return {
             weight: 1.5,
             color: "#C71585",
@@ -376,7 +366,7 @@ export default {
             fillColor: "#C71585",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f3 === "Переоценены, другие координаты") {
+        } else if (feature.properties.f3 == "Переоценены, другие координаты") {
           return {
             weight: 1.5,
             color: "#008000",
@@ -384,7 +374,7 @@ export default {
             fillColor: "#008000",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f3 === "Не апробировано") {
+        } else if (feature.properties.f3 == "Не апробировано") {
           return {
             weight: 1.5,
             color: "#008080",
@@ -392,7 +382,7 @@ export default {
             fillColor: "#008080",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f3 === "Исключены") {
+        } else if (feature.properties.f3 == "Исключены") {
           return {
             weight: 1.5,
             color: "#000",
@@ -400,7 +390,7 @@ export default {
             fillColor: "#000",
             fillOpacity: 0.07,
           };
-        } else if (feature.properties.f3 === "Площадь работ") {
+        } else if (feature.properties.f3 == "Площадь работ") {
           return {
             weight: 1.5,
             color: "#8B4513",
@@ -421,7 +411,7 @@ export default {
     },
     onEachFeatureFunction() {
       return (feature, layer) => {
-        let userRole = this.role;
+        let userRole = localStorage.getItem("role");
         console.log(userRole);
         let a = "";
         let aa = "";
@@ -537,6 +527,7 @@ export default {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
+    let role = localStorage.getItem("role");
     axios
       .all([
         axios.get("http://localhost:3000/api/aprgeojson"),
@@ -545,7 +536,7 @@ export default {
       .then((resArr) => {
         this.error = null;
         this.overlay = false;
-        if (this.role == "chief") {
+        if (role == "chief") {
           const geojson = resArr[0].data;
           this.geojson = geojson;
           console.log(geojson);
@@ -601,10 +592,9 @@ export default {
   mounted() {
     console.log("version 2.4 beta");
     console.log("Get value apr >>> " + this.valueApr + " <<<");
-    console.log("Get role >>> " + this.role + " <<<");
-    if (this.valueApr != "") {
-      this.$refs.map.mapObject.fitBounds(this.bounds);
-    }
+    // if (this.valueApr != "") {
+    //   this.$refs.map.mapObject.fitBounds(this.bounds);
+    // }
   },
   methods: {
     clickHandler() {

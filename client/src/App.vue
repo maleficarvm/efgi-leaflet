@@ -106,6 +106,9 @@ export default {
     this.events.forEach(function(event) {
       window.addEventListener(event, this.resetTimer);
     }, this);
+    window.onbeforeunload = function() {
+      return confirm();
+    };
     window.addEventListener("beforeunload", this.deleteToken);
 
     this.setTimers();
@@ -113,14 +116,17 @@ export default {
   methods: {
     showModal() {
       this.isModalVisible = true;
-      alert("lol");
     },
     closeModal() {
       this.isModalVisible = false;
     },
     logout() {
-      localStorage.clear();
-      this.$router.push("/login");
+      let message = "Вы действительно хотите выйти из своей учетной записи?";
+      let result = window.confirm(message);
+      if (result) {
+        localStorage.clear();
+        this.$router.push("/login");
+      }
     },
     setTimers: function() {
       this.logoutTimer = setTimeout(this.logout, 1000 * 60 * 60);
@@ -130,7 +136,7 @@ export default {
       this.setTimers();
     },
     deleteToken() {
-      if (confirm("are you sure?")) localStorage.clear();
+      localStorage.clear();
     },
   },
 };
