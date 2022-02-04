@@ -505,20 +505,9 @@ export default {
           sticky: true,
           offset: [10, 0],
         });
-        layer.on("mouseover", function() {
-          this.setStyle({
-            weight: 3,
-            color: "#505050",
-          });
-        });
-        layer.on("mouseout", function(feature) {
-          this.setStyle(feature, {
-            weight: 0.7,
-            color: "#FF0000",
-            fillColor: "#FF0000",
-            opacity: 1,
-            fillOpacity: 0.07,
-          });
+        layer.on({
+          mouseover: this.highlightFeature,
+          mouseout: this.resetHighlight,
         });
       };
     },
@@ -569,11 +558,11 @@ export default {
         this.layout100K = resArr[3].data;
         const geojson = resArr[0].data.features;
         const a = geojson.filter((e) =>
-          e.properties.f4.includes("Региональные работы")
+          e.properties.f5.includes("Региональные работы")
         );
         this.a = a;
         const b = geojson.filter(
-          (e) => !e.properties.f4.includes("Региональные работы")
+          (e) => !e.properties.f5.includes("Региональные работы")
         );
         this.b = b;
       })
@@ -591,6 +580,26 @@ export default {
     } */
   },
   methods: {
+    highlightFeature(e) {
+      let layer = e.target;
+
+      layer.setStyle({
+        weight: 4,
+        color: "#666",
+      });
+    },
+    resetHighlight(e) {
+      let layer = e.target;
+      let feature = e.target.feature.properties.f5;
+
+      layer.setStyle({
+        weight: 0.7,
+        color: this.getColor(feature),
+        fillColor: this.getColor(feature),
+        opacity: 1,
+        fillOpacity: 0.07,
+      });
+    },
     zoomUpdated(zoom) {
       this.zoom = zoom;
     },

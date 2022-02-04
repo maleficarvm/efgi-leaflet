@@ -459,20 +459,9 @@ export default {
             offset: [10, 0],
           }
         );
-        layer.on("mouseover", function() {
-          this.setStyle({
-            weight: 5,
-            color: "#505050",
-          });
-        });
-        layer.on("mouseout", function(feature) {
-          this.setStyle({
-            weight: 0.7,
-            color: this.getColor(feature.properties.f3),
-            fillColor: this.getColor(feature.properties.f3),
-            opacity: 1,
-            fillOpacity: 0.07,
-          });
+        layer.on({
+          mouseover: this.highlightFeature,
+          mouseout: this.resetHighlight,
         });
       };
     },
@@ -551,6 +540,26 @@ export default {
     // }
   },
   methods: {
+    highlightFeature(e) {
+      let layer = e.target;
+
+      layer.setStyle({
+        weight: 4,
+        color: "#666",
+      });
+    },
+    resetHighlight(e) {
+      let layer = e.target;
+      let feature = e.target.feature.properties.f3;
+
+      layer.setStyle({
+        weight: 1.5,
+        color: this.getColor(feature),
+        fillColor: this.getColor(feature),
+        opacity: 1,
+        fillOpacity: 0.07,
+      });
+    },
     clickHandler() {
       const url = "/assets/files/Application.docx";
       window.location.href = url;
