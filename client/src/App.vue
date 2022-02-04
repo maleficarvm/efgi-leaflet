@@ -9,7 +9,7 @@
               style="height: 48px; margin: 1px 0 1px 19px"
               alt="tsnigri-logo-img"
             />
-            <ul class="navbar-list">
+            <ul class="navbar-list" v-if="$route.meta.show">
               <li class="navbar-item" v-for="link in links" :Key="link.title">
                 <router-link
                   class="navbar-link"
@@ -80,6 +80,7 @@ export default {
   },
   data() {
     return {
+      show: false,
       events: [
         "click",
         "mousemove",
@@ -106,12 +107,18 @@ export default {
     this.events.forEach(function(event) {
       window.addEventListener(event, this.resetTimer);
     }, this);
+
     window.onbeforeunload = function() {
       return confirm();
     };
     window.addEventListener("beforeunload", this.deleteToken);
 
     this.setTimers();
+  },
+  watch: {
+    show: window.addEventListener("storage", () => {
+      true;
+    }),
   },
   methods: {
     showModal() {

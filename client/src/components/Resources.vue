@@ -324,89 +324,42 @@ export default {
         onEachFeature: this.onEachFeatureFunction,
       };
     },
+    getColor() {
+      return (f3) => {
+        if (f3 == "Апробировано") {
+          return "#D2691E";
+        } else if (f3 == "Сняты") {
+          return "#800080";
+        } else if (f3 == "Отклонено") {
+          return "#800000";
+        } else if (f3 == "Некондиция") {
+          return "#FF00FF";
+        } else if (f3 == "Оценочные работы") {
+          return "#C71585";
+        } else if (f3 == "Внутренний учет ЦНИГРИ") {
+          return "#008000";
+        } else if (f3 == "Переоценены, другие координаты") {
+          return "#008080";
+        } else if (f3 == "Не апробировано") {
+          return "#008080";
+        } else if (f3 == "Исключены") {
+          return "#8B4513";
+        } else if (f3 == "Площадь работ") {
+          return "#000";
+        } else {
+          return "#FF0000";
+        }
+      };
+    },
     styleFunction() {
       return (feature) => {
-        if (feature.properties.f3 == "Апробировано") {
-          return {
-            weight: 1.5,
-            color: "#D2691E",
-            opacity: 1,
-            fillColor: "#D2691E",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 == "Сняты") {
-          return {
-            weight: 1.5,
-            color: "#800080",
-            opacity: 1,
-            fillColor: "#800080",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 == "Отклонено") {
-          return {
-            weight: 1.5,
-            color: "#800000",
-            opacity: 1,
-            fillColor: "#800000",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 == "Некондиция") {
-          return {
-            weight: 1.5,
-            color: "#FF00FF",
-            opacity: 1,
-            fillColor: "#FF00FF",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 == "Внутренний учет ЦНИГРИ") {
-          return {
-            weight: 1.5,
-            color: "#C71585",
-            opacity: 1,
-            fillColor: "#C71585",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 == "Переоценены, другие координаты") {
-          return {
-            weight: 1.5,
-            color: "#008000",
-            opacity: 1,
-            fillColor: "#008000",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 == "Не апробировано") {
-          return {
-            weight: 1.5,
-            color: "#008080",
-            opacity: 1,
-            fillColor: "#008080",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 == "Исключены") {
-          return {
-            weight: 1.5,
-            color: "#000",
-            opacity: 1,
-            fillColor: "#000",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 == "Площадь работ") {
-          return {
-            weight: 1.5,
-            color: "#8B4513",
-            opacity: 1,
-            fillColor: "#8B4513",
-            fillOpacity: 0.07,
-          };
-        } else {
-          return {
-            weight: 1.5,
-            color: "#FF0000",
-            opacity: 1,
-            fillColor: "#FF0000",
-            fillOpacity: 0.07,
-          };
-        }
+        return {
+          weight: 1.5,
+          opacity: 1,
+          fillOpacity: 0.07,
+          color: this.getColor(feature.properties.f3),
+          fillColor: this.getColor(feature.properties.f3),
+        };
       };
     },
     onEachFeatureFunction() {
@@ -512,10 +465,11 @@ export default {
             color: "#505050",
           });
         });
-        layer.on("mouseout", function() {
+        layer.on("mouseout", function(feature) {
           this.setStyle({
-            weight: 1.5,
-            color: "#FF0000",
+            weight: 0.7,
+            color: this.getColor(feature.properties.f3),
+            fillColor: this.getColor(feature.properties.f3),
             opacity: 1,
             fillOpacity: 0.07,
           });
