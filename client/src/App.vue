@@ -104,6 +104,7 @@ export default {
     };
   },
   mounted() {
+    console.info("UGIB version 2.5");
     this.events.forEach(function(event) {
       window.addEventListener(event, this.resetTimer);
     }, this);
@@ -114,11 +115,6 @@ export default {
     window.addEventListener("beforeunload", this.deleteToken);
 
     this.setTimers();
-  },
-  watch: {
-    show: window.addEventListener("storage", () => {
-      true;
-    }),
   },
   methods: {
     showModal() {

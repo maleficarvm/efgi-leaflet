@@ -540,9 +540,6 @@ export default {
       console.log(this.value);
     });
   },
-  mounted() {
-    console.info("version 2.4 beta");
-  },
   methods: {
     highlightFeature(e) {
       let layer = e.target;

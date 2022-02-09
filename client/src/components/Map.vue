@@ -439,7 +439,7 @@ export default {
         let uniqueArray = [...new Set(feature.properties.f1)];
         let b = "";
         uniqueArray.forEach(function(item1, i1, arr1) {
-          if (userRole === "chief") {
+          if (userRole === "chief" || userRole === "admin") {
             a = a + "<div><h3 style='width: 400px'>" + item1 + "</h3></div>";
             feature.properties.f1.forEach(function(item, i, arr) {
               if (item1 == feature.properties.f1[i])
@@ -564,7 +564,6 @@ export default {
       });
   },
   mounted() {
-    console.log("version 2.4 beta");
     console.log("Get value >>> " + this.valueMap + " <<<");
     /* if (this.valueMap != "") {
       this.$refs.map.mapObject.fitBounds(this.bounds);
