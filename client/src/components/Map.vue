@@ -133,7 +133,7 @@
         <l-geo-json
           name="Фондовые материалы"
           :visible="true"
-          :geojson="b"
+          :geojson="fund"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -141,7 +141,7 @@
         <l-geo-json
           name="Региональные работы"
           :visible="true"
-          :geojson="a"
+          :geojson="region"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -207,17 +207,8 @@ export default {
       text: "",
       show: true,
       overlay: true,
-      a: null,
-      b: null,
-      c: null,
-      d: null,
-      e: null,
-      f: null,
-      g: null,
-      h: null,
-      i: null,
-      j: null,
-      k: null,
+      region: null,
+      fund: null,
       layout1M: null,
       layout200K: null,
       layout100K: null,
@@ -388,107 +379,44 @@ export default {
         onEachFeature: this.onEachLayoutFunction,
       };
     },
+    getColor() {
+      return (f5) => {
+        if (f5 == "Научно-методические работы") {
+          return "#D2691E";
+        } else if (f5 == "Региональные работы") {
+          return "#800080";
+        } else if (f5 == "Поисковые работы") {
+          return "#800000";
+        } else if (f5 == "Научно-технологические исследования") {
+          return "#FF00FF";
+        } else if (f5 == "Оценочные работы") {
+          return "#C71585";
+        } else if (f5 == "Поисково-оценочные работы") {
+          return "#008000";
+        } else if (f5 == "Геохимические исследования") {
+          return "#008080";
+        } else if (f5 == "Освоение") {
+          return "#008080";
+        } else if (f5 == "Минералогические исследования") {
+          return "#8B4513";
+        } else if (f5 == "Геофизические исследования") {
+          return "#B8860B";
+        } else if (f5 == "Прогнозно-поисковые работы") {
+          return "#000";
+        } else {
+          return "#FF0000";
+        }
+      };
+    },
     styleFunction() {
       return (feature) => {
-        if (feature.properties.f5 == "Научно-методические работы") {
-          return {
-            weight: 0.7,
-            color: "#D2691E",
-            opacity: 1,
-            fillColor: "#D2691E",
-            fillOpacity: 0.04,
-          };
-        } else if (feature.properties.f5 == "Региональные работы") {
-          return {
-            weight: 0.7,
-            color: "#800080",
-            opacity: 1,
-            fillColor: "#800080",
-            fillOpacity: 0.04,
-          };
-        } else if (feature.properties.f5 == "Поисковые работы") {
-          return {
-            weight: 0.7,
-            color: "#800000",
-            opacity: 1,
-            fillColor: "#800000",
-            fillOpacity: 0.04,
-          };
-        } else if (
-          feature.properties.f5 == "Научно-технологические исследования"
-        ) {
-          return {
-            weight: 0.7,
-            color: "#FF00FF",
-            opacity: 1,
-            fillColor: "#FF00FF",
-            fillOpacity: 0.04,
-          };
-        } else if (feature.properties.f5 == "Оценочные работы") {
-          return {
-            weight: 0.7,
-            color: "#C71585",
-            opacity: 1,
-            fillColor: "#C71585",
-            fillOpacity: 0.04,
-          };
-        } else if (feature.properties.f5 == "Поисково-оценочные работы") {
-          return {
-            weight: 0.7,
-            color: "#008000",
-            opacity: 1,
-            fillColor: "#008000",
-            fillOpacity: 0.04,
-          };
-        } else if (feature.properties.f5 == "Геохимические исследования") {
-          return {
-            weight: 0.7,
-            color: "#008080",
-            opacity: 1,
-            fillColor: "#008080",
-            fillOpacity: 0.04,
-          };
-        } else if (feature.properties.f5 == "Освоение") {
-          return {
-            weight: 0.7,
-            color: "#008080",
-            opacity: 1,
-            fillColor: "#008080",
-            fillOpacity: 0.04,
-          };
-        } else if (feature.properties.f5 == "Минералогические исследования") {
-          return {
-            weight: 0.7,
-            color: "#8B4513",
-            opacity: 1,
-            fillColor: "#8B4513",
-            fillOpacity: 0.04,
-          };
-        } else if (feature.properties.f5 == "Геофизические исследования") {
-          return {
-            weight: 0.7,
-            color: "#B8860B",
-            opacity: 1,
-            fillColor: "#B8860B",
-            fillOpacity: 0.04,
-          };
-        } else if (feature.properties.f5 == "Прогнозно-поисковые работы") {
-          return {
-            weight: 0.7,
-            color: "#000",
-            opacity: 1,
-            fillColor: "#000",
-            fillOpacity: 0.04,
-          };
-        } else {
-          return {
-            weight: 0.7,
-            color: "#FF0000",
-            opacity: 1,
-            fillColor: "#FFA500",
-            fillOpacity: 0.07,
-          };
-        }
+        return {
+          weight: 0.7,
+          opacity: 1,
+          fillOpacity: 0.07,
+          color: this.getColor(feature.properties.f5),
+          fillColor: this.getColor(feature.properties.f5),
+        };
       };
     },
     styleLayoutFunction() {
@@ -503,62 +431,74 @@ export default {
       };
     },
     onEachFeatureFunction() {
-      return (feature, layer) => { 
-	  let a = ""
-		let aa = ""
-		let uniqueArray = [...new Set(feature.properties.f1)]	
-		let b = ""
-		uniqueArray.forEach(function(item1, i1, arr1){			
-			a = a + '<div><h3 style="width: 480px;">' + item1 + '</h3></div>'
-			b = b + '<div><h3 style="width: 480px;">' + item1 + '</h3></div>'
-			feature.properties.f1.forEach(function(item, i, arr){
-				if (item1 == feature.properties.f1[i])
-				if (feature.properties.f13[i] === null){aa = ""} else {aa = feature.properties.f13[i]}        
-			}),
-			a = a + '<h4 style="width: 480px;">' + aa + '</h4>'
-			b = b + '<h4 style="width: 480px;">' + aa + '</h4>'
-			a = a + "<table class='table'><tbody>" +
-			'<tr style="height: 18px;">'
-			b = b + "<table class='table'><tbody>" +
-			'<tr style="height: 18px;">'
-			feature.properties.f1.forEach(function(item, i, arr){					
-				if (item1 == feature.properties.f1[i])
-				a = a +
-				'<td style="width: 60%; height: 19px;">' + feature.properties.f10[i] + '</td>' +
-				'<td style="width: 40%; height: 19px;">' + feature.properties.f5[i] + '</td>' +
-				'<td height: 19px;"><a href="' + feature.properties.f7[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' + 
-				'<td height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
-				'</tr>'	
-				b = b + 
-				'<td style="width: 30%; height: 19px;">' + feature.properties.f10[i] + '</td>' +
-				'<td style="width: 30%; height: 19px;">' + feature.properties.f5[i] + '</td>' +
-				'<td style="width: 10%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
-				'</tr>'	
-				}), 
-				a = a + "</tbody></table>"
-				b = b + "</tbody></table>"
-				}),
-
-		layer.bindPopup('<h1 style="text-align: center; width: 480px;">Для руководства</h1>' + a + '<p style="text-align: center; width: 480px;">__________________________</p>' + '<h1 style="text-align: center; width: 480px;">Для сотрудника</h1>' + b,			
-          { permanent: false, sticky: true }
-        );
+      return (feature, layer) => {
+        let userRole = localStorage.getItem("role");
+        console.log(userRole);
+        let a = "";
+        let aa = "";
+        let uniqueArray = [...new Set(feature.properties.f1)];
+        let b = "";
+        uniqueArray.forEach(function(item1, i1, arr1) {
+          if (userRole === "chief") {
+            a = a + "<div><h3 style='width: 400px'>" + item1 + "</h3></div>";
+            feature.properties.f1.forEach(function(item, i, arr) {
+              if (item1 == feature.properties.f1[i])
+                aa = feature.properties.f13[i];
+            }),
+              (a = a + "<h4 style='width: 450px'>" + aa + "</h4><br/>");
+            a =
+              a + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
+            feature.properties.f1.forEach(function(item, i, arr) {
+              if (item1 == feature.properties.f1[i])
+                a =
+                  a +
+                  '<td style="width: 40%; height: 19px;  text-align: left;">' +
+                  feature.properties.f10[i] +
+                  "</td>" +
+                  '<td style="width: 40%; height: 19px;  text-align: left;">' +
+                  feature.properties.f5[i] +
+                  "</td>" +
+                  '<td style="width: 20%; height: 19px;"><a href="' +
+                  feature.properties.f7[i] +
+                  '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
+                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                  "</tr>";
+            }),
+              (a = a + "</tbody></table>");
+          } else {
+            b = b + "<div><h3 style='width: 400px'>" + item1 + "</h3></div>";
+            feature.properties.f1.forEach(function(item, i, arr) {
+              if (item1 == feature.properties.f1[i])
+                aa = feature.properties.f13[i];
+            }),
+              (b = b + "<h4 style='width: 450px'>" + aa + "</h4><br/>");
+            b =
+              b + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
+            feature.properties.f1.forEach(function(item, i, arr) {
+              if (item1 == feature.properties.f1[i])
+                b =
+                  b +
+                  '<td style="width: 50%; height: 19px;  text-align: center;">' +
+                  feature.properties.f10[i] +
+                  "</td>" +
+                  '<td style="width: 30%; height: 19px;  text-align: center;">' +
+                  feature.properties.f5[i] +
+                  "</td>" +
+                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                  "</tr>";
+            }),
+              (b = b + "</tbody></table>");
+          }
+        }),
+          layer.bindPopup(a || b, { permanent: false, sticky: true });
         layer.bindTooltip("<p><b>Объект: </b>" + uniqueArray + "</p>", {
           permanent: false,
           sticky: true,
           offset: [10, 0],
         });
-        layer.on("mouseover", function() {
-          this.setStyle({
-            weight: 5,
-            color: "#505050",
-          });
-        });
-        layer.on("mouseout", function() {
-          this.setStyle({
-            weight: 1.5,
-            color: "#FF0000",
-            dashOffset: "0",
-          });
+        layer.on({
+          mouseover: this.highlightFeature,
+          mouseout: this.resetHighlight,
         });
       };
     },
@@ -608,14 +548,14 @@ export default {
         this.layout200K = resArr[2].data;
         this.layout100K = resArr[3].data;
         const geojson = resArr[0].data.features;
-        const a = geojson.filter((e) =>
-          e.properties.f4.includes("Региональные работы")
+        const region = geojson.filter((e) =>
+          e.properties.f5.includes("Региональные работы")
         );
-        this.a = a;
-        const b = geojson.filter(
-          (e) => !e.properties.f4.includes("Региональные работы")
+        this.region = region;
+        const fund = geojson.filter(
+          (e) => !e.properties.f5.includes("Региональные работы")
         );
-        this.b = b;
+        this.fund = fund;
       })
       .catch((err) => {
         console.log(err);
@@ -631,23 +571,43 @@ export default {
     } */
   },
   methods: {
+    highlightFeature(e) {
+      let layer = e.target;
+
+      layer.setStyle({
+        weight: 4,
+        color: "#666",
+      });
+    },
+    resetHighlight(e) {
+      let layer = e.target;
+      let feature = e.target.feature.properties.f5;
+
+      layer.setStyle({
+        weight: 0.7,
+        color: this.getColor(feature),
+        fillColor: this.getColor(feature),
+        opacity: 1,
+        fillOpacity: 0.07,
+      });
+    },
     zoomUpdated(zoom) {
       this.zoom = zoom;
     },
     centerUpdated(center) {
       this.center = center;
     },
-    zoomToGeojson() {
-      let group = new featureGroup();
+    // zoomToGeojson() {
+    //   let group = new featureGroup();
 
-      this.$refs.map.mapObject.eachLayer(function(layer) {
-        if (layer.feature != undefined) group.addLayer(layer);
-      });
-      /* this.$refs.map.mapObject.flyToBounds(group.getBounds(), {
-        duration: 2,
-        padding: [10, 10],
-      }); */
-    },
+    //   this.$refs.map.mapObject.eachLayer(function(layer) {
+    //     if (layer.feature != undefined) group.addLayer(layer);
+    //   });
+    //   /* this.$refs.map.mapObject.flyToBounds(group.getBounds(), {
+    //     duration: 2,
+    //     padding: [10, 10],
+    //   }); */
+    // },
     goToTable(text) {
       this.text = "";
       this.$router.push("/table");

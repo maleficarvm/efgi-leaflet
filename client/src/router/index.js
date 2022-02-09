@@ -9,6 +9,7 @@ const routes = [
     path: "/",
     name: "Info",
     component: Info,
+    meta: { show: true },
   },
   {
     path: "/table",
@@ -17,41 +18,49 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/Table.vue"),
+    meta: { show: true },
   },
   {
     path: "/map",
     name: "Map",
     component: () => import("../views/Map.vue"),
+    meta: { show: true },
   },
   {
     path: "/resources",
     name: "Resources",
     component: () => import("../views/Resources.vue"),
+    meta: { show: true },
   },
   {
     path: "/forecast",
     name: "Forecast",
     component: () => import("../views/Forecast.vue"),
+    meta: { show: true },
   },
   {
     path: "/fund",
     name: "Fund",
     component: () => import("../views/Fund.vue"),
+    meta: { show: true },
   },
   {
     path: "*",
     name: "404",
     component: () => import("../views/404.vue"),
+    meta: { show: true },
   },
   {
     path: "/login",
     name: "Login",
     component: () => import("../views/LoginPage.vue"),
+    meta: { show: false },
   },
   {
     path: "/signup",
     name: "Signup",
     component: () => import("../views/Signup.vue"),
+    meta: { show: false },
   },
 ];
 

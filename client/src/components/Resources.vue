@@ -111,7 +111,7 @@
 
 <script>
 import axios from "axios";
-import { CRS, latlng } from "leaflet";
+import { CRS, latlng, latLngBounds } from "leaflet";
 import "../assets/css/leaflet.css";
 import "../assets/css/geosearch.css";
 import VGeosearch from "vue2-leaflet-geosearch";
@@ -146,6 +146,7 @@ export default {
     LGeoJson,
     LControl,
     latlng,
+    latLngBounds,
     CRS,
     LControlAttribution,
     LControlPolylineMeasure,
@@ -162,15 +163,6 @@ export default {
       ],
       show: true,
       overlay: true,
-      l: null,
-      m: null,
-      n: null,
-      o: null,
-      p: null,
-      r: null,
-      s: null,
-      t: null,
-      u: null,
       geojson: null,
       fillColor: "orange",
       baseProviders: [
@@ -328,150 +320,135 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["valueApr", "role"]),
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
       };
     },
+    getColor() {
+      return (f3) => {
+        if (f3 == "Апробировано") {
+          return "#D2691E";
+        } else if (f3 == "Сняты") {
+          return "#800080";
+        } else if (f3 == "Отклонено") {
+          return "#800000";
+        } else if (f3 == "Некондиция") {
+          return "#FF00FF";
+        } else if (f3 == "Оценочные работы") {
+          return "#C71585";
+        } else if (f3 == "Внутренний учет ЦНИГРИ") {
+          return "#008000";
+        } else if (f3 == "Переоценены, другие координаты") {
+          return "#008080";
+        } else if (f3 == "Не апробировано") {
+          return "#008080";
+        } else if (f3 == "Исключены") {
+          return "#8B4513";
+        } else if (f3 == "Площадь работ") {
+          return "#000";
+        } else {
+          return "#FF0000";
+        }
+      };
+    },
     styleFunction() {
       return (feature) => {
-        if (feature.properties.f3 === "Апробировано") {
-          return {
-            weight: 1.5,
-            color: "#D2691E",
-            opacity: 1,
-            fillColor: "#D2691E",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 === "Сняты") {
-          return {
-            weight: 1.5,
-            color: "#800080",
-            opacity: 1,
-            fillColor: "#800080",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 === "Отклонено") {
-          return {
-            weight: 1.5,
-            color: "#800000",
-            opacity: 1,
-            fillColor: "#800000",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 === "Некондиция") {
-          return {
-            weight: 1.5,
-            color: "#FF00FF",
-            opacity: 1,
-            fillColor: "#FF00FF",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 === "Внутренний учет ЦНИГРИ") {
-          return {
-            weight: 1.5,
-            color: "#C71585",
-            opacity: 1,
-            fillColor: "#C71585",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 === "Переоценены, другие координаты") {
-          return {
-            weight: 1.5,
-            color: "#008000",
-            opacity: 1,
-            fillColor: "#008000",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 === "Не апробировано") {
-          return {
-            weight: 1.5,
-            color: "#008080",
-            opacity: 1,
-            fillColor: "#008080",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 === "Исключены") {
-          return {
-            weight: 1.5,
-            color: "#000",
-            opacity: 1,
-            fillColor: "#000",
-            fillOpacity: 0.07,
-          };
-        } else if (feature.properties.f3 === "Площадь работ") {
-          return {
-            weight: 1.5,
-            color: "#8B4513",
-            opacity: 1,
-            fillColor: "#8B4513",
-            fillOpacity: 0.07,
-          };
-        } else {
-          return {
-            weight: 1.5,
-            color: "#FF0000",
-            opacity: 1,
-            fillColor: "#FF0000",
-            fillOpacity: 0.07,
-          };
-        }
+        return {
+          weight: 1.5,
+          opacity: 1,
+          fillOpacity: 0.07,
+          color: this.getColor(feature.properties.f3),
+          fillColor: this.getColor(feature.properties.f3),
+        };
       };
     },
     onEachFeatureFunction() {
       return (feature, layer) => {
-        let a = ""
-        let aa = ""
-        let ArraySub = []
-        let uniqueArraySub = []
-        let uniqueArray = [...new Set(feature.properties.f1)]	
-        let b = ""
-        feature.properties.f1.forEach(function(item, i, arr){            
-            ArraySub[i] = feature.properties.f5[i] + ', ' 
+        let userRole = localStorage.getItem("role");
+        // console.log(userRole);
+        let a = "";
+        let aa = "";
+        let ArraySub = [];
+        let uniqueArraySub = [];
+        let uniqueArray = [...new Set(feature.properties.f1)];
+        let b = "";
+        feature.properties.f1.forEach(function(item, i, arr) {
+          ArraySub[i] =
+            feature.properties.f5[i] +
+            ", " 
             if (feature.properties.f4[i] === null){ArraySub[i] = ArraySub[i] + ""} else {ArraySub[i] = ArraySub[i] + feature.properties.f4[i] + '. '}
             ArraySub[i] = ArraySub[i] + feature.properties.f3[i] +
-             ' ' + 
-            feature.properties.f7[i]
-          }),
-        uniqueArraySub = [...new Set(ArraySub)]
-        uniqueArray.forEach(function(item1, i1, arr1){			
-          a = a + '<div><h3 style="width: 380px;">' + item1 + '</h3></div>'
-          b = b + '<div><h3 style="width: 380px;">' + item1 + '</h3></div>'
-          uniqueArraySub.forEach(function(item2, i2, arr2){
-            a = a + '<h4 style="width: 380px;">' + item2 + '</h4>'
-            b = b + '<h4 style="width: 380px;">' + item2 + '</h4>'
-            a = a + "<table class='table'><tbody>" +
-            '<tr style="height: 18px;">'
-            b = b + "<table class='table'><tbody>" +
-            '<tr style="height: 18px;">'              
-              feature.properties.f1.forEach(function(item, i, arr){	
-                aa = feature.properties.f5[i] +
-                 ', '
+            " " +
+            feature.properties.f7[i];
+        }),
+          (uniqueArraySub = [...new Set(ArraySub)]);
+        uniqueArray.forEach(function(item1, i1, arr1, item2) {
+          if (userRole === "chief" || userRole === "admin") {
+            a = a + "<div><h3 style='width: 450px'>" + item1 + "</h3></div>";
+            uniqueArraySub.forEach(function(item2, i2, arr2) {
+              a = a + "<h4 style='width: 450px'>" + item2 + "</h4><br/>";
+              a =
+                a +
+                "<table class='table'><tbody>" +
+                '<tr style="height: 18px;">';
+              feature.properties.f1.forEach(function(item, i, arr) {
+                aa =
+                  feature.properties.f5[i] +
+                  ", "
                   if (feature.properties.f4[i] === null){aa = aa + ""} else {aa = aa + feature.properties.f4[i]+ '. '}
-                  aa = aa + feature.properties.f3[i] + 
-                  ' ' +
-                  feature.properties.f7[i]
-                if (item1 == feature.properties.f1[i] && item2 == aa){
-                  a = a +
-                  '<td style="width: 100%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +            
-                  '<td height: 19px;"><a href="' + feature.properties.f2[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' + 
-                  '<td height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
-                  '</tr>'	
-                  b = b + 
-                  '<td style="width: 100%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +  
-                  '<td height: 19px;"><a href="' + feature.properties.f2[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +           
-                  '<td height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
-                  '</tr>'	
-                } 
+                  aa = aa + feature.properties.f3[i] +
+                  " " +
+                  feature.properties.f7[i];
+                if (item1 === feature.properties.f1[i] && item2 === aa) {
+                  a =
+                    a +
+                    '<td style="width: 50%; height: 19px;  text-align: left;">' +
+                    feature.properties.f11[i] +
+                    "</td>" +
+                    '<td style="width: 20%; height: 19px;"><a href="' +
+                    feature.properties.f2[i] +
+                    '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
+                    '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                    "</tr>";
+                }
               }),
-              a = a + "</tbody></table>"
-              b = b + "</tbody></table>"
-            })            
-            }),
-		layer.bindPopup('<h1 style="text-align: center; width: 380px;">Для руководства</h1>' + a + '<p style="text-align: center; width: 380px;">__________________________</p>' + '<h1 style="text-align: center; width: 380px;">Для сотрудника</h1>' + b,
-          { permanent: false, sticky: true }
-        );
+                (a = a + "</tbody></table>");
+            });
+          } else {
+            b = b + "<div><h3 style='width: 450px'>" + item1 + "</h3></div>";
+            uniqueArraySub.forEach(function(item2, i2, arr2) {
+              b = b + "<h4 style='width: 450px'>" + item2 + "</h4><br/>";
+              b =
+                b +
+                "<table class='table'><tbody>" +
+                '<tr style="height: 18px;">';
+              feature.properties.f1.forEach(function(item, i, arr) {
+                aa =
+                  feature.properties.f5[i] +
+                  ", "
+                  if (feature.properties.f4[i] === null){aa = aa + ""} else {aa = aa + feature.properties.f4[i]+ '. '}
+                  aa = aa + feature.properties.f3[i] +
+                  " " +
+                  feature.properties.f7[i];
+                if (item1 === feature.properties.f1[i] && item2 === aa) {
+                  b =
+                    b +
+                    '<td style="width: 50%; height: 19px;  text-align: left;">' +
+                    feature.properties.f11[i] +
+                    "</td>" +
+                    '<td style="width: 20%; height: 19px;"><a href="' +
+                    feature.properties.f2[i] +
+                    '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +
+                    '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                    "</tr>";
+                }
+              }),
+                (b = b + "</tbody></table>");
+            });
+          }
+        }),
+          layer.bindPopup(a || b, { permanent: false, sticky: true });
         layer.bindTooltip(
           "<p><b>Объект: </b>" + feature.properties.f1[0] + "</p>",
           {
@@ -480,20 +457,13 @@ export default {
             offset: [10, 0],
           }
         );
-        layer.on("mouseover", function() {
-          this.setStyle({
-            weight: 5,
-            color: "#505050",
-          });
+        layer.on({
+          mouseover: this.highlightFeature,
+          mouseout: this.resetHighlight,
+          zoom: this.zoomToFeature,
         });
-        layer.on("mouseout", function() {
-          this.setStyle({
-            weight: 1.5,
-            color: "#FF0000",
-            opacity: 1,
-            fillOpacity: 0.07,
-          });
-        });
+        let example = (feature.properties.bounds_calculated = layer.getBounds());
+        console.log(example);
       };
     },
   },
@@ -501,15 +471,16 @@ export default {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
+    let role = localStorage.getItem("role");
     axios
-      .all([	  
-		    axios.get("http://localhost:3000/api/aprgeojson"),
-        axios.get("http://localhost:3000/api/prgeojson"),	  
-	  ])
+      .all([
+        axios.get("http://localhost:3000/api/aprgeojson"),
+        axios.get("http://localhost:3000/api/prgeojson"),
+      ])
       .then((resArr) => {
         this.error = null;
         this.overlay = false;
-        if (this.role == "chief") {
+        if (role == "chief") {
           const geojson = resArr[0].data;
           this.geojson = geojson;
           console.log(geojson);
@@ -552,6 +523,10 @@ export default {
           this.geojson = geojson;
           console.log(geojson);
         }
+        if (localStorage.getItem("protocolValue") != null) {
+          let protocol = localStorage.getItem("protocolValue");
+          console.log(protocol);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -563,14 +538,32 @@ export default {
     });
   },
   mounted() {
-    console.log("version 2.4 beta");
-    console.log("Get value apr >>> " + this.valueApr + " <<<");
-    console.log("Get role >>> " + this.role + " <<<");
-    if (this.valueApr != "") {
-      this.$refs.map.mapObject.fitBounds(this.bounds);
-    }
+    console.info("version 2.4 beta");
   },
   methods: {
+    highlightFeature(e) {
+      let layer = e.target;
+
+      layer.setStyle({
+        weight: 4,
+        color: "#666",
+      });
+    },
+    resetHighlight(e) {
+      let layer = e.target;
+      let feature = e.target.feature.properties.f3;
+
+      layer.setStyle({
+        weight: 1.5,
+        color: this.getColor(feature),
+        fillColor: this.getColor(feature),
+        opacity: 1,
+        fillOpacity: 0.07,
+      });
+    },
+    // zoomToFeature(e) {
+    //   this.$refs.map.mapObject.fitBounds(e.target.getBounds());
+    // },
     clickHandler() {
       const url = "/assets/files/Application.docx";
       window.location.href = url;
@@ -605,7 +598,7 @@ input[type="radio"] {
 table,
 th,
 td {
-  width: 380px;
+  width: 480px;
   border-collapse: collapse;
   text-align: center;
   padding: 7px;
@@ -662,7 +655,7 @@ label {
 }
 
 .leaflet-popup-content-wrapper {
-  width: 420px;
+  width: 520px;
 }
 
 .leaflet-touch .leaflet-control-layers,
