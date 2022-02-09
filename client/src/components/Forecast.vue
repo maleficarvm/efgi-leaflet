@@ -170,8 +170,8 @@ export default {
     },
     onButtonClick(value) {
       this.value = "";
+      localStorage.setItem("protocolValue", value);
       this.$router.push("/resources");
-      this.$store.commit("setValueApr", value);
       console.log("click on " + value + " item");
     },
   },

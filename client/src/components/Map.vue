@@ -133,7 +133,7 @@
         <l-geo-json
           name="Фондовые материалы"
           :visible="true"
-          :geojson="b"
+          :geojson="fund"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -141,7 +141,7 @@
         <l-geo-json
           name="Региональные работы"
           :visible="true"
-          :geojson="a"
+          :geojson="region"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -207,17 +207,8 @@ export default {
       text: "",
       show: true,
       overlay: true,
-      a: null,
-      b: null,
-      c: null,
-      d: null,
-      e: null,
-      f: null,
-      g: null,
-      h: null,
-      i: null,
-      j: null,
-      k: null,
+      region: null,
+      fund: null,
       layout1M: null,
       layout200K: null,
       layout100K: null,
@@ -557,14 +548,14 @@ export default {
         this.layout200K = resArr[2].data;
         this.layout100K = resArr[3].data;
         const geojson = resArr[0].data.features;
-        const a = geojson.filter((e) =>
+        const region = geojson.filter((e) =>
           e.properties.f5.includes("Региональные работы")
         );
-        this.a = a;
-        const b = geojson.filter(
+        this.region = region;
+        const fund = geojson.filter(
           (e) => !e.properties.f5.includes("Региональные работы")
         );
-        this.b = b;
+        this.fund = fund;
       })
       .catch((err) => {
         console.log(err);
@@ -606,17 +597,17 @@ export default {
     centerUpdated(center) {
       this.center = center;
     },
-    zoomToGeojson() {
-      let group = new featureGroup();
+    // zoomToGeojson() {
+    //   let group = new featureGroup();
 
-      this.$refs.map.mapObject.eachLayer(function(layer) {
-        if (layer.feature != undefined) group.addLayer(layer);
-      });
-      /* this.$refs.map.mapObject.flyToBounds(group.getBounds(), {
-        duration: 2,
-        padding: [10, 10],
-      }); */
-    },
+    //   this.$refs.map.mapObject.eachLayer(function(layer) {
+    //     if (layer.feature != undefined) group.addLayer(layer);
+    //   });
+    //   /* this.$refs.map.mapObject.flyToBounds(group.getBounds(), {
+    //     duration: 2,
+    //     padding: [10, 10],
+    //   }); */
+    // },
     goToTable(text) {
       this.text = "";
       this.$router.push("/table");

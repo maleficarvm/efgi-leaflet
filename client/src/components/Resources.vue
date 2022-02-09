@@ -111,7 +111,7 @@
 
 <script>
 import axios from "axios";
-import { CRS, latlng } from "leaflet";
+import { CRS, latlng, latLngBounds } from "leaflet";
 import "../assets/css/leaflet.css";
 import "../assets/css/geosearch.css";
 import VGeosearch from "vue2-leaflet-geosearch";
@@ -146,6 +146,7 @@ export default {
     LGeoJson,
     LControl,
     latlng,
+    latLngBounds,
     CRS,
     LControlAttribution,
     LControlPolylineMeasure,
@@ -156,10 +157,10 @@ export default {
       zoom: 4,
       minZoom: 3,
       center: [64.7556, 96.7766],
-      // bounds: [
-      //   [55.63901028125873, 37.3677978515625],
-      //   [55.348763181988105, 37.3787841796875],
-      // ],
+      bounds: [
+        [55.63901028125873, 37.3677978515625],
+        [55.348763181988105, 37.3787841796875],
+      ],
       show: true,
       overlay: true,
       geojson: null,
@@ -365,7 +366,7 @@ export default {
     onEachFeatureFunction() {
       return (feature, layer) => {
         let userRole = localStorage.getItem("role");
-        console.log(userRole);
+        // console.log(userRole);
         let a = "";
         let aa = "";
         let ArraySub = [];
@@ -462,7 +463,10 @@ export default {
         layer.on({
           mouseover: this.highlightFeature,
           mouseout: this.resetHighlight,
+          zoom: this.zoomToFeature,
         });
+        let example = (feature.properties.bounds_calculated = layer.getBounds());
+        console.log(example);
       };
     },
   },
@@ -522,6 +526,10 @@ export default {
           this.geojson = geojson;
           console.log(geojson);
         }
+        if (localStorage.getItem("protocolValue") != null) {
+          let protocol = localStorage.getItem("protocolValue");
+          console.log(protocol);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -533,11 +541,7 @@ export default {
     });
   },
   mounted() {
-    console.log("version 2.4 beta");
-    console.log("Get value apr >>> " + this.valueApr + " <<<");
-    // if (this.valueApr != "") {
-    //   this.$refs.map.mapObject.fitBounds(this.bounds);
-    // }
+    console.info("version 2.4 beta");
   },
   methods: {
     highlightFeature(e) {
@@ -560,6 +564,9 @@ export default {
         fillOpacity: 0.07,
       });
     },
+    // zoomToFeature(e) {
+    //   this.$refs.map.mapObject.fitBounds(e.target.getBounds());
+    // },
     clickHandler() {
       const url = "/assets/files/Application.docx";
       window.location.href = url;

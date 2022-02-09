@@ -40,7 +40,7 @@
           :search="search"
           :sort-desc="[false, true]"
           multi-sort
-          :header-props="{ sortIcon: null }"
+          :header-props="{ sortIcon: null, sortByText: 'Сортировать по:' }"
           :loading="loadTable"
           loading-text="Загрузка... Подождите"
         >
@@ -197,8 +197,8 @@ export default {
     },
     onButtonClick(value) {
       this.value = "";
+      localStorage.setItem("reportValue", value);
       this.$router.push("/map");
-      this.$store.commit("setValue", valueMap);
       console.log("click on " + value + " item");
     },
   },
