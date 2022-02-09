@@ -509,14 +509,14 @@ export default {
 		let uniqueArray = [...new Set(feature.properties.f1)]	
 		let b = ""
 		uniqueArray.forEach(function(item1, i1, arr1){			
-			a = a + '<div><h3>' + item1 + '</h3></div>'
-			b = b + '<div><h3>' + item1 + '</h3></div>'
+			a = a + '<div><h3 style="width: 480px;">' + item1 + '</h3></div>'
+			b = b + '<div><h3 style="width: 480px;">' + item1 + '</h3></div>'
 			feature.properties.f1.forEach(function(item, i, arr){
 				if (item1 == feature.properties.f1[i])
 				if (feature.properties.f13[i] === null){aa = ""} else {aa = feature.properties.f13[i]}        
 			}),
-			a = a + '<h4>' + aa + '</h4>'
-			b = b + '<h4>' + aa + '</h4>'
+			a = a + '<h4 style="width: 480px;">' + aa + '</h4>'
+			b = b + '<h4 style="width: 480px;">' + aa + '</h4>'
 			a = a + "<table class='table'><tbody>" +
 			'<tr style="height: 18px;">'
 			b = b + "<table class='table'><tbody>" +
@@ -524,22 +524,22 @@ export default {
 			feature.properties.f1.forEach(function(item, i, arr){					
 				if (item1 == feature.properties.f1[i])
 				a = a +
-				'<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f10[i] + '</td>' +
-				'<td style="width: 30%; height: 19px;  text-align: left;">' + feature.properties.f5[i] + '</td>' +
-				'<td style="width: 20%; height: 19px;"><a href="' + feature.properties.f7[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' + 
-				'<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
+				'<td style="width: 60%; height: 19px;">' + feature.properties.f10[i] + '</td>' +
+				'<td style="width: 40%; height: 19px;">' + feature.properties.f5[i] + '</td>' +
+				'<td height: 19px;"><a href="' + feature.properties.f7[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' + 
+				'<td height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
 				'</tr>'	
 				b = b + 
-				'<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f10[i] + '</td>' +
-				'<td style="width: 30%; height: 19px;  text-align: left;">' + feature.properties.f5[i] + '</td>' +
-				'<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
+				'<td style="width: 30%; height: 19px;">' + feature.properties.f10[i] + '</td>' +
+				'<td style="width: 30%; height: 19px;">' + feature.properties.f5[i] + '</td>' +
+				'<td style="width: 10%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
 				'</tr>'	
 				}), 
 				a = a + "</tbody></table>"
 				b = b + "</tbody></table>"
 				}),
 
-		layer.bindPopup('<h1 style="text-align: center;">Для руководства</h1>' + a + '<p style="text-align: center;">__________________________</p>' + '<h1 style="text-align: center;">Для сотрудника</h1>' + b,			
+		layer.bindPopup('<h1 style="text-align: center; width: 480px;">Для руководства</h1>' + a + '<p style="text-align: center; width: 480px;">__________________________</p>' + '<h1 style="text-align: center; width: 480px;">Для сотрудника</h1>' + b,			
           { permanent: false, sticky: true }
         );
         layer.bindTooltip("<p><b>Объект: </b>" + uniqueArray + "</p>", {
@@ -678,12 +678,12 @@ input[type="radio"] {
 table,
 th,
 td {
-  width: 380px;
+  width: 480px;
   border-collapse: collapse;
-  text-align: center;
+  text-align: left;
   padding: 7px;
   td {
-    text-align: center;
+    text-align: left;
   }
 }
 .table tr:nth-child(odd) {
@@ -741,7 +741,7 @@ label {
 }
 
 .leaflet-popup-content-wrapper {
-  width: 420px;
+  width: 520px;
 }
 
 .leaflet-touch .leaflet-control-layers,

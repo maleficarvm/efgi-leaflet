@@ -436,11 +436,11 @@ export default {
           }),
         uniqueArraySub = [...new Set(ArraySub)]
         uniqueArray.forEach(function(item1, i1, arr1){			
-          a = a + '<div><h3>' + item1 + '</h3></div>'
-          b = b + '<div><h3>' + item1 + '</h3></div>'
+          a = a + '<div><h3 style="width: 380px;">' + item1 + '</h3></div>'
+          b = b + '<div><h3 style="width: 380px;">' + item1 + '</h3></div>'
           uniqueArraySub.forEach(function(item2, i2, arr2){
-            a = a + '<h4>' + item2 + '</h4>'
-            b = b + '<h4>' + item2 + '</h4>'
+            a = a + '<h4 style="width: 380px;">' + item2 + '</h4>'
+            b = b + '<h4 style="width: 380px;">' + item2 + '</h4>'
             a = a + "<table class='table'><tbody>" +
             '<tr style="height: 18px;">'
             b = b + "<table class='table'><tbody>" +
@@ -448,20 +448,20 @@ export default {
               feature.properties.f1.forEach(function(item, i, arr){	
                 aa = feature.properties.f5[i] +
                  ', '
-                  if (feature.properties.f4[i] === null){aa + ""} else {aa + feature.properties.f4[i]+ '. '}
-                  aa = aa + feature.properties.f3[i] +
+                  if (feature.properties.f4[i] === null){aa = aa + ""} else {aa = aa + feature.properties.f4[i]+ '. '}
+                  aa = aa + feature.properties.f3[i] + 
                   ' ' +
                   feature.properties.f7[i]
                 if (item1 == feature.properties.f1[i] && item2 == aa){
                   a = a +
-                  '<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +            
-                  '<td style="width: 20%; height: 19px;"><a href="' + feature.properties.f2[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' + 
-                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
+                  '<td style="width: 100%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +            
+                  '<td height: 19px;"><a href="' + feature.properties.f2[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' + 
+                  '<td height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
                   '</tr>'	
                   b = b + 
-                  '<td style="width: 50%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +  
-                  '<td style="width: 20%; height: 19px;"><a href="' + feature.properties.f2[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +           
-                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
+                  '<td style="width: 100%; height: 19px;  text-align: left;">' + feature.properties.f11[i] + '</td>' +  
+                  '<td height: 19px;"><a href="' + feature.properties.f2[i] + '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +           
+                  '<td height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' + 
                   '</tr>'	
                 } 
               }),
@@ -469,7 +469,7 @@ export default {
               b = b + "</tbody></table>"
             })            
             }),
-		layer.bindPopup('<h1 style="text-align: center;">Для руководства</h1>' + a + '<p style="text-align: center;">__________________________</p>' + '<h1 style="text-align: center;">Для сотрудника</h1>' + b,
+		layer.bindPopup('<h1 style="text-align: center; width: 380px;">Для руководства</h1>' + a + '<p style="text-align: center; width: 380px;">__________________________</p>' + '<h1 style="text-align: center; width: 380px;">Для сотрудника</h1>' + b,
           { permanent: false, sticky: true }
         );
         layer.bindTooltip(
