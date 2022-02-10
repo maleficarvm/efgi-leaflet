@@ -21,7 +21,7 @@
               <button
                 class="navbar-item"
                 style="color: white; font-weight: 600"
-                @click="logout"
+                @click="logoutHandler"
               >
                 Выйти
               </button>
@@ -123,13 +123,17 @@ export default {
     closeModal() {
       this.isModalVisible = false;
     },
-    logout() {
+    logoutHandler() {
       let message = "Вы действительно хотите выйти из своей учетной записи?";
       let result = window.confirm(message);
       if (result) {
         localStorage.clear();
         this.$router.push("/login");
       }
+    },
+    logout() {
+      localStorage.clear();
+      this.$router.push("/login");
     },
     setTimers: function() {
       this.logoutTimer = setTimeout(this.logout, 1000 * 60 * 60);
