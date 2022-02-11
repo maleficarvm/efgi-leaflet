@@ -33,6 +33,14 @@
           :attribution="tileProvider.attribution"
           layer-type="base"
         />
+        <l-geo-json
+          name="Все объекты апробации"
+          :visible="true"
+          :geojson="geojson"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
         <l-wms-tile-layer
           v-for="layer in layers"
           :key="layer.name"
@@ -78,13 +86,13 @@
         <l-control-attribution
           position="bottomright"
           :prefix="
-            `<span>CRS: WGS-84 EPSG: 3857 Коорд. центра: ` +
+            `<span>CRS:WGS-84&nbsp;EPSG:3857&nbsp;Коорд.&nbsp;центра: ` +
               center.lat +
-              `&nbsp;С.Ш. &nbsp;` +
+              `&nbsp;С.Ш.&nbsp;` +
               center.lng +
-              `&nbsp;В.Д. &nbsp;Zoom: ` +
+              `&nbsp;В.Д.&nbsp;Zoom: ` +
               zoom +
-              `&nbsp; Leaflet</span> `
+              `&nbsp;&nbsp;Leaflet</span>`
           "
         ></l-control-attribution>
         <l-control-scale position="bottomleft" :imperial="false" />
@@ -96,14 +104,6 @@
         <l-control :position="'bottomright'">
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
         </l-control>
-        <l-geo-json
-          name="Все объекты апробации"
-          :visible="true"
-          :geojson="geojson"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
       </l-map>
     </section>
   </div>
@@ -593,9 +593,6 @@ export default {
       console.log(this.value);
     });
   },
-  mounted() {
-    console.info("version 2.4 beta");
-  },
   methods: {
     highlightFeature(e) {
       let layer = e.target;
@@ -689,6 +686,11 @@ label {
 }
 .leaflet-control-layers-selector {
   margin: 0px;
+}
+.leaflet-control-layers-expanded {
+  height: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .vertical-logo-img {
   width: 150px;

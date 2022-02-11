@@ -33,6 +33,46 @@
           :attribution="tileProvider.attribution"
           layer-type="base"
         />
+        <l-geo-json
+          name="Региональные работы"
+          :visible="true"
+          :geojson="region"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Фондовые материалы"
+          :visible="true"
+          :geojson="fund"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Материалы ГГК 1:1 000 000"
+          :visible="false"
+          :geojson="layout1M"
+          :options="layouts"
+          :options-style="styleLayoutFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Материалы ГГК 1:200 000"
+          :visible="false"
+          :geojson="layout200K"
+          :options="layouts"
+          :options-style="styleLayoutFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="ЦТК 1:100 000"
+          :visible="false"
+          :geojson="layout100K"
+          :options="layouts"
+          :options-style="styleLayoutFunction"
+          layer-type="overlay"
+        />
         <l-wms-tile-layer
           v-for="layer in layers"
           :key="layer.name"
@@ -78,13 +118,13 @@
         <l-control-attribution
           position="bottomright"
           :prefix="
-            `<span>CRS: WGS-84 EPSG: 3857 Коорд. центра: ` +
+            `<span>CRS:WGS-84&nbsp;EPSG:3857&nbsp;Коорд.&nbsp;центра: ` +
               center.lat +
-              `&nbsp;С.Ш. &nbsp;` +
+              `&nbsp;С.Ш.&nbsp;` +
               center.lng +
-              `&nbsp;В.Д. &nbsp;Zoom: ` +
+              `&nbsp;В.Д.&nbsp;Zoom: ` +
               zoom +
-              `&nbsp; Leaflet</span>`
+              `&nbsp;&nbsp;Leaflet</span>`
           "
         ></l-control-attribution>
         <!-- <l-control position="bottomleft">
@@ -106,46 +146,6 @@
         <l-control :position="'bottomright'">
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
         </l-control>
-        <l-geo-json
-          name="Материалы ГГК 1:1 000 000"
-          :visible="false"
-          :geojson="layout1M"
-          :options="layouts"
-          :options-style="styleLayoutFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Материалы ГГК 1:200 000"
-          :visible="false"
-          :geojson="layout200K"
-          :options="layouts"
-          :options-style="styleLayoutFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="ЦТК 1:100 000"
-          :visible="false"
-          :geojson="layout100K"
-          :options="layouts"
-          :options-style="styleLayoutFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Фондовые материалы"
-          :visible="true"
-          :geojson="fund"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Региональные работы"
-          :visible="true"
-          :geojson="region"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
       </l-map>
     </section>
   </div>
@@ -564,7 +564,6 @@ export default {
       });
   },
   mounted() {
-    console.log("version 2.4 beta");
     console.log("Get value >>> " + this.valueMap + " <<<");
     /* if (this.valueMap != "") {
       this.$refs.map.mapObject.fitBounds(this.bounds);
@@ -665,10 +664,10 @@ label {
   margin-top: 23px !important;
   z-index: 0;
 }
-.leaflet-control-layers-scrollbar {
-  display: block;
-  overflow-y: auto;
-  max-height: 500px;
+.leaflet-control-layers-expanded {
+  height: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .leaflet-control-layers-list {
   padding: 0px;
