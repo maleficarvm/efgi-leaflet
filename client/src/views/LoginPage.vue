@@ -116,7 +116,9 @@ export default {
             }, 500);
             setTimeout(() => {
               this.$store.commit("setRole", res.data.role);
-              this.$router.push("/");
+              localStorage.getItem("role") === "admin"
+                ? this.$router.push("/admin")
+                : this.$router.push("/");
               /* console.log(res.data.role); */
             }, 2000);
           }

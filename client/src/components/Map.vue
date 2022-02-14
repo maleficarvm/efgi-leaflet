@@ -368,7 +368,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["valueMap"]),
+    // ...mapGetters(["valueMap"]),
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
@@ -564,7 +564,7 @@ export default {
       });
   },
   mounted() {
-    console.log("Get value >>> " + this.valueMap + " <<<");
+    // console.log("Get value >>> " + this.valueMap + " <<<");
     /* if (this.valueMap != "") {
       this.$refs.map.mapObject.fitBounds(this.bounds);
     } */

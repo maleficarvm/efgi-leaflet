@@ -25,6 +25,14 @@
               >
                 Выйти
               </button>
+              <button
+                v-if="admin"
+                class="navbar-item"
+                style="color: white; font-weight: 600"
+                @click="adminPanelHandler"
+              >
+                Управление
+              </button>
               <v-toolbar-title data-app>
                 <v-menu bottom left dark :offset-x="offset">
                   <template v-slot:activator="{ on: menu, attrs }">
@@ -81,6 +89,7 @@ export default {
   data() {
     return {
       show: false,
+      admin: false,
       events: [
         "click",
         "mousemove",
@@ -105,6 +114,11 @@ export default {
   },
   mounted() {
     console.info("UGIB version 2.5");
+
+    if (localStorage.getItem("token") === "admin") {
+      this.admin = true;
+    }
+
     this.events.forEach(function(event) {
       window.addEventListener(event, this.resetTimer);
     }, this);
@@ -122,6 +136,9 @@ export default {
     },
     closeModal() {
       this.isModalVisible = false;
+    },
+    adminPanelHandler() {
+      this.$router.push("/admin");
     },
     logoutHandler() {
       let message = "Вы действительно хотите выйти из своей учетной записи?";
