@@ -436,17 +436,31 @@ export default {
         console.log(userRole);
         let popupText = "";
         let popupSubText = "";
-        let uniqueArray = [...new Set(feature.properties.f1)];        
+        let uniqueArray = [...new Set(feature.properties.f1)];
         uniqueArray.forEach(function(item1, i1, arr1) {
           if (userRole === "chief" || userRole === "admin") {
-            popupText = popupText + "<div><h3 style='width: 470px'>" + item1.replace(/\-/g, '&#8209;') + "</h3></div>";
+            popupText =
+              popupText +
+              "<div><h3 style='width: 470px'>" +
+              item1.replace(/\-/g, "&#8209;") +
+              "</h3></div>";
             feature.properties.f1.forEach(function(item, i, arr) {
               if (item1 == feature.properties.f1[i])
-                if (feature.properties.f13[i] === null){popupSubText = ""} else {popupSubText = feature.properties.f13[i]};
+                if (feature.properties.f13[i] === null) {
+                  popupSubText = "";
+                } else {
+                  popupSubText = feature.properties.f13[i];
+                }
             }),
-              (popupText = popupText + "<h4 style='width: 450px'>" + popupSubText + "</h4><br/>");
+              (popupText =
+                popupText +
+                "<h4 style='width: 450px'>" +
+                popupSubText +
+                "</h4><br/>");
             popupText =
-              popupText + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
+              popupText +
+              "<table class='table'><tbody>" +
+              '<tr style="height: 18px;">';
             feature.properties.f1.forEach(function(item, i, arr) {
               if (item1 == feature.properties.f1[i])
                 popupText =
@@ -462,17 +476,31 @@ export default {
                   '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
                   '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
                   "</tr>";
-            }),            
-              (popupText = popupText + "</tbody></table>");              
+            }),
+              (popupText = popupText + "</tbody></table>");
           } else {
-            popupText = popupText + "<div><h3 style='width: 470px'>" + item1.replace(/\-/g, '&#8209;') + "</h3></div>";
+            popupText =
+              popupText +
+              "<div><h3 style='width: 470px'>" +
+              item1.replace(/\-/g, "&#8209;") +
+              "</h3></div>";
             feature.properties.f1.forEach(function(item, i, arr) {
               if (item1 == feature.properties.f1[i])
-                if (feature.properties.f13[i] === null){popupSubText = ""} else {popupSubText = feature.properties.f13[i]};
+                if (feature.properties.f13[i] === null) {
+                  popupSubText = "";
+                } else {
+                  popupSubText = feature.properties.f13[i];
+                }
             }),
-              (popupText = popupText + "<h4 style='width: 450px'>" + popupSubText + "</h4><br/>");
+              (popupText =
+                popupText +
+                "<h4 style='width: 450px'>" +
+                popupSubText +
+                "</h4><br/>");
             popupText =
-              popupText + "<table class='table'><tbody>" + '<tr style="height: 18px;">';
+              popupText +
+              "<table class='table'><tbody>" +
+              '<tr style="height: 18px;">';
             feature.properties.f1.forEach(function(item, i, arr) {
               if (item1 == feature.properties.f1[i])
                 popupText =
@@ -488,9 +516,9 @@ export default {
             }),
               (popupText = popupText + "</tbody></table>");
           }
-        }),        
-        //popupText = popupText.replace(/\-/g, '&#8209;'),
-        layer.bindPopup(popupText, { permanent: false, sticky: true });
+        }),
+          //popupText = popupText.replace(/\-/g, '&#8209;'),
+          layer.bindPopup(popupText, { permanent: false, sticky: true });
         layer.bindTooltip("<p><b>Объект: </b>" + uniqueArray + "</p>", {
           permanent: false,
           sticky: true,
