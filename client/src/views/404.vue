@@ -10,6 +10,11 @@
 <script>
 export default {
   name: "404",
+  created() {
+    if (localStorage.getItem("token") === null) {
+      this.$router.push("/login");
+    }
+  },
 };
 </script>
 

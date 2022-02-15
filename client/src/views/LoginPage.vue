@@ -147,8 +147,8 @@ export default {
 input {
   border: none !important;
   margin: 0 !important;
+  box-sizing: border-box !important;
 }
-
 .background {
   background-image: url(../img/banner_main_plus.gif) !important;
   height: 95%;
