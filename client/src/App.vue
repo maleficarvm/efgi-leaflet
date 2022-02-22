@@ -10,29 +10,82 @@
               alt="tsnigri-logo-img"
             />
             <ul class="navbar-list" v-if="$route.meta.show">
-              <li class="navbar-item" v-for="link in links" :Key="link.title">
+              <!-- <li class="navbar-item" v-for="link in links" :Key="link.title">
                 <router-link
                   class="navbar-link"
                   :title="link.title"
                   :to="link.url"
                   >{{ link.title }}
                 </router-link>
-              </li>
-              <button
-                class="navbar-item"
-                style="color: white; font-weight: 600"
-                @click="logoutHandler"
-              >
-                Выйти
-              </button>
-              <button
-                v-if="admin"
-                class="navbar-item"
-                style="color: white; font-weight: 600"
-                @click="adminPanelHandler"
-              >
-                Управление
-              </button>
+              </li> -->
+              <div class="text-center">
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn color="primary" plain dark v-bind="attrs" v-on="on">
+                      О Едином Банке
+                    </v-btn>
+                  </template>
+                  <v-list dark>
+                    <v-list-item
+                      v-for="(item, index) in items"
+                      :key="index"
+                      :to="item.link"
+                    >
+                      <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn color="primary" plain dark v-bind="attrs" v-on="on">
+                      Фондовые материалы
+                    </v-btn>
+                  </template>
+                  <v-list dark>
+                    <v-list-item
+                      v-for="(fund, index) in funds"
+                      :key="index"
+                      :to="fund.link"
+                    >
+                      <v-list-item-title>{{ fund.title }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn color="primary" plain dark v-bind="attrs" v-on="on">
+                      Материалы апробации ПР
+                    </v-btn>
+                  </template>
+                  <v-list dark>
+                    <v-list-item
+                      v-for="(apr, index) in aprs"
+                      :key="index"
+                      :to="apr.link"
+                    >
+                      <v-list-item-title>{{ apr.title }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn color="primary" plain dark v-bind="attrs" v-on="on">
+                      Отчетные материалы ГРР
+                    </v-btn>
+                  </template>
+                  <v-list dark>
+                    <v-list-item
+                      v-for="(material, index) in materials"
+                      :key="index"
+                      :to="material.link"
+                    >
+                      <v-list-item-title>{{
+                        material.title
+                      }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </div>
               <v-toolbar-title data-app>
                 <v-menu bottom left dark :offset-x="offset">
                   <template v-slot:activator="{ on: menu, attrs }">
@@ -45,19 +98,19 @@
                           v-bind="attrs"
                           v-on="{ ...tooltip, ...menu }"
                         >
-                          <v-icon>mdi-menu</v-icon>
+                          <v-icon>mdi-account</v-icon>
                         </v-btn>
                       </template>
-                      <span>Меню</span>
+                      <span>Личный кабинет</span>
                     </v-tooltip>
                   </template>
                   <v-list>
                     <v-list-item
-                      v-for="(item, i) in items"
+                      v-for="(admin, i) in admins"
                       :key="i"
-                      :to="item.link"
+                      :to="admin.link"
                     >
-                      <v-list-item-title>{{ item.title }}</v-list-item-title>
+                      <v-list-item-title>{{ admin.title }}</v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
@@ -102,14 +155,32 @@ export default {
       logoutTimer: null,
       isModalVisible: false,
       offset: true,
-      items: [
-        { title: "Карта объектов учета", link: "/map" },
-        { title: "Карта объектов апробации", link: "/resources" },
-        { title: "Реестр объектов учета", link: "/table" },
-        { title: "Реестр объектов апробации", link: "/forecast" },
-        { title: "Реестр фондовых материалов", link: "/fund" },
-      ],
       links: [{ title: "О Едином Банке", url: "/" }],
+      items: [
+        { title: "Назначение ЕБГИ", link: "/" },
+        { title: "Основные компоненты", link: "/" },
+        { title: "Предоставление информации", link: "/" },
+        { title: "Регламентирующие документы, бланки", link: "/" },
+      ],
+      admins: [
+        { title: "История заявок", link: "/404" },
+        { title: "Доступные материалы", link: "/404" },
+        { title: "Корзина", link: "/404" },
+        { title: "Выйти", link: "/login" },
+      ],
+      funds: [
+        { title: "Реестр фондовых материалов", link: "/table" },
+        { title: "Карта объектов фондовых материалов", link: "/map" },
+      ],
+      aprs: [
+        { title: "Реестр материалов апробации ПР", link: "/resources" },
+        { title: "Карта объектов апробации ПР", link: "/forecast" },
+      ],
+      materials: [
+        { title: "Реестр материалов постановки ГРР", link: "/staging" },
+        { title: "Реестр отчетных материалов ГРР", link: "/accompany" },
+        { title: "Карта объектов ГРР", link: "/exploration" },
+      ],
     };
   },
   mounted() {

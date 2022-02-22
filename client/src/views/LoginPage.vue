@@ -98,6 +98,9 @@ export default {
     role: "",
     error: "",
   }),
+  created() {
+    localStorage.clear();
+  },
   methods: {
     submitHandler() {
       if (this.$refs.form.validate()) {

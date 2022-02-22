@@ -34,43 +34,11 @@
           layer-type="base"
         />
         <l-geo-json
-          name="Региональные работы"
+          name="Все объекты апробации"
           :visible="true"
-          :geojson="region"
+          :geojson="geojson"
           :options="features"
           :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Фондовые материалы"
-          :visible="true"
-          :geojson="fund"
-          :options="features"
-          :options-style="styleFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Материалы ГГК 1:1 000 000"
-          :visible="false"
-          :geojson="layout1M"
-          :options="layouts"
-          :options-style="styleLayoutFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Материалы ГГК 1:200 000"
-          :visible="false"
-          :geojson="layout200K"
-          :options="layouts"
-          :options-style="styleLayoutFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="ЦТК 1:100 000"
-          :visible="false"
-          :geojson="layout100K"
-          :options="layouts"
-          :options-style="styleLayoutFunction"
           layer-type="overlay"
         />
         <l-wms-tile-layer
@@ -127,22 +95,12 @@
               `&nbsp;&nbsp;Leaflet</span>`
           "
         ></l-control-attribution>
-        <!-- <l-control position="bottomleft">
-          <v-btn class="ma-2 btn__default" dark @click="zoomToGeojson">
-            zoomToGeoJSON
-          </v-btn>
-        </l-control> -->
-        <!-- <l-control position="bottomleft">
-          <v-btn class="ma-2 btn__default" dark @click="goToTable">
-            goToTable
-          </v-btn>
-        </l-control> -->
+        <l-control-scale position="bottomleft" :imperial="false" />
         <l-control position="bottomright">
           <v-btn class="ma-2 btn__default" dark href="Бланк_заявки.doc">
             Скачать форму заявки
           </v-btn>
         </l-control>
-        <l-control-scale position="bottomleft" :imperial="false" />
         <l-control :position="'bottomright'">
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
         </l-control>
@@ -153,11 +111,12 @@
 
 <script>
 import axios from "axios";
-import { CRS, latlng, featureGroup } from "leaflet";
+import { CRS, latlng, latLngBounds } from "leaflet";
 import "../assets/css/leaflet.css";
 import "../assets/css/geosearch.css";
 import VGeosearch from "vue2-leaflet-geosearch";
 import LControlFullscreen from "vue2-leaflet-fullscreen";
+import VueLeafletMinimap from "vue-leaflet-minimap";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
 import { mapGetters } from "vuex";
@@ -174,44 +133,37 @@ import {
 } from "vue2-leaflet";
 
 export default {
-  name: "Map",
+  name: "Resources",
   components: {
     LMap,
     LTileLayer,
     LControlLayers,
     LControlScale,
     LControlFullscreen,
+    VueLeafletMinimap,
     VGeosearch,
     LMarker,
     LGeoJson,
     LControl,
     latlng,
-    featureGroup,
+    latLngBounds,
     CRS,
     LControlAttribution,
     LControlPolylineMeasure,
     "l-wms-tile-layer": LWMSTileLayer,
   },
-  transition: "fade",
   data() {
     return {
-      map: null,
       zoom: 4,
       minZoom: 3,
-      center: [63.7556, 101.7766],
+      center: [64.7556, 96.7766],
       bounds: [
         [55.63901028125873, 37.3677978515625],
         [55.348763181988105, 37.3787841796875],
       ],
-      value: "",
-      text: "",
       show: true,
       overlay: true,
-      region: null,
-      fund: null,
-      layout1M: null,
-      layout200K: null,
-      layout100K: null,
+      geojson: null,
       fillColor: "orange",
       baseProviders: [
         {
@@ -242,7 +194,7 @@ export default {
           visible: false,
           url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
           attribution:
-            '&copy; Участники <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+            'Map data: &copy; <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
         },
         {
           name: "Mapbox Спутник",
@@ -368,40 +320,32 @@ export default {
     };
   },
   computed: {
-    // ...mapGetters(["valueMap"]),
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
       };
     },
-    layouts() {
-      return {
-        onEachFeature: this.onEachLayoutFunction,
-      };
-    },
     getColor() {
-      return (f5) => {
-        if (f5 == "Научно-методические работы") {
+      return (f3) => {
+        if (f3 == "Апробировано") {
           return "#D2691E";
-        } else if (f5 == "Региональные работы") {
+        } else if (f3 == "Сняты") {
           return "#800080";
-        } else if (f5 == "Поисковые работы") {
+        } else if (f3 == "Отклонено") {
           return "#800000";
-        } else if (f5 == "Научно-технологические исследования") {
+        } else if (f3 == "Некондиция") {
           return "#FF00FF";
-        } else if (f5 == "Оценочные работы") {
+        } else if (f3 == "Оценочные работы") {
           return "#C71585";
-        } else if (f5 == "Поисково-оценочные работы") {
+        } else if (f3 == "Внутренний учет ЦНИГРИ") {
           return "#008000";
-        } else if (f5 == "Геохимические исследования") {
+        } else if (f3 == "Переоценены, другие координаты") {
           return "#008080";
-        } else if (f5 == "Освоение") {
+        } else if (f3 == "Не апробировано") {
           return "#008080";
-        } else if (f5 == "Минералогические исследования") {
+        } else if (f3 == "Исключены") {
           return "#8B4513";
-        } else if (f5 == "Геофизические исследования") {
-          return "#B8860B";
-        } else if (f5 == "Прогнозно-поисковые работы") {
+        } else if (f3 == "Площадь работ") {
           return "#000";
         } else {
           return "#FF0000";
@@ -411,144 +355,185 @@ export default {
     styleFunction() {
       return (feature) => {
         return {
-          weight: 0.7,
+          weight: 1.5,
           opacity: 1,
           fillOpacity: 0.07,
-          color: this.getColor(feature.properties.f5),
-          fillColor: this.getColor(feature.properties.f5),
-        };
-      };
-    },
-    styleLayoutFunction() {
-      return () => {
-        return {
-          weight: 0.6,
-          color: "gray",
-          opacity: 1,
-          fillColor: "black",
-          fillOpacity: 0.07,
+          color: this.getColor(feature.properties.f3),
+          fillColor: this.getColor(feature.properties.f3),
         };
       };
     },
     onEachFeatureFunction() {
       return (feature, layer) => {
         let userRole = localStorage.getItem("role");
-        console.log(userRole);
+        // console.log(userRole);
         let popupText = "";
         let popupSubText = "";
+        let ArraySub = [];
+        let uniqueArraySub = [];
         let uniqueArray = [...new Set(feature.properties.f1)];
-        uniqueArray.forEach(function(item1, i1, arr1) {
+        feature.properties.f1.forEach(function(item, i, arr) {
+          ArraySub[i] =
+            feature.properties.f3[i] +
+            " " +
+            feature.properties.f7[i] +
+            ", " +
+            feature.properties.f5[i];
+          if (feature.properties.f4[i] === null) {
+            ArraySub[i] = ArraySub[i] + "";
+          } else {
+            ArraySub[i] = ArraySub[i] + ", " + feature.properties.f4[i];
+          }
+        }),
+          (uniqueArraySub = [...new Set(ArraySub)]);
+        uniqueArray.forEach(function(item1, i1, arr1, item2) {
           if (userRole === "chief" || userRole === "admin") {
             popupText =
               popupText +
               "<div><h3 style='width: 470px'>" +
               item1.replace(/\-/g, "&#8209;") +
               "</h3></div>";
-            feature.properties.f1.forEach(function(item, i, arr) {
-              if (item1 == feature.properties.f1[i])
-                if (feature.properties.f13[i] === null) {
-                  popupSubText = "";
-                } else {
-                  popupSubText = feature.properties.f13[i];
-                }
-            }),
-              (popupText =
-                popupText +
-                "<h4 style='width: 450px'>" +
-                popupSubText +
-                "</h4><br/>");
-            popupText =
-              popupText +
-              "<table class='table'><tbody>" +
-              '<tr style="height: 18px;">';
-            feature.properties.f1.forEach(function(item, i, arr) {
-              if (item1 == feature.properties.f1[i])
-                popupText =
-                  popupText +
-                  '<td style="width: 40%; height: 19px;  text-align: left;">' +
-                  feature.properties.f10[i] +
-                  "</td>" +
-                  '<td style="width: 40%; height: 19px;  text-align: left;">' +
-                  feature.properties.f5[i] +
-                  "</td>" +
-                  '<td style="width: 20%; height: 19px;"><a href="' +
+            uniqueArraySub.forEach(function(item2, i2, arr2) {
+              uniqueArray.forEach(function(item, i, arr) {
+                popupSubText =
+                  feature.properties.f3[i] +
+                  " " +
                   feature.properties.f7[i] +
-                  '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
-                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
-                  "</tr>";
-            }),
-              (popupText = popupText + "</tbody></table>");
+                  ", " +
+                  feature.properties.f5[i];
+                if (feature.properties.f4[i] === null) {
+                  popupSubText = popupSubText + "";
+                } else {
+                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
+                }
+                if (
+                  item1 === feature.properties.f1[i] &&
+                  item2 === popupSubText
+                ) {
+                  popupText =
+                    popupText +
+                    "<h4 style='width: 450px'>" +
+                    item2 +
+                    "</h4><br/>";
+                  popupText =
+                    popupText +
+                    "<table class='table'><tbody>" +
+                    '<tr style="height: 18px;">';
+                }
+              });
+              feature.properties.f1.forEach(function(item, i, arr) {
+                popupSubText =
+                  feature.properties.f3[i] +
+                  " " +
+                  feature.properties.f7[i] +
+                  ", " +
+                  feature.properties.f5[i];
+                if (feature.properties.f4[i] === null) {
+                  popupSubText = popupSubText + "";
+                } else {
+                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
+                }
+                if (
+                  item1 === feature.properties.f1[i] &&
+                  item2 === popupSubText
+                ) {
+                  popupText =
+                    popupText +
+                    '<td style="width: 50%; height: 19px;  text-align: left;">' +
+                    feature.properties.f11[i] +
+                    "</td>" +
+                    '<td style="width: 20%; height: 19px;"><a href="' +
+                    feature.properties.f2[i] +
+                    '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
+                    '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                    "</tr>";
+                }
+              }),
+                (popupText = popupText + "</tbody></table>");
+            });
           } else {
             popupText =
               popupText +
               "<div><h3 style='width: 470px'>" +
               item1.replace(/\-/g, "&#8209;") +
               "</h3></div>";
-            feature.properties.f1.forEach(function(item, i, arr) {
-              if (item1 == feature.properties.f1[i])
-                if (feature.properties.f13[i] === null) {
-                  popupSubText = "";
+            uniqueArraySub.forEach(function(item2, i2, arr2) {
+              uniqueArray.forEach(function(item, i, arr) {
+                popupSubText =
+                  feature.properties.f3[i] +
+                  " " +
+                  feature.properties.f7[i] +
+                  ", " +
+                  feature.properties.f5[i];
+                if (feature.properties.f4[i] === null) {
+                  popupSubText = popupSubText + "";
                 } else {
-                  popupSubText = feature.properties.f13[i];
+                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
                 }
-            }),
-              (popupText =
-                popupText +
-                "<h4 style='width: 450px'>" +
-                popupSubText +
-                "</h4><br/>");
-            popupText =
-              popupText +
-              "<table class='table'><tbody>" +
-              '<tr style="height: 18px;">';
-            feature.properties.f1.forEach(function(item, i, arr) {
-              if (item1 == feature.properties.f1[i])
-                popupText =
-                  popupText +
-                  '<td style="width: 50%; height: 19px;  text-align: center;">' +
-                  feature.properties.f10[i] +
-                  "</td>" +
-                  '<td style="width: 30%; height: 19px;  text-align: center;">' +
-                  feature.properties.f5[i] +
-                  "</td>" +
-                  '<td style="width: 20%; height: 19px;"><popupText @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
-                  "</tr>";
-            }),
-              (popupText = popupText + "</tbody></table>");
+                if (
+                  item1 === feature.properties.f1[i] &&
+                  item2 === popupSubText
+                ) {
+                  popupText =
+                    popupText +
+                    "<h4 style='width: 450px'>" +
+                    item2 +
+                    "</h4><br/>";
+                  popupText =
+                    popupText +
+                    "<table class='table'><tbody>" +
+                    '<tr style="height: 18px;">';
+                }
+              });
+              feature.properties.f1.forEach(function(item, i, arr) {
+                popupSubText =
+                  feature.properties.f3[i] +
+                  " " +
+                  feature.properties.f7[i] +
+                  ", " +
+                  feature.properties.f5[i];
+                if (feature.properties.f4[i] === null) {
+                  popupSubText = popupSubText + "";
+                } else {
+                  popupSubText = popupSubText + ", ";
+                  feature.properties.f4[i];
+                }
+                if (
+                  item1 === feature.properties.f1[i] &&
+                  item2 === popupSubText
+                ) {
+                  popupText =
+                    popupText +
+                    '<td style="width: 50%; height: 19px;  text-align: left;">' +
+                    feature.properties.f11[i] +
+                    "</td>" +
+                    '<td style="width: 20%; height: 19px;"><a href="' +
+                    feature.properties.f2[i] +
+                    '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +
+                    '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                    "</tr>";
+                }
+              }),
+                (popupText = popupText + "</tbody></table>");
+            });
           }
         }),
-          //popupText = popupText.replace(/\-/g, '&#8209;'),
           layer.bindPopup(popupText, { permanent: false, sticky: true });
-        layer.bindTooltip("<p><b>Объект: </b>" + uniqueArray + "</p>", {
-          permanent: false,
-          sticky: true,
-          offset: [10, 0],
-        });
+        layer.bindTooltip(
+          "<p><b>Объект: </b>" + feature.properties.f1[0] + "</p>",
+          {
+            permanent: false,
+            sticky: true,
+            offset: [10, 0],
+          }
+        );
         layer.on({
           mouseover: this.highlightFeature,
           mouseout: this.resetHighlight,
+          zoom: this.zoomToFeature,
         });
-      };
-    },
-    onEachLayoutFunction() {
-      return (feature, layer) => {
-        let textLinkPopup = "перейти к материалам";
-        let linkPopup = "#";
-        feature.properties.f2 !== "null"
-          ? (linkPopup = feature.properties.f2)
-          : (linkPopup = "404"),
-          (textLinkPopup = "перейти к материалам");
-        layer.bindPopup(
-          "<div></div><tr><td><b>Номенклатурный лист: </b></td>" +
-            feature.properties.f1 +
-            '</div><br><br><div><b>Ссылка: </b><a href="' +
-            linkPopup +
-            '" target ="_blank">' +
-            textLinkPopup +
-            "</div></div>",
-          { permanent: false, sticky: true }
-        );
-        layer.bindTooltip(feature.properties.f1);
+        let example = (feature.properties.bounds_calculated = layer.getBounds());
+        console.log(example);
       };
     },
   },
@@ -556,46 +541,71 @@ export default {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
+    let role = localStorage.getItem("role");
     axios
       .all([
-        axios.get("http://localhost:3000/api/geojson"),
-        axios.get("http://localhost:3000/api/layout1m"),
-        axios.get("http://localhost:3000/api/layout200K"),
-        axios.get("http://localhost:3000/api/layout100K"),
+        axios.get("http://localhost:3000/api/aprgeojson"),
+        axios.get("http://localhost:3000/api/prgeojson"),
       ])
       .then((resArr) => {
-        console.log(
-          resArr[0].data,
-          resArr[1].data,
-          resArr[2].data,
-          resArr[3].data
-        );
         this.error = null;
         this.overlay = false;
-        this.layout1M = resArr[1].data;
-        this.layout200K = resArr[2].data;
-        this.layout100K = resArr[3].data;
-        const geojson = resArr[0].data.features;
-        const region = geojson.filter((e) =>
-          e.properties.f5.includes("Региональные работы")
-        );
-        this.region = region;
-        const fund = geojson.filter(
-          (e) => !e.properties.f5.includes("Региональные работы")
-        );
-        this.fund = fund;
+        if (role == "chief") {
+          const geojson = resArr[0].data;
+          this.geojson = geojson;
+          console.log(geojson);
+          /* const l = geojson.filter((e) =>
+            e.properties.f3.includes("Апробировано")
+          );
+          this.l = l;
+          const m = geojson.filter((e) => e.properties.f3.includes("Сняты"));
+          this.m = m;
+          const n = geojson.filter((e) =>
+            e.properties.f3.includes("Отклонено")
+          );
+          this.n = n;
+          const o = geojson.filter((e) =>
+            e.properties.f3.includes("Некондиция")
+          );
+          this.o = o;
+          const p = geojson.filter((e) =>
+            e.properties.f3.includes("Внутренний учет ЦНИГРИ")
+          );
+          this.p = p;
+          const r = geojson.filter((e) =>
+            e.properties.f3.includes("Переоценены, другие координаты")
+          );
+          this.r = r;
+          const s = geojson.filter((e) =>
+            e.properties.f3.includes("Не апробировано")
+          );
+          this.s = s;
+          const t = geojson.filter((e) =>
+            e.properties.f3.includes("Исключены")
+          );
+          this.t = t;
+          const u = geojson.filter((e) =>
+            e.properties.f3.includes("Площадь работ")
+          );
+          this.u = u; */
+        } else {
+          const geojson = resArr[1].data;
+          this.geojson = geojson;
+          console.log(geojson);
+        }
+        if (localStorage.getItem("protocolValue") != null) {
+          let protocol = localStorage.getItem("protocolValue");
+          console.log(protocol);
+        }
       })
       .catch((err) => {
         console.log(err);
-        this.geojson = null;
+        this.protocols = null;
         this.error = "Can`t find this Json";
       });
-  },
-  mounted() {
-    // console.log("Get value >>> " + this.valueMap + " <<<");
-    /* if (this.valueMap != "") {
-      this.$refs.map.mapObject.fitBounds(this.bounds);
-    } */
+    this.$on("changeButton", (value) => {
+      console.log(this.value);
+    });
   },
   methods: {
     highlightFeature(e) {
@@ -608,38 +618,28 @@ export default {
     },
     resetHighlight(e) {
       let layer = e.target;
-      let feature = e.target.feature.properties.f5;
+      let feature = e.target.feature.properties.f3;
 
       layer.setStyle({
-        weight: 0.7,
+        weight: 1.5,
         color: this.getColor(feature),
         fillColor: this.getColor(feature),
         opacity: 1,
         fillOpacity: 0.07,
       });
     },
+    // zoomToFeature(e) {
+    //   this.$refs.map.mapObject.fitBounds(e.target.getBounds());
+    // },
+    clickHandler() {
+      const url = "/assets/files/Application.docx";
+      window.location.href = url;
+    },
     zoomUpdated(zoom) {
       this.zoom = zoom;
     },
     centerUpdated(center) {
       this.center = center;
-    },
-    // zoomToGeojson() {
-    //   let group = new featureGroup();
-
-    //   this.$refs.map.mapObject.eachLayer(function(layer) {
-    //     if (layer.feature != undefined) group.addLayer(layer);
-    //   });
-    //   /* this.$refs.map.mapObject.flyToBounds(group.getBounds(), {
-    //     duration: 2,
-    //     padding: [10, 10],
-    //   }); */
-    // },
-    goToTable(text) {
-      this.text = "";
-      this.$router.push("/table");
-      this.$store.commit("setText", text);
-      console.log("click on " + text + " item");
     },
   },
 };
@@ -667,10 +667,10 @@ th,
 td {
   width: 480px;
   border-collapse: collapse;
-  text-align: left;
+  text-align: center;
   padding: 7px;
   td {
-    text-align: left;
+    text-align: center;
   }
 }
 .table tr:nth-child(odd) {
@@ -683,7 +683,6 @@ td {
 label {
   text-align: left !important;
 }
-
 .leaflet-container {
   font: 12px/1.5 "Montserrat", Arial, Helvetica, sans-serif;
 }
@@ -692,16 +691,20 @@ label {
   margin-top: 23px !important;
   z-index: 0;
 }
-.leaflet-control-layers-expanded {
-  height: 500px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+.leaflet-control-layers {
+  max-height: 820px;
+  overflow-y: auto;
 }
 .leaflet-control-layers-list {
   padding: 0px;
 }
 .leaflet-control-layers-selector {
   margin: 0px;
+}
+.leaflet-control-layers-expanded {
+  height: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .vertical-logo-img {
   width: 150px;
@@ -721,10 +724,6 @@ label {
 }
 .btn__default {
   margin: 0px !important;
-}
-
-.btn__link {
-  background-color: #777 !important;
 }
 
 .leaflet-popup-content-wrapper {

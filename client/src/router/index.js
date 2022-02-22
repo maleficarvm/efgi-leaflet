@@ -39,9 +39,21 @@ const routes = [
     meta: { show: true },
   },
   {
-    path: "/fund",
-    name: "Fund",
-    component: () => import("../views/Fund.vue"),
+    path: "/accompany",
+    name: "Accompany",
+    component: () => import("../views/Accompany.vue"),
+    meta: { show: true },
+  },
+  {
+    path: "/staging",
+    name: "Staging",
+    component: () => import("../views/Staging.vue"),
+    meta: { show: true },
+  },
+  {
+    path: "/exploration",
+    name: "Exploration",
+    component: () => import("../views/Exploration.vue"),
     meta: { show: true },
   },
   {
