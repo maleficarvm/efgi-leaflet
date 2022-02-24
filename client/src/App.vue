@@ -18,10 +18,10 @@
                   >{{ link.title }}
                 </router-link>
               </li> -->
-              <div class="text-center">
+              <div class="text-center font-weight-bold">
                 <v-menu offset-y>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="primary" plain dark v-bind="attrs" v-on="on">
+                    <v-btn color="yellow" plain dark v-bind="attrs" v-on="on">
                       О Едином Банке
                     </v-btn>
                   </template>
@@ -46,6 +46,7 @@
                       v-for="(fund, index) in funds"
                       :key="index"
                       :to="fund.link"
+                      @click="$vuetify.goTo(target, options)"
                     >
                       <v-list-item-title>{{ fund.title }}</v-list-item-title>
                     </v-list-item>
@@ -194,9 +195,9 @@ export default {
       window.addEventListener(event, this.resetTimer);
     }, this);
 
-    window.onbeforeunload = function() {
-      return confirm();
-    };
+    // window.onbeforeunload = function() {
+    //   return confirm();
+    // };
     window.addEventListener("beforeunload", this.deleteToken);
 
     this.setTimers();

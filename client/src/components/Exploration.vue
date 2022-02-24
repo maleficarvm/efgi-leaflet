@@ -34,7 +34,15 @@
           layer-type="base"
         />
         <l-geo-json
-          name="Все объекты апробации"
+          name="Объекты постановки ГРР"
+          :visible="true"
+          :geojson="geojson"
+          :options="features"
+          :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Объекты сопровождения ГРР"
           :visible="true"
           :geojson="geojson"
           :options="features"
@@ -96,11 +104,6 @@
           "
         ></l-control-attribution>
         <l-control-scale position="bottomleft" :imperial="false" />
-        <l-control position="bottomright">
-          <v-btn class="ma-2 btn__default" dark href="Бланк_заявки.doc">
-            Скачать форму заявки
-          </v-btn>
-        </l-control>
         <l-control :position="'bottomright'">
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
         </l-control>
@@ -119,7 +122,6 @@ import LControlFullscreen from "vue2-leaflet-fullscreen";
 import VueLeafletMinimap from "vue-leaflet-minimap";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
-import { mapGetters } from "vuex";
 import {
   LMap,
   LTileLayer,
@@ -544,8 +546,8 @@ export default {
     let role = localStorage.getItem("role");
     axios
       .all([
-        axios.get("http://localhost:3000/api/aprgeojson"),
-        axios.get("http://localhost:3000/api/prgeojson"),
+        // axios.get("http://localhost:3000/api/aprgeojson"),
+        // axios.get("http://localhost:3000/api/prgeojson"),
       ])
       .then((resArr) => {
         this.error = null;

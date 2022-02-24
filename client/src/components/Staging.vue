@@ -23,7 +23,7 @@
           item-key="oid"
           show-expand
           fixed-header
-          height="79vh"
+          height="82vh"
           class="elevation-1"
           :footer-props="{
             'items-per-page-options': [50, 100, 200],
@@ -49,26 +49,26 @@
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th>Вид объекта учета</th>
-                        <th>Дата составления объекта учета</th>
-                        <th>Права на материалы объекта</th>
+                        <th>Директория хранения</th>
+                        <th>Синопсис</th>
+                        <th>Права на материалы</th>
                         <th>
                           Наименование регламентирующего документа (наименование
                           работ)
                         </th>
-                        <th>Группа полезных ископаемых</th>
                         <th>Полезные ископаемые попутные</th>
+                        <th>Группа полезных ископаемых</th>
                         <th>Номенклатуры листов НД</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{{ item.obj_type }}</td>
-                        <td>{{ item.obj_date }}</td>
+                        <td>{{ item.stor_folder }}</td>
+                        <td>{{ item.obj_synopsis }}</td>
                         <td>{{ item.obj_rights }}</td>
                         <td>{{ item.obj_rdoc_name }}</td>
-                        <td>{{ item.obj_group_min }}</td>
                         <td>{{ item.obj_supl_min }}</td>
+                        <td>{{ item.obj_group_min }}</td>
                         <td>{{ item.spat_num_grid }}</td>
                       </tr>
                     </tbody>
@@ -88,14 +88,6 @@
             </v-btn>
           </template>
         </v-data-table>
-        <div class="text-center">
-          <v-btn color="ma-2" dark href="APR.rar">
-            Скачать Excel
-          </v-btn>
-          <v-btn color="ma-2" dark href="Бланк_заявки.doc">
-            Скачать форму заявки
-          </v-btn>
-        </div>
       </v-card>
     </div>
   </div>
@@ -114,34 +106,41 @@ export default {
       options: {},
       search: "",
       headers: [
-        { text: "Показать на карте", value: "oid", sortable: false },
+        {
+          text: "Показать на карте",
+          value: "oid",
+          width: "80",
+          sortable: false,
+        },
         {
           text: "Перейти к материалам",
           value: "path_cloud",
-          width: "100",
+          width: "80",
           sortable: false,
         },
-        { text: "Название объекта", value: "obj_name", width: "400" },
+        { text: "Название объекта", value: "obj_name", width: "500" },
         { text: "Единицы хранения", value: "stor_units", width: "150" },
-        { text: "Синопсис", value: "obj_synopsis", width: "500" },
+        {
+          text: "Геологические объекты, ассоциируемые с объектом учета",
+          value: "obj_assoc_geol",
+          width: "100",
+        },
         {
           text: "Полезные ископаемые основные",
           value: "obj_main_min",
-          width: "120",
         },
         {
           text: "Сведения о привязке в рамках АТД и АТЕ",
           value: "spat_atd_ate",
         },
         {
-          text: "Директория хранения",
-          value: "stor_folder",
-          width: "20",
+          text: "Год составления объекта учета",
+          value: "obj_year",
         },
         {
-          text: "Геологические объекты, ассоциируемые с документом",
-          value: "obj_assoc_geol",
-          width: "1000",
+          text: "Ключевые слова, характеристики",
+          value: "obj_terms",
+          width: "250",
         },
       ],
       items: [],
@@ -153,7 +152,7 @@ export default {
       this.$router.push("/login");
     }
     axios
-      .get("http://localhost:3000/api/apr")
+      .get("http://localhost:3000/api/stagejson")
       .then((res) => {
         this.items = res.data;
         this.loadTable = false;
