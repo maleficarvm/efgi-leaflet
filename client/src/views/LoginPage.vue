@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div class="background"></div>
+    <div class="background" />
     <v-main class="d-flex justify-center align-center">
       <v-col cols="10" lg="2" class="mx-auto">
         <v-card class="pa-3" width="400px">
@@ -154,7 +154,7 @@ input {
 }
 .background {
   background-image: url(../img/banner_main_plus.gif) !important;
-  height: 95%;
+  height: 100%;
   width: 100%;
   display: block;
   position: absolute;

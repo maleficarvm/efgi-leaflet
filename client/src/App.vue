@@ -30,6 +30,7 @@
                       v-for="(item, index) in items"
                       :key="index"
                       :to="item.link"
+                      @click="$vuetify.goTo('#dashboard')"
                     >
                       <v-list-item-title>{{ item.title }}</v-list-item-title>
                     </v-list-item>
@@ -46,7 +47,6 @@
                       v-for="(fund, index) in funds"
                       :key="index"
                       :to="fund.link"
-                      @click="$vuetify.goTo(target, options)"
                     >
                       <v-list-item-title>{{ fund.title }}</v-list-item-title>
                     </v-list-item>
@@ -158,9 +158,12 @@ export default {
       offset: true,
       links: [{ title: "О Едином Банке", url: "/" }],
       items: [
-        { title: "Назначение ЕБГИ", link: "/" },
-        { title: "Основные компоненты", link: "/" },
-        { title: "Предоставление информации", link: "/" },
+        {
+          title: "Назначение, компоненты и предоставление информации",
+          link: "/",
+          method: "$vuetify.goTo('#dashboard')",
+        },
+
         { title: "Регламентирующие документы, бланки", link: "/" },
       ],
       admins: [

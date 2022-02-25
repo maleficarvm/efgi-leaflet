@@ -28,7 +28,7 @@
         </v-parallax>
       </section>
 
-      <section>
+      <section id="dashboard">
         <v-layout column wrap class="my-5" align-center>
           <v-flex xs12 sm4 class="my-3"> </v-flex>
           <v-flex xs12>
