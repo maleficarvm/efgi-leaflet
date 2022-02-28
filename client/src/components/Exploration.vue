@@ -35,16 +35,16 @@
         />
         <l-geo-json
           name="Объекты постановки ГРР"
-          :visible="true"
-          :geojson="geojson"
+          :visible="false"
+          :geojson="stage"
           :options="features"
-          :options-style="styleFunction"
+          :options-style="styleFunctionStage"
           layer-type="overlay"
         />
         <l-geo-json
           name="Объекты сопровождения ГРР"
           :visible="true"
-          :geojson="geojson"
+          :geojson="accompany"
           :options="features"
           :options-style="styleFunction"
           layer-type="overlay"
@@ -165,7 +165,8 @@ export default {
       ],
       show: true,
       overlay: true,
-      geojson: null,
+      accompany: null,
+      stage: null,
       fillColor: "orange",
       baseProviders: [
         {
@@ -360,27 +361,31 @@ export default {
           weight: 1.5,
           opacity: 1,
           fillOpacity: 0.07,
-          color: this.getColor(feature.properties.f3),
-          fillColor: this.getColor(feature.properties.f3),
+          color: "#FF0000",
+          fillColor: "#FF0000",
+        };
+      };
+    },
+    styleFunctionStage() {
+      return (feature) => {
+        return {
+          weight: 1.5,
+          opacity: 1,
+          fillOpacity: 0.07,
+          color: "8b1196",
+          fillColor: "8b1196",
         };
       };
     },
     onEachFeatureFunction() {
       return (feature, layer) => {
-        let userRole = localStorage.getItem("role");
-        // console.log(userRole);
         let popupText = "";
         let popupSubText = "";
         let ArraySub = [];
         let uniqueArraySub = [];
         let uniqueArray = [...new Set(feature.properties.f1)];
         feature.properties.f1.forEach(function(item, i, arr) {
-          ArraySub[i] =
-            feature.properties.f3[i] +
-            " " +
-            feature.properties.f7[i] +
-            ", " +
-            feature.properties.f5[i];
+          ArraySub[i] = feature.properties.f5[i];
           if (feature.properties.f4[i] === null) {
             ArraySub[i] = ArraySub[i] + "";
           } else {
@@ -389,136 +394,59 @@ export default {
         }),
           (uniqueArraySub = [...new Set(ArraySub)]);
         uniqueArray.forEach(function(item1, i1, arr1, item2) {
-          if (userRole === "chief" || userRole === "admin") {
-            popupText =
-              popupText +
-              "<div><h3 style='width: 470px'>" +
-              item1.replace(/\-/g, "&#8209;") +
-              "</h3></div>";
-            uniqueArraySub.forEach(function(item2, i2, arr2) {
-              uniqueArray.forEach(function(item, i, arr) {
-                popupSubText =
-                  feature.properties.f3[i] +
-                  " " +
-                  feature.properties.f7[i] +
-                  ", " +
-                  feature.properties.f5[i];
-                if (feature.properties.f4[i] === null) {
-                  popupSubText = popupSubText + "";
-                } else {
-                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
-                }
-                if (
-                  item1 === feature.properties.f1[i] &&
-                  item2 === popupSubText
-                ) {
-                  popupText =
-                    popupText +
-                    "<h4 style='width: 450px'>" +
-                    item2 +
-                    "</h4><br/>";
-                  popupText =
-                    popupText +
-                    "<table class='table'><tbody>" +
-                    '<tr style="height: 18px;">';
-                }
-              });
-              feature.properties.f1.forEach(function(item, i, arr) {
-                popupSubText =
-                  feature.properties.f3[i] +
-                  " " +
-                  feature.properties.f7[i] +
-                  ", " +
-                  feature.properties.f5[i];
-                if (feature.properties.f4[i] === null) {
-                  popupSubText = popupSubText + "";
-                } else {
-                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
-                }
-                if (
-                  item1 === feature.properties.f1[i] &&
-                  item2 === popupSubText
-                ) {
-                  popupText =
-                    popupText +
-                    '<td style="width: 50%; height: 19px;  text-align: left;">' +
-                    feature.properties.f11[i] +
-                    "</td>" +
-                    '<td style="width: 20%; height: 19px;"><a href="' +
-                    feature.properties.f2[i] +
-                    '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
-                    '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
-                    "</tr>";
-                }
-              }),
-                (popupText = popupText + "</tbody></table>");
+          popupText =
+            popupText +
+            "<div><h3 style='width: 470px'>" +
+            item1.replace(/\-/g, "&#8209;") +
+            "</h3></div>";
+          uniqueArraySub.forEach(function(item2, i2, arr2) {
+            uniqueArray.forEach(function(item, i, arr) {
+              popupSubText = feature.properties.f5[i];
+              if (feature.properties.f4[i] === null) {
+                popupSubText = popupSubText + "";
+              } else {
+                popupSubText = popupSubText + ", " + feature.properties.f4[i];
+              }
+              if (
+                item1 === feature.properties.f1[i] &&
+                item2 === popupSubText
+              ) {
+                popupText =
+                  popupText +
+                  "<h4 style='width: 450px'>" +
+                  item2 +
+                  "</h4><br/>";
+                popupText =
+                  popupText +
+                  "<table class='table'><tbody>" +
+                  '<tr style="height: 18px;">';
+              }
             });
-          } else {
-            popupText =
-              popupText +
-              "<div><h3 style='width: 470px'>" +
-              item1.replace(/\-/g, "&#8209;") +
-              "</h3></div>";
-            uniqueArraySub.forEach(function(item2, i2, arr2) {
-              uniqueArray.forEach(function(item, i, arr) {
-                popupSubText =
-                  feature.properties.f3[i] +
-                  " " +
-                  feature.properties.f7[i] +
-                  ", " +
-                  feature.properties.f5[i];
-                if (feature.properties.f4[i] === null) {
-                  popupSubText = popupSubText + "";
-                } else {
-                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
-                }
-                if (
-                  item1 === feature.properties.f1[i] &&
-                  item2 === popupSubText
-                ) {
-                  popupText =
-                    popupText +
-                    "<h4 style='width: 450px'>" +
-                    item2 +
-                    "</h4><br/>";
-                  popupText =
-                    popupText +
-                    "<table class='table'><tbody>" +
-                    '<tr style="height: 18px;">';
-                }
-              });
-              feature.properties.f1.forEach(function(item, i, arr) {
-                popupSubText =
-                  feature.properties.f3[i] +
-                  " " +
-                  feature.properties.f7[i] +
-                  ", " +
-                  feature.properties.f5[i];
-                if (feature.properties.f4[i] === null) {
-                  popupSubText = popupSubText + "";
-                } else {
-                  popupSubText = popupSubText + ", ";
-                  feature.properties.f4[i];
-                }
-                if (
-                  item1 === feature.properties.f1[i] &&
-                  item2 === popupSubText
-                ) {
-                  popupText =
-                    popupText +
-                    '<td style="width: 50%; height: 19px;  text-align: left;">' +
-                    feature.properties.f11[i] +
-                    "</td>" +
-                    '<td style="width: 20%; height: 19px;"><a href="' +
-                    feature.properties.f2[i] +
-                    '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +
-                    '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
-                    "</tr>";
-                }
-              }),
-                (popupText = popupText + "</tbody></table>");
-            });
-          }
+            feature.properties.f1.forEach(function(item, i, arr) {
+              popupSubText = feature.properties.f5[i];
+              if (feature.properties.f4[i] === null) {
+                popupSubText = popupSubText + "";
+              } else {
+                popupSubText = popupSubText + ", " + feature.properties.f4[i];
+              }
+              if (
+                item1 === feature.properties.f1[i] &&
+                item2 === popupSubText
+              ) {
+                popupText =
+                  popupText +
+                  '<td style="width: 50%; height: 19px;  text-align: left;">' +
+                  feature.properties.f11[i] +
+                  "</td>" +
+                  '<td style="width: 20%; height: 19px;"><a href="' +
+                  feature.properties.f2[i] +
+                  '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
+                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                  "</tr>";
+              }
+            }),
+              (popupText = popupText + "</tbody></table>");
+          });
         }),
           layer.bindPopup(popupText, { permanent: false, sticky: true });
         layer.bindTooltip(
@@ -543,62 +471,18 @@ export default {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
-    let role = localStorage.getItem("role");
+
     axios
       .all([
-        // axios.get("http://localhost:3000/api/aprgeojson"),
-        // axios.get("http://localhost:3000/api/prgeojson"),
+        axios.get("http://localhost:3000/api/accomgeojson"),
+        axios.get("http://localhost:3000/api/stagegeojson"),
       ])
       .then((resArr) => {
+        console.log(resArr[0].data, resArr[1].data);
         this.error = null;
         this.overlay = false;
-        if (role == "chief") {
-          const geojson = resArr[0].data;
-          this.geojson = geojson;
-          console.log(geojson);
-          /* const l = geojson.filter((e) =>
-            e.properties.f3.includes("Апробировано")
-          );
-          this.l = l;
-          const m = geojson.filter((e) => e.properties.f3.includes("Сняты"));
-          this.m = m;
-          const n = geojson.filter((e) =>
-            e.properties.f3.includes("Отклонено")
-          );
-          this.n = n;
-          const o = geojson.filter((e) =>
-            e.properties.f3.includes("Некондиция")
-          );
-          this.o = o;
-          const p = geojson.filter((e) =>
-            e.properties.f3.includes("Внутренний учет ЦНИГРИ")
-          );
-          this.p = p;
-          const r = geojson.filter((e) =>
-            e.properties.f3.includes("Переоценены, другие координаты")
-          );
-          this.r = r;
-          const s = geojson.filter((e) =>
-            e.properties.f3.includes("Не апробировано")
-          );
-          this.s = s;
-          const t = geojson.filter((e) =>
-            e.properties.f3.includes("Исключены")
-          );
-          this.t = t;
-          const u = geojson.filter((e) =>
-            e.properties.f3.includes("Площадь работ")
-          );
-          this.u = u; */
-        } else {
-          const geojson = resArr[1].data;
-          this.geojson = geojson;
-          console.log(geojson);
-        }
-        if (localStorage.getItem("protocolValue") != null) {
-          let protocol = localStorage.getItem("protocolValue");
-          console.log(protocol);
-        }
+        this.accompany = resArr[0].data;
+        this.stage = resArr[1].data;
       })
       .catch((err) => {
         console.log(err);
@@ -633,10 +517,6 @@ export default {
     // zoomToFeature(e) {
     //   this.$refs.map.mapObject.fitBounds(e.target.getBounds());
     // },
-    clickHandler() {
-      const url = "/assets/files/Application.docx";
-      window.location.href = url;
-    },
     zoomUpdated(zoom) {
       this.zoom = zoom;
     },
