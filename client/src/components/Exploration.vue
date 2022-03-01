@@ -34,19 +34,19 @@
           layer-type="base"
         />
         <l-geo-json
-          name="Объекты постановки ГРР"
-          :visible="false"
-          :geojson="stage"
-          :options="features"
-          :options-style="styleFunctionStage"
-          layer-type="overlay"
-        />
-        <l-geo-json
           name="Объекты сопровождения ГРР"
           :visible="true"
           :geojson="accompany"
           :options="features"
           :options-style="styleFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="Объекты постановки ГРР"
+          :visible="true"
+          :geojson="stage"
+          :options="features"
+          :options-style="styleFunctionStage"
           layer-type="overlay"
         />
         <l-wms-tile-layer
@@ -329,29 +329,11 @@ export default {
       };
     },
     getColor() {
-      return (f3) => {
-        if (f3 == "Апробировано") {
-          return "#D2691E";
-        } else if (f3 == "Сняты") {
-          return "#800080";
-        } else if (f3 == "Отклонено") {
-          return "#800000";
-        } else if (f3 == "Некондиция") {
-          return "#FF00FF";
-        } else if (f3 == "Оценочные работы") {
-          return "#C71585";
-        } else if (f3 == "Внутренний учет ЦНИГРИ") {
-          return "#008000";
-        } else if (f3 == "Переоценены, другие координаты") {
-          return "#008080";
-        } else if (f3 == "Не апробировано") {
-          return "#008080";
-        } else if (f3 == "Исключены") {
-          return "#8B4513";
-        } else if (f3 == "Площадь работ") {
-          return "#000";
-        } else {
+      return (accompany) => {
+        if (accompany) {
           return "#FF0000";
+        } else {
+          return "#000";
         }
       };
     },
@@ -372,8 +354,8 @@ export default {
           weight: 1.5,
           opacity: 1,
           fillOpacity: 0.07,
-          color: "8b1196",
-          fillColor: "8b1196",
+          color: "#8b1196",
+          fillColor: "#8b1196",
         };
       };
     },
@@ -460,7 +442,6 @@ export default {
         layer.on({
           mouseover: this.highlightFeature,
           mouseout: this.resetHighlight,
-          zoom: this.zoomToFeature,
         });
         let example = (feature.properties.bounds_calculated = layer.getBounds());
         console.log(example);
@@ -504,19 +485,15 @@ export default {
     },
     resetHighlight(e) {
       let layer = e.target;
-      let feature = e.target.feature.properties.f3;
 
       layer.setStyle({
         weight: 1.5,
-        color: this.getColor(feature),
-        fillColor: this.getColor(feature),
+        color: "#FF0000",
+        fillColor: "#FF0000",
         opacity: 1,
         fillOpacity: 0.07,
       });
     },
-    // zoomToFeature(e) {
-    //   this.$refs.map.mapObject.fitBounds(e.target.getBounds());
-    // },
     zoomUpdated(zoom) {
       this.zoom = zoom;
     },

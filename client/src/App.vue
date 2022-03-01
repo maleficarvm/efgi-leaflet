@@ -21,7 +21,7 @@
               <div class="text-center font-weight-bold">
                 <v-menu offset-y>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="yellow" plain dark v-bind="attrs" v-on="on">
+                    <v-btn color="primary" plain dark v-bind="attrs" v-on="on">
                       О Едином Банке
                     </v-btn>
                   </template>
@@ -242,6 +242,10 @@ export default {
 </script>
 
 <style lang="scss">
+.v-btn {
+  // color: #c1a365 !important;
+  font-weight: 700;
+}
 #app {
   font-family: Montserrat, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
