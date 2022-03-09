@@ -38,7 +38,7 @@
           :search="search"
           :sort-desc="[false, true]"
           multi-sort
-          :header-props="{ sortIcon: null }"
+          :header-props="{ sortIcon: null, sortByText: 'Сортировать по:' }"
           :loading="loadTable"
           loading-text="Загрузка... Подождите"
         >

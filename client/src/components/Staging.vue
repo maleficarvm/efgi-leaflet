@@ -20,7 +20,7 @@
           :items="items"
           :single-expand="singleExpand"
           :expanded.sync="expanded"
-          item-key="oid"
+          item-key="path_cloud"
           show-expand
           fixed-header
           height="80vh"
@@ -38,7 +38,7 @@
           :search="search"
           :sort-desc="[false, true]"
           multi-sort
-          :header-props="{ sortIcon: null }"
+          :header-props="{ sortIcon: null, sortByText: 'Сортировать по:' }"
           :loading="loadTable"
           loading-text="Загрузка... Подождите"
         >
