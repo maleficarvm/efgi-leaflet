@@ -6,7 +6,7 @@
     <section class="map-container">
       <l-map
         ref="map"
-        style="height: 92vh"
+        style="height: 91vh"
         :zoom="zoom"
         :minZoom="minZoom"
         :center="center"

@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title>
           <p>
-            Сводная таблица материалов постановки ГРР ЦНИГРИ
+            Реестр материалов постановки ГРР
           </p>
           <v-spacer></v-spacer>
           <v-text-field
@@ -23,7 +23,7 @@
           item-key="oid"
           show-expand
           fixed-header
-          height="82vh"
+          height="80vh"
           class="elevation-1"
           :footer-props="{
             'items-per-page-options': [50, 100, 200],

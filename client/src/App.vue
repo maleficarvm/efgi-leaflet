@@ -71,7 +71,7 @@
                 <v-menu offset-y>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="primary" plain dark v-bind="attrs" v-on="on">
-                      Отчетные материалы ГРР
+                      Материалы ГРР
                     </v-btn>
                   </template>
                   <v-list dark>
@@ -177,12 +177,12 @@ export default {
         { title: "Карта объектов фондовых материалов", link: "/map" },
       ],
       aprs: [
-        { title: "Реестр материалов апробации ПР", link: "/resources" },
-        { title: "Карта объектов апробации ПР", link: "/forecast" },
+        { title: "Реестр материалов апробации ПР", link: "/forecast" },
+        { title: "Карта объектов апробации ПР", link: "/resources" },
       ],
       materials: [
         { title: "Реестр материалов постановки ГРР", link: "/staging" },
-        { title: "Реестр отчетных материалов ГРР", link: "/accompany" },
+        { title: "Реестр материалов ГРР", link: "/accompany" },
         { title: "Карта объектов ГРР", link: "/exploration" },
       ],
     };

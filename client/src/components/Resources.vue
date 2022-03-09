@@ -6,7 +6,7 @@
     <section class="map-container">
       <l-map
         ref="map"
-        style="height: 92vh"
+        style="height: 91vh"
         :zoom="zoom"
         :minZoom="minZoom"
         :center="center"
@@ -373,58 +373,70 @@ export default {
         let uniqueArraySub = [];
         let uniqueArray = [...new Set(feature.properties.f1)];
         feature.properties.f1.forEach(function(item, i, arr) {
-            ArraySub[i] = feature.properties.f3[i] +
+          ArraySub[i] =
+            feature.properties.f3[i] +
             " " +
-            feature.properties.f7[i] + 
-            ", " +              
-            feature.properties.f5[i] 
-            if (feature.properties.f4[i] === null){ArraySub[i] = ArraySub[i] + ""} else {ArraySub[i] = ArraySub[i] + ", " + feature.properties.f4[i]};
+            feature.properties.f7[i] +
+            ", " +
+            feature.properties.f5[i];
+          if (feature.properties.f4[i] === null) {
+            ArraySub[i] = ArraySub[i] + "";
+          } else {
+            ArraySub[i] = ArraySub[i] + ", " + feature.properties.f4[i];
+          }
         }),
           (uniqueArraySub = [...new Set(ArraySub)]);
         uniqueArray.forEach(function(item1, i1, arr1, item2) {
           if (userRole === "chief" || userRole === "admin") {
-            popupText = popupText + "<div><h3 style='width: 470px'>" + item1.replace(/\-/g, '&#8209;') + "</h3></div>";
-            uniqueArraySub.forEach(function(item2, i2, arr2) {              
-                uniqueArray.forEach(function(item, i, arr) 
-                {  
-                  popupSubText = feature.properties.f3[i] + " " + feature.properties.f7[i]+
-                  ", " + 
-                 feature.properties.f5[i] 
-                 if (feature.properties.f4[i] === null) {popupSubText = popupSubText + ""
-                    } 
-                  else 
-                    {
-                      popupSubText = popupSubText + ", " + feature.properties.f4[i] 
-                    };
-                  if (item1 === feature.properties.f1[i] && item2 === popupSubText) 
-                  {                    
-                    popupText = popupText + "<h4 style='width: 450px'>" + item2 + "</h4><br/>";
-                    popupText =
-                      popupText +
-                      "<table class='table'><tbody>" +
-                      '<tr style="height: 18px;">';
-                  }                    
-                })  
-              feature.properties.f1.forEach(function(item, i, arr) {              
-                  popupSubText =                   
+            popupText =
+              popupText +
+              "<div><h3 style='width: 470px'>" +
+              item1.replace(/\-/g, "&#8209;") +
+              "</h3></div>";
+            uniqueArraySub.forEach(function(item2, i2, arr2) {
+              uniqueArray.forEach(function(item, i, arr) {
+                popupSubText =
                   feature.properties.f3[i] +
                   " " +
-                  feature.properties.f7[i]+
-            ", " + 
-            feature.properties.f5[i]
-            if (feature.properties.f4[i] === null)
-                  {
-                    popupSubText =
-                      popupSubText + 
-                      ""
-                  } 
-                else 
-                  {
-                    popupSubText = 
-                    popupSubText + ", " + 
-                    feature.properties.f4[i]
-                  };
-                if (item1 === feature.properties.f1[i] && item2 === popupSubText) {
+                  feature.properties.f7[i] +
+                  ", " +
+                  feature.properties.f5[i];
+                if (feature.properties.f4[i] === null) {
+                  popupSubText = popupSubText + "";
+                } else {
+                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
+                }
+                if (
+                  item1 === feature.properties.f1[i] &&
+                  item2 === popupSubText
+                ) {
+                  popupText =
+                    popupText +
+                    "<h4 style='width: 450px'>" +
+                    item2 +
+                    "</h4><br/>";
+                  popupText =
+                    popupText +
+                    "<table class='table'><tbody>" +
+                    '<tr style="height: 18px;">';
+                }
+              });
+              feature.properties.f1.forEach(function(item, i, arr) {
+                popupSubText =
+                  feature.properties.f3[i] +
+                  " " +
+                  feature.properties.f7[i] +
+                  ", " +
+                  feature.properties.f5[i];
+                if (feature.properties.f4[i] === null) {
+                  popupSubText = popupSubText + "";
+                } else {
+                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
+                }
+                if (
+                  item1 === feature.properties.f1[i] &&
+                  item2 === popupSubText
+                ) {
                   popupText =
                     popupText +
                     '<td style="width: 50%; height: 19px;  text-align: left;">' +
@@ -440,66 +452,73 @@ export default {
                 (popupText = popupText + "</tbody></table>");
             });
           } else {
-            popupText = popupText + "<div><h3 style='width: 470px'>" + item1.replace(/\-/g, '&#8209;') + "</h3></div>";
+            popupText =
+              popupText +
+              "<div><h3 style='width: 470px'>" +
+              item1.replace(/\-/g, "&#8209;") +
+              "</h3></div>";
             uniqueArraySub.forEach(function(item2, i2, arr2) {
-              uniqueArray.forEach(function(item, i, arr) 
-                {                      
-                  popupSubText = feature.properties.f3[i] + " " + feature.properties.f7[i] +
-                  ", " + 
-                  feature.properties.f5[i] 
-                  if (feature.properties.f4[i] === null) {popupSubText = popupSubText + ""
-                    } 
-                  else 
-                    {
-                      popupSubText = popupSubText + ", " + feature.properties.f4[i]
-                    }
-                  if (item1 === feature.properties.f1[i] && item2 === popupSubText) 
-                  {                    
-                    popupText = popupText + "<h4 style='width: 450px'>" + item2 + "</h4><br/>";
-                   popupText =
-                popupText +
-                "<table class='table'><tbody>" +
-                '<tr style="height: 18px;">';
-                  }                    
-                });             
-              feature.properties.f1.forEach(function(item, i, arr) {  
-                  popupSubText =                    
+              uniqueArray.forEach(function(item, i, arr) {
+                popupSubText =
                   feature.properties.f3[i] +
                   " " +
-                  feature.properties.f7[i]+
-                  ", " + 
-                  feature.properties.f5[i]
-                  if (feature.properties.f4[i] === null)
-                  {
-                    popupSubText = 
-                      popupSubText + 
-                      ""
-                  } 
-                else 
-                  {
-                    popupSubText = 
-                      popupSubText + ", "
-                      feature.properties.f4[i]
-                  }
-                if (item1 === feature.properties.f1[i] && item2 === popupSubText) 
-                  {
-                    popupText =
-                      popupText +
-                      '<td style="width: 50%; height: 19px;  text-align: left;">' +
-                      feature.properties.f11[i] +
-                      "</td>" +
-                      '<td style="width: 20%; height: 19px;"><a href="' +
-                      feature.properties.f2[i] +
-                      '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +
-                      '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
-                      "</tr>";
-                  }
+                  feature.properties.f7[i] +
+                  ", " +
+                  feature.properties.f5[i];
+                if (feature.properties.f4[i] === null) {
+                  popupSubText = popupSubText + "";
+                } else {
+                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
+                }
+                if (
+                  item1 === feature.properties.f1[i] &&
+                  item2 === popupSubText
+                ) {
+                  popupText =
+                    popupText +
+                    "<h4 style='width: 450px'>" +
+                    item2 +
+                    "</h4><br/>";
+                  popupText =
+                    popupText +
+                    "<table class='table'><tbody>" +
+                    '<tr style="height: 18px;">';
+                }
+              });
+              feature.properties.f1.forEach(function(item, i, arr) {
+                popupSubText =
+                  feature.properties.f3[i] +
+                  " " +
+                  feature.properties.f7[i] +
+                  ", " +
+                  feature.properties.f5[i];
+                if (feature.properties.f4[i] === null) {
+                  popupSubText = popupSubText + "";
+                } else {
+                  popupSubText = popupSubText + ", ";
+                  feature.properties.f4[i];
+                }
+                if (
+                  item1 === feature.properties.f1[i] &&
+                  item2 === popupSubText
+                ) {
+                  popupText =
+                    popupText +
+                    '<td style="width: 50%; height: 19px;  text-align: left;">' +
+                    feature.properties.f11[i] +
+                    "</td>" +
+                    '<td style="width: 20%; height: 19px;"><a href="' +
+                    feature.properties.f2[i] +
+                    '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +
+                    '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                    "</tr>";
+                }
               }),
                 (popupText = popupText + "</tbody></table>");
             });
           }
-        }), 
-        layer.bindPopup(popupText, { permanent: false, sticky: true });
+        }),
+          layer.bindPopup(popupText, { permanent: false, sticky: true });
         layer.bindTooltip(
           "<p><b>Объект: </b>" + feature.properties.f1[0] + "</p>",
           {

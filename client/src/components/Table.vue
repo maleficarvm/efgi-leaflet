@@ -4,8 +4,7 @@
       <v-card>
         <v-card-title>
           <p>
-            Фонд ЦНИГРИ. Сводная таблица оцифрованных объектов учета фондовых
-            материалов (1928-2020гг.)
+            Реестр фондовых материалов
           </p>
           <v-spacer></v-spacer>
           <v-text-field
@@ -25,7 +24,7 @@
           item-key="oid"
           show-expand
           fixed-header
-          height="78vh"
+          height="75vh"
           class="elevation-1"
           :footer-props="{
             'items-per-page-options': [50, 100, 200],

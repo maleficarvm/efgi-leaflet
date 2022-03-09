@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title>
           <p>
-            Сводная таблица отчетных материалов сопровождения ГРР ЦНИГРИ
+            Реестр отчетных материалов ГРР
           </p>
           <v-spacer></v-spacer>
           <v-text-field
@@ -23,7 +23,7 @@
           item-key="oid"
           show-expand
           fixed-header
-          height="79vh"
+          height="80vh"
           class="elevation-1"
           :footer-props="{
             'items-per-page-options': [50, 100, 200],
@@ -87,14 +87,6 @@
             </v-btn>
           </template>
         </v-data-table>
-        <div class="text-center">
-          <v-btn color="ma-2" dark href="APR.rar">
-            Скачать Excel
-          </v-btn>
-          <v-btn color="ma-2" dark href="Бланк_заявки.doc">
-            Скачать форму заявки
-          </v-btn>
-        </div>
       </v-card>
     </div>
   </div>
