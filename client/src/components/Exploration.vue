@@ -378,7 +378,7 @@ export default {
         uniqueArray.forEach(function(item1, i1, arr1, item2) {
           popupText =
             popupText +
-            "<h4 style='font-style: italic; color: gray;'>Постановка </h4></br>" +
+            "<h4 style='font-style: italic; color: gray;'>"+ feature.properties.f13 +"</h4></br>" +
             "<div><h3 style='width: 470px'>" +
             item1.replace(/\-/g, "&#8209;") +
             "</h3></div>";
