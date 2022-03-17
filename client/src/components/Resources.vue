@@ -366,7 +366,6 @@ export default {
     onEachFeatureFunction() {
       return (feature, layer) => {
         let userRole = localStorage.getItem("role");
-        // console.log(userRole);
         let popupText = "";
         let popupSubText = "";
         let ArraySub = [];
@@ -532,8 +531,6 @@ export default {
           mouseout: this.resetHighlight,
           zoom: this.zoomToFeature,
         });
-        let example = (feature.properties.bounds_calculated = layer.getBounds());
-        console.log(example);
       };
     },
   },
@@ -553,61 +550,37 @@ export default {
         if (role == "chief") {
           const geojson = resArr[0].data;
           this.geojson = geojson;
-          console.log(geojson);
-          /* const l = geojson.filter((e) =>
-            e.properties.f3.includes("Апробировано")
-          );
-          this.l = l;
-          const m = geojson.filter((e) => e.properties.f3.includes("Сняты"));
-          this.m = m;
-          const n = geojson.filter((e) =>
-            e.properties.f3.includes("Отклонено")
-          );
-          this.n = n;
-          const o = geojson.filter((e) =>
-            e.properties.f3.includes("Некондиция")
-          );
-          this.o = o;
-          const p = geojson.filter((e) =>
-            e.properties.f3.includes("Внутренний учет ЦНИГРИ")
-          );
-          this.p = p;
-          const r = geojson.filter((e) =>
-            e.properties.f3.includes("Переоценены, другие координаты")
-          );
-          this.r = r;
-          const s = geojson.filter((e) =>
-            e.properties.f3.includes("Не апробировано")
-          );
-          this.s = s;
-          const t = geojson.filter((e) =>
-            e.properties.f3.includes("Исключены")
-          );
-          this.t = t;
-          const u = geojson.filter((e) =>
-            e.properties.f3.includes("Площадь работ")
-          );
-          this.u = u; */
+          console.log(resArr);
         } else {
           const geojson = resArr[1].data;
           this.geojson = geojson;
-          console.log(geojson);
+          console.log(this.geojson);
         }
-        if (localStorage.getItem("protocolValue") != null) {
-          let protocol = localStorage.getItem("protocolValue");
-          console.log(protocol);
-        }
+        this.showGeometry(this.geojson);
       })
       .catch((err) => {
         console.log(err);
         this.protocols = null;
         this.error = "Can`t find this Json";
       });
-    this.$on("changeButton", (value) => {
-      console.log(this.value);
-    });
   },
   methods: {
+    showGeometry(list) {
+      const protocol = localStorage.getItem("protocolValue");
+      if (!protocol) return;
+      const geo = list.features.find(
+        (item) =>
+          item.geometry &&
+          item.properties &&
+          Array.isArray(item.properties.f10) &&
+          item.properties.f10.indexOf(protocol) + 1
+      );
+      console.log(geo);
+      if (!geo) return;
+      const group = L.geoJson(geo);
+      this.$refs.map.mapObject.fitBounds(group.getBounds());
+      this.show = false;
+    },
     highlightFeature(e) {
       let layer = e.target;
 
@@ -628,9 +601,6 @@ export default {
         fillOpacity: 0.07,
       });
     },
-    // zoomToFeature(e) {
-    //   this.$refs.map.mapObject.fitBounds(e.target.getBounds());
-    // },
     clickHandler() {
       const url = "/assets/files/Application.docx";
       window.location.href = url;
@@ -743,3 +713,16 @@ label {
   box-shadow: 0px 0px 7px 4px rgba(34, 60, 80, 0.2);
 }
 </style>
+
+/* const l = geojson.filter((e) => e.properties.f3.includes("Апробировано") );
+this.l = l; const m = geojson.filter((e) => e.properties.f3.includes("Сняты"));
+this.m = m; const n = geojson.filter((e) =>
+e.properties.f3.includes("Отклонено") ); this.n = n; const o =
+geojson.filter((e) => e.properties.f3.includes("Некондиция") ); this.o = o;
+const p = geojson.filter((e) => e.properties.f3.includes("Внутренний учет
+ЦНИГРИ") ); this.p = p; const r = geojson.filter((e) =>
+e.properties.f3.includes("Переоценены, другие координаты") ); this.r = r; const
+s = geojson.filter((e) => e.properties.f3.includes("Не апробировано") ); this.s
+= s; const t = geojson.filter((e) => e.properties.f3.includes("Исключены") );
+this.t = t; const u = geojson.filter((e) => e.properties.f3.includes("Площадь
+работ") ); this.u = u; */

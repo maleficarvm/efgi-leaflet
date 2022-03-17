@@ -455,7 +455,6 @@ export default {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
-
     axios
       .all([
         axios.get("http://localhost:3000/api/accomgeojson"),
