@@ -5,7 +5,7 @@ stages:
 
 # build stage
 build_app:
-  image: node:alpine
+  image: node:14.18.3
   stage: client
   only:
     - master
@@ -24,7 +24,7 @@ build_app:
     expire_in: 1 hour
 
 build_server:
-  image: node:alpine
+  image: node:14.18.3
   stage: server
   only:
     - master
@@ -47,7 +47,7 @@ production:
   stage: deploy
   before_script:
     - mkdir -p ~/.ssh
-    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - echo -e "$ID_RSA" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
