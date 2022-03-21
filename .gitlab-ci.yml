@@ -16,11 +16,11 @@ build_app:
     - npm run build
   cache:
     paths:
-      - client/node_modules/
+      - node_modules/
   artifacts:
     paths:
       # build folder
-      - client/dist/
+      - dist/
     expire_in: 1 hour
 
 build_server:
@@ -35,11 +35,10 @@ build_server:
     - npm start
   cache:
     paths:
-      - server/node_modules/
+      - node_modules/
   artifacts:
     paths:
       # build folder
-      - server/
     expire_in: 1 hour
 
 # production stage
