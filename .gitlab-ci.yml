@@ -5,7 +5,7 @@ stages:
 
 # build stage
 build_app:
-  image: node:14.18.3
+  image: node:alpine
   stage: client
   only:
     - master
@@ -24,7 +24,7 @@ build_app:
     expire_in: 1 hour
 
 build_server:
-  image: node:14.18.3
+  image: node:alpine
   stage: server
   only:
     - master
