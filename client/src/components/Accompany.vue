@@ -150,8 +150,9 @@ export default {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
+    const domain = localStorage.getItem("domain");
     axios
-      .get("http://localhost:3000/api/accompanyjson")
+      .get(`http://${domain}:3000/api/accompanyjson`)
       .then((res) => {
         this.items = res.data;
         this.loadTable = false;

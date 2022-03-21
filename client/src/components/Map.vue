@@ -552,12 +552,13 @@ export default {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
+    const domain = localStorage.getItem("domain");
     axios
       .all([
-        axios.get("http://localhost:3000/api/geojson"),
-        axios.get("http://localhost:3000/api/layout1m"),
-        axios.get("http://localhost:3000/api/layout200K"),
-        axios.get("http://localhost:3000/api/layout100K"),
+        axios.get(`http://${domain}:3000/api/geojson`),
+        axios.get(`http://${domain}:3000/api/layout1m`),
+        axios.get(`http://${domain}:3000/api/layout200K`),
+        axios.get(`http://${domain}:3000/api/layout100K`),
       ])
       .then((resArr) => {
         console.log(
@@ -593,7 +594,11 @@ export default {
       const report = localStorage.getItem("reportValue");
       if (!report) return;
       const geo = list.features.find(
-        (item) => item.properties.f12.indexOf(report) + 1
+        (item) =>
+          item.geometry &&
+          item.properties &&
+          Array.isArray(item.properties.f12) &&
+          item.properties.f12.indexOf(report) + 1
       );
       if (!geo) return;
       const group = L.geoJson(geo);

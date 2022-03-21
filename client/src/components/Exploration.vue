@@ -454,10 +454,11 @@ export default {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
+    const domain = localStorage.getItem("domain");
     axios
       .all([
-        axios.get("http://localhost:3000/api/accomgeojson"),
-        axios.get("http://localhost:3000/api/stagegeojson"),
+        axios.get(`http://${domain}:3000/api/accomgeojson`),
+        axios.get(`http://${domain}:3000/api/stagegeojson`),
       ])
       .then((resArr) => {
         console.log(resArr[0].data, resArr[1].data);

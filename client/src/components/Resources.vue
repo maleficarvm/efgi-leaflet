@@ -529,7 +529,6 @@ export default {
         layer.on({
           mouseover: this.highlightFeature,
           mouseout: this.resetHighlight,
-          zoom: this.zoomToFeature,
         });
       };
     },
@@ -539,10 +538,11 @@ export default {
       this.$router.push("/login");
     }
     let role = localStorage.getItem("role");
+    const domain = localStorage.getItem("domain");
     axios
       .all([
-        axios.get("http://localhost:3000/api/aprgeojson"),
-        axios.get("http://localhost:3000/api/prgeojson"),
+        axios.get(`http://${domain}:3000/api/aprgeojson`),
+        axios.get(`http://${domain}:3000/api/prgeojson`),
       ])
       .then((resArr) => {
         this.error = null;
@@ -576,11 +576,10 @@ export default {
           Array.isArray(item.properties.f10) &&
           item.properties.f10.indexOf(protocol) + 1
       );
+
       if (!geo) return;
       const group = L.geoJson(geo);
-      this.$refs.map.mapObject.fitBounds(group.getBounds());
-      // this.$refs.map.mapObject.openPopup(geo);
-      this.show = false;
+      this.$refs.map.mapObject.flyToBounds(group.getBounds());
     },
     highlightFeature(e) {
       let layer = e.target;

@@ -108,11 +108,12 @@ export default {
           email: this.email,
           password: this.password,
         };
-        axios.post("http://localhost:5000/login", user).then((res) => {
-          // if successful
+        const domain = "localhost";
+        axios.post(`http://${domain}:5000/login`, user).then((res) => {
           if (res.status === 200) {
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("role", res.data.role);
+            localStorage.setItem("domain", domain);
             this.loading = true;
             setTimeout(() => {
               this.snackbar = true;
@@ -122,7 +123,6 @@ export default {
               localStorage.getItem("role") === "admin"
                 ? this.$router.push("/admin")
                 : this.$router.push("/");
-              /* console.log(res.data.role); */
             }, 2000);
           }
           (err) => {
