@@ -557,6 +557,7 @@ export default {
           console.log(this.geojson);
         }
         this.showGeometry(this.geojson);
+        console.log(this.geojson);
       })
       .catch((err) => {
         console.log(err);
@@ -575,10 +576,10 @@ export default {
           Array.isArray(item.properties.f10) &&
           item.properties.f10.indexOf(protocol) + 1
       );
-      console.log(geo);
       if (!geo) return;
       const group = L.geoJson(geo);
       this.$refs.map.mapObject.fitBounds(group.getBounds());
+      // this.$refs.map.mapObject.openPopup(geo);
       this.show = false;
     },
     highlightFeature(e) {

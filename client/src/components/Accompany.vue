@@ -80,7 +80,7 @@
               <v-icon dark>mdi-application-import</v-icon>
             </v-btn>
           </template>
-          <template v-slot:[`item.oid`]="{ value }">
+          <template v-slot:[`item.uniq_id`]="{ value }">
             <v-btn class="mx-1" fab x-small @click="onButtonClick(value)">
               <v-icon dark>mdi-map-search-outline</v-icon>
             </v-btn>
@@ -106,7 +106,7 @@ export default {
       headers: [
         {
           text: "Показать на карте",
-          value: "oid",
+          value: "uniq_id",
           width: "80",
           sortable: false,
         },
@@ -168,8 +168,8 @@ export default {
     },
     onButtonClick(value) {
       this.value = "";
-      localStorage.setItem("protocolValue", value);
-      this.$router.push("/resources");
+      localStorage.setItem("grrValue", value);
+      this.$router.push("/exploration");
       console.log("click on " + value + " item");
     },
   },

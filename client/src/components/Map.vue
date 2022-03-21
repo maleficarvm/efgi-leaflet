@@ -199,10 +199,7 @@ export default {
       zoom: 4,
       minZoom: 3,
       center: [63.7556, 101.7766],
-      bounds: [
-        [55.63901028125873, 37.3677978515625],
-        [55.348763181988105, 37.3787841796875],
-      ],
+      bounds: null,
       value: "",
       text: "",
       show: true,
@@ -433,7 +430,6 @@ export default {
     onEachFeatureFunction() {
       return (feature, layer) => {
         let userRole = localStorage.getItem("role");
-        console.log(userRole);
         let popupText = "";
         let popupSubText = "";
         let uniqueArray = [...new Set(feature.properties.f1)];
@@ -584,6 +580,7 @@ export default {
           (e) => !e.properties.f5.includes("Региональные работы")
         );
         this.fund = fund;
+        this.showGeometry(resArr[0].data);
       })
       .catch((err) => {
         console.log(err);
@@ -591,13 +588,19 @@ export default {
         this.error = "Can`t find this Json";
       });
   },
-  mounted() {
-    // console.log("Get value >>> " + this.valueMap + " <<<");
-    /* if (this.valueMap != "") {
-      this.$refs.map.mapObject.fitBounds(this.bounds);
-    } */
-  },
   methods: {
+    showGeometry(list) {
+      const report = localStorage.getItem("reportValue");
+      if (!report) return;
+      const geo = list.features.find(
+        (item) => item.properties.f12.indexOf(report) + 1
+      );
+      if (!geo) return;
+      const group = L.geoJson(geo);
+      this.$refs.map.mapObject.fitBounds(group.getBounds());
+      // this.$refs.map.mapObject.openPopup(geo);
+      this.show = false;
+    },
     highlightFeature(e) {
       let layer = e.target;
 
@@ -624,17 +627,6 @@ export default {
     centerUpdated(center) {
       this.center = center;
     },
-    // zoomToGeojson() {
-    //   let group = new featureGroup();
-
-    //   this.$refs.map.mapObject.eachLayer(function(layer) {
-    //     if (layer.feature != undefined) group.addLayer(layer);
-    //   });
-    //   /* this.$refs.map.mapObject.flyToBounds(group.getBounds(), {
-    //     duration: 2,
-    //     padding: [10, 10],
-    //   }); */
-    // },
     goToTable(text) {
       this.text = "";
       this.$router.push("/table");

@@ -165,6 +165,7 @@ export default {
       ],
       show: true,
       overlay: true,
+      geojson: null,
       accompany: null,
       stage: null,
       fillColor: "orange",
@@ -446,8 +447,6 @@ export default {
           mouseover: this.highlightFeature,
           mouseout: this.resetHighlight,
         });
-        let example = (feature.properties.bounds_calculated = layer.getBounds());
-        console.log(example);
       };
     },
   },
@@ -464,19 +463,35 @@ export default {
         console.log(resArr[0].data, resArr[1].data);
         this.error = null;
         this.overlay = false;
+        this.geojson = resArr.data;
         this.accompany = resArr[0].data;
         this.stage = resArr[1].data;
+        this.showGeometry(this.accompany);
+        this.showGeometry(this.stage);
       })
       .catch((err) => {
         console.log(err);
         this.protocols = null;
         this.error = "Can`t find this Json";
       });
-    this.$on("changeButton", (value) => {
-      console.log(this.value);
-    });
   },
   methods: {
+    showGeometry(list) {
+      const object = localStorage.getItem("grrValue");
+      if (!object) return;
+      const geo = list.features.find(
+        (item) =>
+          item.geometry &&
+          item.properties &&
+          Array.isArray(item.properties.f10) &&
+          item.properties.f10.indexOf(object) + 1
+      );
+      if (!geo) return;
+      const group = L.geoJson(geo);
+      this.$refs.map.mapObject.fitBounds(group.getBounds());
+      // this.$refs.map.mapObject.openPopup(geo);
+      this.show = false;
+    },
     highlightFeature(e) {
       let layer = e.target;
 

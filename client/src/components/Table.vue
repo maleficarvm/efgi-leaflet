@@ -97,8 +97,13 @@
               <v-icon dark>mdi-application-import</v-icon>
             </v-btn>
           </template>
-          <template v-slot:[`item.oid`]="{ value }">
-            <v-btn class="mx-1" fab x-small @click="onButtonClick(value)">
+          <template v-slot:[`item.uniq_id`]="{ value }">
+            <v-btn
+              class="mx-1"
+              fab
+              x-small
+              @click="onButtonClickReestre(value)"
+            >
               <v-icon dark>mdi-map-search-outline</v-icon>
             </v-btn>
           </template>
@@ -130,7 +135,7 @@ export default {
       options: {},
       search: "",
       headers: [
-        { text: "Показать на карте", value: "oid", sortable: false },
+        { text: "Показать на карте", value: "uniq_id", sortable: false },
         {
           text: "Перейти к материалам",
           value: "path_cloud",
@@ -184,15 +189,11 @@ export default {
         console.log(error.response);
       });
   },
-  mounted() {
-    console.log("Get text >>> " + this.text + " <<<");
-    this.search = this.text;
-  },
   methods: {
     onButtonClickCloud(value) {
       window.open(value, "_blank");
     },
-    onButtonClick(value) {
+    onButtonClickReestre(value) {
       this.value = "";
       localStorage.setItem("reportValue", value);
       this.$router.push("/map");
