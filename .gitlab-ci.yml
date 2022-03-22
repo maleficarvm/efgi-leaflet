@@ -5,15 +5,19 @@ stages:
 
 # build stage
 build_app:
-  image: node:alpine
+  image: node:16.13.0-stretch
   stage: client
   only:
     - master
   before_script:
     - cd client
   script:
+    - npm install -g @vue/cli@latest
     - npm install
     - npm run build
+  cache:
+    paths:
+      - node_modules/
   artifacts:
     paths:
       # build folder
@@ -21,7 +25,7 @@ build_app:
     expire_in: 1 hour
 
 build_server:
-  image: node:alpine
+  image: node:16.13.0-stretch
   stage: server
   only:
     - master
