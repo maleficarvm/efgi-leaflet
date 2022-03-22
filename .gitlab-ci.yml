@@ -32,8 +32,8 @@ build_server:
   before_script:
     - cd server
   script:
-    - npm rebuild
     - npm install
+    - npm rebuild
     - npm start
   cache:
     paths:
