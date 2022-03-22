@@ -21,7 +21,7 @@ build_app:
   artifacts:
     paths:
       # build folder
-      - dist/
+      - client/dist/
     expire_in: 1 hour
 
 build_server:
@@ -32,15 +32,12 @@ build_server:
   before_script:
     - cd server
   script:
+    - npm rebuild
     - npm install
     - npm start
   cache:
     paths:
       - node_modules/
-  artifacts:
-    paths:
-      # build folder
-    expire_in: 1 hour
 
 # production stage
 production:
