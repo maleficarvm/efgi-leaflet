@@ -1,15 +1,13 @@
 .DS_Store
-node_modules
-express
-/dist
-/public/Application.docx
-/public/Fund.rar
-/public/APR.rar
-/public/UGIB.rar
-/public/Library.rar
-/public/Funds.rar
-/public/Users.json
-/public/Users copy.json
+client/node_modules
+server/node_modules
+client/dist
+client/public/Fund.rar
+client/public/APR.rar
+client/public/UGIB.rar
+client/public/Library.rar
+client/public/Funds.rar
+client/public/Users.json
 
 # local env files
 .env.local
