@@ -34,7 +34,6 @@ build_server:
   script:
     - npm install
     # - npm rebuild bcrypt --build-from-source
-    - npm start
   cache:
     paths:
       - node_modules/
