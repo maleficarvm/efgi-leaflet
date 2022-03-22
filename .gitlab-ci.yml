@@ -33,7 +33,7 @@ build_server:
     - cd server
   script:
     - npm install
-    - npm rebuild
+    - npm rebuild bcrypt
     - npm start
   cache:
     paths:
