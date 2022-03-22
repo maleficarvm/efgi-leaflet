@@ -42,13 +42,9 @@ build_server:
 production:
   stage: deploy
   before_script:
-    - apt-get update -qq
-    - apt-get install -qq git
-    # Setup SSH deploy keys
-    - "which ssh-agent || ( apt-get install -qq openssh-client )"
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
+    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/authorized_keys
+    - chmod 700 ~/.ssh/authorized_keys
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - scp -r dist/* root@192.168.6.201:/var/www/ugib_bkp/test/
