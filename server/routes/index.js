@@ -62,7 +62,7 @@ const layout100KQuery =
 
 // Set up your database query to display JSON
 const jsonQuery =
-  "SELECT array_to_json(array_agg(t)) FROM (select * from uds_meta) as t";
+  "SELECT array_to_json(array_agg(t)) FROM (select * from uds_meta left join(select distinct uds_meta_geom.uniq_id, '1' as is_geom from uds_meta_geom) as foo on uds_meta.uniq_id = foo.uniq_id order by is_geom asc) as t";
 
 const jsonAprQuery =
   "SELECT array_to_json(array_agg(t)) FROM (select * from uds_meta_apr) as t";
