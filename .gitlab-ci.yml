@@ -14,9 +14,6 @@ build_app:
   script:
     - npm install
     - npm run build
-  cache:
-    paths:
-      - node_modules/
   artifacts:
     paths:
       # build folder
