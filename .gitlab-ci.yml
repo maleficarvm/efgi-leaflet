@@ -41,11 +41,11 @@ build_server:
 # production stage
 production:
   stage: deploy
-  # before_script:
-  #   - mkdir -p ~/.ssh
-  #   - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-  #   - chmod 600 ~/.ssh/id_rsa
-  #   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - scp -r dist/* root@kastor:/var/www/ugib_bkp/test/
     - systemctl restart npmexp.service
