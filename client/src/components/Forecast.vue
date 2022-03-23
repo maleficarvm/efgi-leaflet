@@ -126,9 +126,9 @@ export default {
           width: "100",
           sortable: false,
         },
-        { text: "Название объекта", value: "obj_name", width: "400" },
+        { text: "Название объекта", value: "obj_name", width: "500" },
         { text: "Единицы хранения", value: "stor_units", width: "150" },
-        { text: "Синопсис", value: "obj_synopsis", width: "500" },
+        { text: "Синопсис", value: "obj_synopsis", width: "300" },
         {
           text: "Полезные ископаемые основные",
           value: "obj_main_min",
@@ -146,7 +146,7 @@ export default {
         {
           text: "Геологические объекты, ассоциируемые с документом",
           value: "obj_assoc_geol",
-          width: "1000",
+          width: "200",
         },
       ],
       items: [],

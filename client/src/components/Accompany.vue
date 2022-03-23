@@ -116,12 +116,12 @@ export default {
           width: "80",
           sortable: false,
         },
-        { text: "Название объекта", value: "obj_name", width: "500" },
+        { text: "Название объекта", value: "obj_name", width: "350" },
         { text: "Единицы хранения", value: "stor_units", width: "150" },
         {
           text: "Геологические объекты, ассоциируемые с документом",
           value: "obj_assoc_geol",
-          width: "300",
+          width: "200",
         },
         {
           text: "Полезные ископаемые основные",
@@ -139,8 +139,8 @@ export default {
         },
         {
           text: "Ключевые слова, характеристики",
-          value: "obj_year",
-          width: "20",
+          value: "obj_terms",
+          width: "300",
         },
       ],
       items: [],

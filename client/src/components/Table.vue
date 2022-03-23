@@ -99,12 +99,16 @@
           </template>
           <template v-slot:[`item.uniq_id`]="{ value }">
             <v-btn
+              v-if="value"
               class="mx-1"
               fab
               x-small
               @click="onButtonClickReestre(value)"
             >
-              <v-icon dark>mdi-map-search-outline</v-icon>
+              <v-icon>mdi-map-search-outline</v-icon>
+            </v-btn>
+            <v-btn v-else class="mx-1" fab x-small disabled>
+              <v-icon>mdi-map-search-outline</v-icon>
             </v-btn>
           </template>
         </v-data-table>
@@ -196,6 +200,7 @@ export default {
     },
     onButtonClickReestre(value) {
       this.value = "";
+      if (!value) return;
       localStorage.setItem("reportValue", value);
       this.$router.push("/map");
       console.log("click on " + value + " item");
