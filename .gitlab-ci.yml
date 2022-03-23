@@ -41,11 +41,8 @@ build_server:
 # production stage
 production:
   stage: deploy
-  before_script:
-    - mkdir -p ~/.ssh
-    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/authorized_keys
-    - chmod 700 ~/.ssh/authorized_keys
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  # before_script:
+  #   - ssh root@kastor
   script:
     - scp -r dist/* root@192.168.6.201:/var/www/ugib_bkp/test/
     - systemctl restart npmexp.service
