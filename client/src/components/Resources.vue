@@ -32,6 +32,11 @@
           :url="tileProvider.url"
           :attribution="tileProvider.attribution"
           layer-type="base"
+        /><l-geo-json
+          :visible="true"
+          :geojson="geo"
+          :options="features"
+          :options-style="geoStyle"
         />
         <l-geo-json
           name="Все объекты апробации"
@@ -119,7 +124,6 @@ import LControlFullscreen from "vue2-leaflet-fullscreen";
 import VueLeafletMinimap from "vue-leaflet-minimap";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
-import { mapGetters } from "vuex";
 import {
   LMap,
   LTileLayer,
@@ -163,6 +167,7 @@ export default {
       ],
       show: true,
       overlay: true,
+      geo: null,
       geojson: null,
       fillColor: "orange",
       baseProviders: [
@@ -360,6 +365,18 @@ export default {
           fillOpacity: 0.07,
           color: this.getColor(feature.properties.f3),
           fillColor: this.getColor(feature.properties.f3),
+        };
+      };
+    },
+    geoStyle() {
+      return () => {
+        return {
+          weight: 5,
+          opacity: 1,
+          fillOpacity: 0,
+          color: "#333",
+          dashArray: "20, 20",
+          dashOffset: "20",
         };
       };
     },
@@ -576,10 +593,14 @@ export default {
           Array.isArray(item.properties.f10) &&
           item.properties.f10.indexOf(protocol) + 1
       );
-
+      this.geo = geo;
       if (!geo) return;
       const group = L.geoJson(geo);
-      this.$refs.map.mapObject.flyToBounds(group.getBounds());
+      // console.log(geo);
+      // const popup = L.popup()
+      //   .setLatLng([51.5, -0.09])
+      //   .setContent("lol");
+      this.$refs.map.mapObject.fitBounds(group.getBounds());
     },
     highlightFeature(e) {
       let layer = e.target;
