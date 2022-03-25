@@ -108,7 +108,7 @@ export default {
           email: this.email,
           password: this.password,
         };
-        const domain = "localhost";
+        const domain = "kastor.tsnigri.ru";
         axios.post(`http://${domain}:5000/login`, user).then((res) => {
           if (res.status === 200) {
             localStorage.setItem("token", res.data.token);

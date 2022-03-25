@@ -158,11 +158,14 @@ export default {
       this.$router.push("/login");
     }
     const domain = localStorage.getItem("domain");
+    const reports = localStorage.getItem("fromRecourcesValue");
     axios
       .get(`http://${domain}:3000/api/apr`)
       .then((res) => {
         this.items = res.data;
         this.loadTable = false;
+        if (!reports) return;
+        this.search = reports;
       })
       .catch((error) => {
         console.log(error.response);
@@ -177,7 +180,6 @@ export default {
       this.value = "";
       localStorage.setItem("protocolValue", value);
       this.$router.push("/resources");
-      console.log("click on " + value + " item");
     },
   },
 };

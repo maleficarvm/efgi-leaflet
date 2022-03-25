@@ -34,6 +34,12 @@
           layer-type="base"
         />
         <l-geo-json
+          :visible="true"
+          :geojson="geom"
+          :options="features"
+          :options-style="geoStyle"
+        />
+        <l-geo-json
           name="Объекты сопровождения ГРР"
           :visible="true"
           :geojson="accompany"
@@ -165,6 +171,7 @@ export default {
       ],
       show: true,
       overlay: true,
+      geom: null,
       geojson: null,
       accompany: null,
       stage: null,
@@ -339,7 +346,7 @@ export default {
       };
     },
     styleFunction() {
-      return (feature) => {
+      return () => {
         return {
           weight: 1.5,
           opacity: 1,
@@ -350,13 +357,25 @@ export default {
       };
     },
     styleFunctionStage() {
-      return (feature) => {
+      return () => {
         return {
           weight: 1.5,
           opacity: 1,
           fillOpacity: 0.07,
           color: "#8b1196",
           fillColor: "#8b1196",
+        };
+      };
+    },
+    geoStyle() {
+      return () => {
+        return {
+          weight: 5,
+          opacity: 1,
+          fillOpacity: 0,
+          color: "#333",
+          dashArray: "20, 20",
+          dashOffset: "20",
         };
       };
     },
@@ -427,7 +446,9 @@ export default {
                   '<td style="width: 20%; height: 19px;"><a href="' +
                   feature.properties.f2[i] +
                   '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
-                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                  '<td style="width: 20%; height: 19px;"><button value="' +
+                  feature.properties.f12[i] +
+                  '"class="aim-map-event-el"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></button></td>' +
                   "</tr>";
               }
             }),
@@ -461,10 +482,9 @@ export default {
         axios.get(`http://${domain}:3000/api/stagegeojson`),
       ])
       .then((resArr) => {
-        console.log(resArr[0].data, resArr[1].data);
         this.error = null;
         this.overlay = false;
-        this.geojson = resArr.data;
+        this.geojson = [];
         this.accompany = resArr[0].data;
         this.stage = resArr[1].data;
         this.showGeometry(this.accompany);
@@ -487,10 +507,10 @@ export default {
           Array.isArray(item.properties.f10) &&
           item.properties.f10.indexOf(object) + 1
       );
+      this.geom = geo;
       if (!geo) return;
       const group = L.geoJson(geo);
       this.$refs.map.mapObject.fitBounds(group.getBounds());
-      // this.$refs.map.mapObject.openPopup(geo);
       this.show = false;
     },
     highlightFeature(e) {

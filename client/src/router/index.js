@@ -68,12 +68,12 @@ const routes = [
     component: () => import("../views/LoginPage.vue"),
     meta: { show: false },
   },
-  {
-    path: "/admin",
-    name: "Admin",
-    component: () => import("../views/Admin.vue"),
-    meta: { show: true, admin: true },
-  },
+  // {
+  //   path: "/admin",
+  //   name: "Admin",
+  //   component: () => import("../views/Admin.vue"),
+  //   meta: { show: true, admin: true },
+  // },
   // {
   //   path: "/signup",
   //   name: "Signup",

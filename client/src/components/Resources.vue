@@ -461,7 +461,9 @@ export default {
                     '<td style="width: 20%; height: 19px;"><a href="' +
                     feature.properties.f2[i] +
                     '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
-                    '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                    '<td style="width: 20%; height: 19px;"><button value="' +
+                    feature.properties.f10[i] +
+                    '"class="aim-map-event-el"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></button></td>' +
                     "</tr>";
                 }
               }),
@@ -526,7 +528,9 @@ export default {
                     '<td style="width: 20%; height: 19px;"><a href="' +
                     feature.properties.f2[i] +
                     '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +
-                    '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                    '<td style="width: 20%; height: 19px;"><button value="' +
+                    feature.properties.f12[i] +
+                    '"class="aim-map-event-el"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></button></td>' +
                     "</tr>";
                 }
               }),
@@ -567,14 +571,11 @@ export default {
         if (role == "chief") {
           const geojson = resArr[0].data;
           this.geojson = geojson;
-          console.log(resArr);
         } else {
           const geojson = resArr[1].data;
           this.geojson = geojson;
-          console.log(this.geojson);
         }
         this.showGeometry(this.geojson);
-        console.log(this.geojson);
       })
       .catch((err) => {
         console.log(err);
@@ -596,11 +597,15 @@ export default {
       this.geo = geo;
       if (!geo) return;
       const group = L.geoJson(geo);
-      // console.log(geo);
-      // const popup = L.popup()
-      //   .setLatLng([51.5, -0.09])
-      //   .setContent("lol");
       this.$refs.map.mapObject.fitBounds(group.getBounds());
+      this.show = false;
+    },
+    addEventsOnMap() {
+      const elements = document.querySelector(".aim-map-event-el");
+
+      for (let el of elements) {
+        console.log(el.innerHTML);
+      }
     },
     highlightFeature(e) {
       let layer = e.target;

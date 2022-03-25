@@ -183,12 +183,14 @@ export default {
       this.$router.push("/login");
     }
     const domain = localStorage.getItem("domain");
+    const reports = localStorage.getItem("fromMapValue");
     axios
       .get(`http://${domain}:3000/api/json`)
       .then((res) => {
-        console.log(res.data);
         this.items = res.data;
         this.loadTable = true;
+        if (!reports) return;
+        this.search = reports;
       })
       .catch((error) => {
         console.log(error.response);
@@ -203,7 +205,6 @@ export default {
       if (!value) return;
       localStorage.setItem("reportValue", value);
       this.$router.push("/map");
-      console.log("click on " + value + " item");
     },
   },
 };

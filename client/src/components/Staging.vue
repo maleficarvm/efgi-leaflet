@@ -152,12 +152,14 @@ export default {
       this.$router.push("/login");
     }
     const domain = localStorage.getItem("domain");
+    const reports = localStorage.getItem("fromStagingValue");
     axios
       .get(`http://${domain}:3000/api/stagejson`)
       .then((res) => {
         this.items = res.data;
         this.loadTable = false;
-        console.log(resArr);
+        if (!reports) return;
+        this.search = reports;
       })
       .catch((error) => {
         console.log(error.response);
@@ -172,7 +174,6 @@ export default {
       this.value = "";
       localStorage.setItem("grrValue", value);
       this.$router.push("/exploration");
-      console.log("click on " + value + " item");
     },
   },
 };

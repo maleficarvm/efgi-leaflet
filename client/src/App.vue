@@ -188,7 +188,7 @@ export default {
     };
   },
   mounted() {
-    console.info("UGIB version 2.5");
+    console.info("UGIB version 2.6");
 
     if (localStorage.getItem("token") === "admin") {
       this.admin = true;

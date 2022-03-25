@@ -34,6 +34,12 @@
           layer-type="base"
         />
         <l-geo-json
+          :visible="true"
+          :geojson="geo"
+          :options="features"
+          :options-style="geoStyle"
+        />
+        <l-geo-json
           name="Региональные работы"
           :visible="true"
           :geojson="region"
@@ -204,6 +210,7 @@ export default {
       text: "",
       show: true,
       overlay: true,
+      geo: null,
       region: null,
       fund: null,
       layout1M: null,
@@ -427,6 +434,18 @@ export default {
         };
       };
     },
+    geoStyle() {
+      return () => {
+        return {
+          weight: 5,
+          opacity: 1,
+          fillOpacity: 0,
+          color: "#333",
+          dashArray: "20, 20",
+          dashOffset: "20",
+        };
+      };
+    },
     onEachFeatureFunction() {
       return (feature, layer) => {
         let userRole = localStorage.getItem("role");
@@ -470,7 +489,9 @@ export default {
                   '<td style="width: 20%; height: 19px;"><a href="' +
                   feature.properties.f7[i] +
                   '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
-                  '<td style="width: 20%; height: 19px;"><a @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
+                  '<td style="width: 20%; height: 19px;"><button value="' +
+                  feature.properties.f12[i] +
+                  '" class="aim-map-event-el"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></button></td>' +
                   "</tr>";
             }),
               (popupText = popupText + "</tbody></table>");
@@ -507,8 +528,11 @@ export default {
                   '<td style="width: 30%; height: 19px;  text-align: center;">' +
                   feature.properties.f5[i] +
                   "</td>" +
-                  '<td style="width: 20%; height: 19px;"><popupText @click="goToTable"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></a></td>' +
-                  "</tr>";
+                  feature.properties.f5[i];
+              '<td style="width: 20%; height: 19px;"><button value="' +
+                feature.properties.f12[i] +
+                '"class="aim-map-event-el"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></button></td>' +
+                "</tr>";
             }),
               (popupText = popupText + "</tbody></table>");
           }
@@ -524,6 +548,7 @@ export default {
           mouseover: this.highlightFeature,
           mouseout: this.resetHighlight,
         });
+        setTimeout(this.addEventsOnMap, 500);
       };
     },
     onEachLayoutFunction() {
@@ -561,12 +586,12 @@ export default {
         axios.get(`http://${domain}:3000/api/layout100K`),
       ])
       .then((resArr) => {
-        console.log(
-          resArr[0].data,
-          resArr[1].data,
-          resArr[2].data,
-          resArr[3].data
-        );
+        // console.log(
+        //   resArr[0].data,
+        //   resArr[1].data,
+        //   resArr[2].data,
+        //   resArr[3].data
+        // );
         this.error = null;
         this.overlay = false;
         this.layout1M = resArr[1].data;
@@ -600,11 +625,18 @@ export default {
           Array.isArray(item.properties.f12) &&
           item.properties.f12.indexOf(report) + 1
       );
+      this.geo = geo;
       if (!geo) return;
       const group = L.geoJson(geo);
       this.$refs.map.mapObject.fitBounds(group.getBounds());
-      // this.$refs.map.mapObject.openPopup(geo);
       this.show = false;
+    },
+    addEventsOnMap() {
+      const elements = document.querySelector(".aim-map-event-el");
+
+      for (let el of elements) {
+        console.log(el.innerHTML);
+      }
     },
     highlightFeature(e) {
       let layer = e.target;
@@ -636,7 +668,6 @@ export default {
       this.text = "";
       this.$router.push("/table");
       this.$store.commit("setText", text);
-      console.log("click on " + text + " item");
     },
   },
 };
@@ -722,6 +753,10 @@ label {
 
 .btn__link {
   background-color: #777 !important;
+}
+
+.aim-map-event-el {
+  color: #fff;
 }
 
 .leaflet-popup-content-wrapper {
