@@ -144,7 +144,12 @@
           </v-btn>
         </l-control> -->
         <l-control position="bottomright">
-          <v-btn class="ma-2 btn__default" dark href="Blank.doc">
+          <v-btn
+            class="aim-map-event-el"
+            dark
+            href="Blank.doc"
+            @click="addEventsOnMap"
+          >
             Скачать форму заявки
           </v-btn>
         </l-control>
@@ -527,11 +532,10 @@ export default {
                   '<td style="width: 30%; height: 19px;  text-align: center;">' +
                   feature.properties.f5[i] +
                   "</td>" +
-                  feature.properties.f5[i];
-              '<td style="width: 20%; height: 19px;"><button value="' +
-                feature.properties.f12[i] +
-                '"class="aim-map-event-el"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></button></td>' +
-                "</tr>";
+                  '<td style="width: 20%; height: 19px;"><button value="' +
+                  feature.properties.f12[i] +
+                  '"class="aim-map-event-el"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></button></td>' +
+                  "</tr>";
             }),
               (popupText = popupText + "</tbody></table>");
           }
@@ -633,6 +637,7 @@ export default {
     addEventsOnMap() {
       const elements = document.querySelectorAll(".aim-map-event-el");
 
+      // console.log(elements.innerHTML);
       for (let el of elements) {
         console.log(el.innerHTML);
       }
