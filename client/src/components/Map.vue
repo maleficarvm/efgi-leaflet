@@ -632,7 +632,7 @@ export default {
       this.show = false;
     },
     addEventsOnMap() {
-      const elements = document.querySelector(".aim-map-event-el");
+      const elements = document.querySelectorAll(".aim-map-event-el");
 
       for (let el of elements) {
         console.log(el.innerHTML);
