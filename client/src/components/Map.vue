@@ -144,7 +144,7 @@
           </v-btn>
         </l-control> -->
         <l-control position="bottomright">
-          <v-btn class="ma-2 btn__default" dark href="Бланк_заявки.doc">
+          <v-btn class="ma-2 btn__default" dark href="Blank.doc">
             Скачать форму заявки
           </v-btn>
         </l-control>
@@ -166,7 +166,6 @@ import VGeosearch from "vue2-leaflet-geosearch";
 import LControlFullscreen from "vue2-leaflet-fullscreen";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
-import { mapGetters } from "vuex";
 import {
   LMap,
   LTileLayer,

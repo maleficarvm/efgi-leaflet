@@ -102,7 +102,7 @@
         ></l-control-attribution>
         <l-control-scale position="bottomleft" :imperial="false" />
         <l-control position="bottomright">
-          <v-btn class="ma-2 btn__default" dark href="Бланк_заявки.doc">
+          <v-btn class="ma-2 btn__default" dark href="Blank.doc">
             Скачать форму заявки
           </v-btn>
         </l-control>

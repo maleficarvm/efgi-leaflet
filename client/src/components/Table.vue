@@ -116,7 +116,7 @@
           <v-btn color="ma-2" dark href="Fund.rar">
             Скачать Excel
           </v-btn>
-          <v-btn color="ma-2" dark href="Бланк_заявки.doc">
+          <v-btn color="ma-2" dark href="Blank.doc">
             Скачать форму заявки
           </v-btn>
         </div>

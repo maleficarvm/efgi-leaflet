@@ -48,9 +48,7 @@
             <a class="link" @click="showModal">Не удалось войти?</a>
           </div>
           <div>
-            <a href="Порядок_предоставления_информации.docx" class="link"
-              >Правила использования</a
-            >
+            <a href="Order.docx" class="link">Правила использования</a>
           </div>
         </v-card>
       </v-col>
@@ -108,7 +106,7 @@ export default {
           email: this.email,
           password: this.password,
         };
-        const domain = "kastor.tsnigri.ru";
+        const domain = "localhost";
         axios.post(`http://${domain}:5000/login`, user).then((res) => {
           if (res.status === 200) {
             localStorage.setItem("token", res.data.token);
