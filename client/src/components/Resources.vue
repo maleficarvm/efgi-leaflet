@@ -32,7 +32,8 @@
           :url="tileProvider.url"
           :attribution="tileProvider.attribution"
           layer-type="base"
-        /><l-geo-json
+        />
+        <l-geo-json
           :visible="true"
           :geojson="geo"
           :options="features"
@@ -102,7 +103,7 @@
         ></l-control-attribution>
         <l-control-scale position="bottomleft" :imperial="false" />
         <l-control position="bottomright">
-          <v-btn class="ma-2 btn__default" dark href="Blank.doc">
+          <v-btn class="ma-2 btn__default" dark href="Бланк_заявки.doc">
             Скачать форму заявки
           </v-btn>
         </l-control>
@@ -124,6 +125,7 @@ import LControlFullscreen from "vue2-leaflet-fullscreen";
 import VueLeafletMinimap from "vue-leaflet-minimap";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
+import { mapGetters } from "vuex";
 import {
   LMap,
   LTileLayer,
@@ -462,7 +464,7 @@ export default {
                     feature.properties.f2[i] +
                     '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
                     '<td style="width: 20%; height: 19px;"><button value="' +
-                    feature.properties.f10[i] +
+                    feature.properties.f1[i] +
                     '"class="aim-map-event-el"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></button></td>' +
                     "</tr>";
                 }
@@ -529,7 +531,7 @@ export default {
                     feature.properties.f2[i] +
                     '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Протоколы</span></td>' +
                     '<td style="width: 20%; height: 19px;"><button value="' +
-                    feature.properties.f12[i] +
+                    feature.properties.f1[i] +
                     '"class="aim-map-event-el"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></button></td>' +
                     "</tr>";
                 }
@@ -550,6 +552,7 @@ export default {
         layer.on({
           mouseover: this.highlightFeature,
           mouseout: this.resetHighlight,
+          zoom: this.zoomToFeature,
         });
       };
     },

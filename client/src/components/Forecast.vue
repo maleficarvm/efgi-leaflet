@@ -157,12 +157,22 @@ export default {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
+    let role = localStorage.getItem("role");
     const domain = localStorage.getItem("domain");
     const reports = localStorage.getItem("fromRecourcesValue");
     axios
-      .get(`http://${domain}:3000/api/apr`)
-      .then((res) => {
-        this.items = res.data;
+      .all([
+        axios.get(`http://${domain}:3000/api/apr`),
+        axios.get(`http://${domain}:3000/api/protocols`),
+      ])
+      .then((resArr) => {
+        if (role == "chief") {
+          const json = resArr[0].data;
+          this.items = json;
+        } else {
+          const json = resArr[1].data;
+          this.items = json;
+        }
         this.loadTable = false;
         if (!reports) return;
         this.search = reports;
