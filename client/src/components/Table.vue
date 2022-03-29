@@ -113,10 +113,10 @@
           </template>
         </v-data-table>
         <div class="text-center">
-          <v-btn color="ma-2" dark href="Fund.rar">
+          <v-btn color="ma-2" dark href="Fund.zip">
             Скачать Excel
           </v-btn>
-          <v-btn color="ma-2" dark href="Blank.doc">
+          <v-btn color="ma-2" dark href="Blank.docx">
             Скачать форму заявки
           </v-btn>
         </div>

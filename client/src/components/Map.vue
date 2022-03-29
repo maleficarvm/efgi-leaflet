@@ -147,7 +147,7 @@
           <v-btn
             class="aim-map-event-el"
             dark
-            href="Blank.doc"
+            href="Blank.docx"
             @click="addEventsOnMap"
           >
             Скачать форму заявки
@@ -248,7 +248,7 @@ export default {
         {
           name: "OpenTopoMap",
           visible: false,
-          url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+          url: "https://tile-a.opentopomap.ru/{z}/{x}/{y}.png",
           attribution:
             '&copy; Участники <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
         },
@@ -639,7 +639,7 @@ export default {
 
       // console.log(elements.innerHTML);
       for (let el of elements) {
-        console.log(el.innerHTML);
+        // console.log(el.innerHTML);
       }
     },
     highlightFeature(e) {

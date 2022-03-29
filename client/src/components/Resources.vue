@@ -103,7 +103,7 @@
         ></l-control-attribution>
         <l-control-scale position="bottomleft" :imperial="false" />
         <l-control position="bottomright">
-          <v-btn class="ma-2 btn__default" dark href="Бланк_заявки.doc">
+          <v-btn class="ma-2 btn__default" dark href="Blank.docx">
             Скачать форму заявки
           </v-btn>
         </l-control>
@@ -199,7 +199,7 @@ export default {
         {
           name: "OpenTopoMap",
           visible: false,
-          url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+          url: "https://tile-a.opentopomap.ru/{z}/{x}/{y}.png",
           attribution:
             'Map data: &copy; <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
         },
@@ -629,10 +629,6 @@ export default {
         opacity: 1,
         fillOpacity: 0.07,
       });
-    },
-    clickHandler() {
-      const url = "/assets/files/Application.docx";
-      window.location.href = url;
     },
     zoomUpdated(zoom) {
       this.zoom = zoom;

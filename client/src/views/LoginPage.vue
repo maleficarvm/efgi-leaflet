@@ -48,7 +48,9 @@
             <a class="link" @click="showModal">Не удалось войти?</a>
           </div>
           <div>
-            <a href="Order.docx" class="link">Правила использования</a>
+            <a href="Order.pdf" target="_blank" class="link"
+              >Правила использования</a
+            >
           </div>
         </v-card>
       </v-col>
