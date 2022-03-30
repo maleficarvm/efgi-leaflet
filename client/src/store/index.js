@@ -5,12 +5,16 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    host: "",
     valueMap: "",
     valueApr: "",
     text: "",
     role: "",
   },
   getters: {
+    host: (state) => {
+      return state.host;
+    },
     value: (state) => {
       return state.valueMap;
     },
@@ -25,6 +29,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    host: (state, payload) => {
+      state.host = payload;
+    },
     setValueMap: (state, payload) => {
       state.valueMap = payload;
     },
@@ -38,5 +45,9 @@ export default new Vuex.Store({
       state.role = payload;
     },
   },
-  actions: {},
+  actions: {
+    host: (state) => () => {
+      return state.host;
+    },
+  },
 });

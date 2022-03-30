@@ -193,7 +193,7 @@ export default {
     // window.onbeforeunload = function() {
     //   return confirm();
     // };
-    window.addEventListener("beforeunload", this.deleteToken);
+    // window.addEventListener("beforeunload", this.deleteToken);
 
     this.setTimers();
   },
