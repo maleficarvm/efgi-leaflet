@@ -10,14 +10,6 @@
               alt="tsnigri-logo-img"
             />
             <ul class="navbar-list" v-if="$route.meta.show">
-              <!-- <li class="navbar-item" v-for="link in links" :Key="link.title">
-                <router-link
-                  class="navbar-link"
-                  :title="link.title"
-                  :to="link.url"
-                  >{{ link.title }}
-                </router-link>
-              </li> -->
               <div class="text-center font-weight-bold">
                 <v-menu offset-y>
                   <template v-slot:activator="{ on, attrs }">
@@ -182,7 +174,7 @@ export default {
       ],
       materials: [
         { title: "Реестр материалов постановки ГРР", link: "/staging" },
-        { title: "Реестр материалов ГРР", link: "/accompany" },
+        { title: "Реестр материалов сопровождения ГРР", link: "/accompany" },
         { title: "Карта объектов ГРР", link: "/exploration" },
       ],
     };

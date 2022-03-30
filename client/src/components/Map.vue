@@ -133,16 +133,6 @@
               `&nbsp;&nbsp;Leaflet</span>`
           "
         ></l-control-attribution>
-        <!-- <l-control position="bottomleft">
-          <v-btn class="ma-2 btn__default" dark @click="zoomToGeojson">
-            zoomToGeoJSON
-          </v-btn>
-        </l-control> -->
-        <!-- <l-control position="bottomleft">
-          <v-btn class="ma-2 btn__default" dark @click="goToTable">
-            goToTable
-          </v-btn>
-        </l-control> -->
         <l-control position="bottomright">
           <v-btn
             class="aim-map-event-el"
@@ -376,7 +366,6 @@ export default {
     };
   },
   computed: {
-    // ...mapGetters(["valueMap"]),
     features() {
       return {
         onEachFeature: this.onEachFeatureFunction,
@@ -639,7 +628,7 @@ export default {
 
       // console.log(elements.innerHTML);
       for (let el of elements) {
-        // console.log(el.innerHTML);
+        console.log(el.innerHTML);
       }
     },
     highlightFeature(e) {

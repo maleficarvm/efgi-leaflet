@@ -40,7 +40,7 @@
           :options-style="geoStyle"
         />
         <l-geo-json
-          name="Объекты сопровождения ГРР"
+          name="Сопровождаемые объекты ГРР"
           :visible="true"
           :geojson="accompany"
           :options="features"
@@ -48,7 +48,7 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="Объекты постановки ГРР"
+          name="Предлагаемые объекты ГРР"
           :visible="true"
           :geojson="stage"
           :options="features"
@@ -109,6 +109,16 @@
               `&nbsp;&nbsp;Leaflet</span>`
           "
         ></l-control-attribution>
+        <l-control position="bottomright">
+          <v-btn
+            class="aim-map-event-el"
+            dark
+            href="Blank.docx"
+            @click="addEventsOnMap"
+          >
+            Скачать форму заявки
+          </v-btn>
+        </l-control>
         <l-control-scale position="bottomleft" :imperial="false" />
         <l-control :position="'bottomright'">
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
@@ -165,10 +175,6 @@ export default {
       zoom: 4,
       minZoom: 3,
       center: [64.7556, 96.7766],
-      bounds: [
-        [55.63901028125873, 37.3677978515625],
-        [55.348763181988105, 37.3787841796875],
-      ],
       show: true,
       overlay: true,
       geom: null,
@@ -337,11 +343,11 @@ export default {
       };
     },
     getColor() {
-      return (accompany) => {
-        if (accompany) {
+      return (f13) => {
+        if (f13 == "Сопровождение ГРР") {
           return "#FF0000";
-        } else {
-          return "#000";
+        } else if (f13 == "Постановка ГРР") {
+          return "#8b1196";
         }
       };
     },
@@ -582,11 +588,12 @@ export default {
     },
     resetHighlight(e) {
       let layer = e.target;
+      let feature = e.target.feature.properties.f13;
 
       layer.setStyle({
         weight: 1.5,
-        color: "#FF0000",
-        fillColor: "#FF0000",
+        color: this.getColor(feature),
+        fillColor: this.getColor(feature),
         opacity: 1,
         fillOpacity: 0.07,
       });
