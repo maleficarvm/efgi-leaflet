@@ -48,6 +48,12 @@ const geojsonGRRAccompanyQuery =
   //"SELECT row_to_json(fc) FROM (SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(lg.geom)::json As geometry, row_to_json((array_to_json(array_agg(obj_name)), array_to_json(array_agg(path_cloud)), array_to_json(array_agg(idreg)), array_to_json(array_agg(pi_poput)), array_to_json(array_agg(pi_obj)), array_to_json(array_agg(fo)), array_to_json(array_agg(reg)), array_to_json(array_agg(lat_center)), array_to_json(array_agg(lon_center)), array_to_json(array_agg(uniq_id)), array_to_json(array_agg(stor_folder)), array_to_json(array_agg(org_zayv)) )) As properties FROM  uds_meta_grr_accom_geom_mat_view As lg group by geom, area_skm order by area_skm desc) As f)As fc;";
   "SELECT row_to_json(fc) FROM (SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(lg.geom)::json As geometry, row_to_json((array_to_json(array_agg(obj_name)), array_to_json(array_agg(path_cloud)), array_to_json(array_agg(idreg)), array_to_json(array_agg(pi_poput)), array_to_json(array_agg(pi_obj)), array_to_json(array_agg(fo)), array_to_json(array_agg(reg)), array_to_json(array_agg(lat_center)), array_to_json(array_agg(lon_center)), array_to_json(array_agg(uniq_id)), array_to_json(array_agg(stor_folder)), array_to_json(array_agg(org_zayv)), 'Сопровождение ГРР' )) As properties FROM  uds_meta_grr_accom_geom_mat_view As lg group by geom, area_skm order by area_skm desc) As f)As fc;";
 
+const geojsonGRRQuery =
+  //"SELECT row_to_json(fc) FROM (SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(lg.geom)::json As geometry, object, row_to_json((array_to_string(array_agg(obj_name), '; '), array_to_string(array_agg(obj_authors), '; '), array_to_string(array_agg(obj_year), '; '), array_to_string(array_agg(type_of_work), '; '), array_to_string(array_agg(obj_assoc_inv_nums), '; '), array_to_string(array_agg(path_cloud), '; '), array_to_string(array_agg(lat_center), '; '), array_to_string(array_agg(lon_center), '; '), array_to_string(array_agg(stor_folder), '; ') )) As properties FROM uds_meta_view_mat_v4 As lg group by geom, object, area_skm order by area_skm desc) As f)As fc;";
+  //"SELECT row_to_json(fc) FROM (SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(lg.geom)::json As geometry, row_to_json((array_to_json(array_agg(object)),array_to_json(array_agg(obj_name)),array_to_json(array_agg(obj_authors)), array_to_json(array_agg(obj_year)), array_to_json(array_agg(type_of_work)), array_to_json(array_agg(obj_assoc_inv_nums)),array_to_json(array_agg(path_cloud)),array_to_json(array_agg(lat_center)), array_to_json(array_agg(lon_center)), array_to_json(array_agg(stor_folder)),array_to_json(array_agg(obj_group_min)), array_to_json(array_agg(uniq_id)), array_to_json(array_agg(pi_obj))))As properties FROM uds_meta_view_mat_v4 As lg group by geom, area_skm order by area_skm desc) As f) As fc;";
+  //"SELECT row_to_json(fc) FROM (SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(lg.geom)::json As geometry, row_to_json((array_to_json(array_agg(obj_name)), array_to_json(array_agg(path_cloud)), array_to_json(array_agg(idreg)), array_to_json(array_agg(pi_poput)), array_to_json(array_agg(pi_obj)), array_to_json(array_agg(fo)), array_to_json(array_agg(reg)), array_to_json(array_agg(lat_center)), array_to_json(array_agg(lon_center)), array_to_json(array_agg(uniq_id)), array_to_json(array_agg(stor_folder)), array_to_json(array_agg(org_zayv)) )) As properties FROM  uds_meta_grr_accom_geom_mat_view As lg group by geom, area_skm order by area_skm desc) As f)As fc;";
+  "SELECT row_to_json(fc) FROM (SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(lg.geom)::json As geometry, row_to_json((array_to_json(array_agg(obj_name)), array_to_json(array_agg(path_cloud)), array_to_json(array_agg(idreg)), array_to_json(array_agg(pi_poput)), array_to_json(array_agg(pi_obj)), array_to_json(array_agg(fo)), array_to_json(array_agg(reg)), array_to_json(array_agg(lat_center)), array_to_json(array_agg(lon_center)), array_to_json(array_agg(uniq_id)), array_to_json(array_agg(stor_folder)), array_to_json(array_agg(org_zayv)), array_to_json(array_agg(comm)))) As properties FROM  uds_meta_grr_geom_mat_view As lg group by geom, area_skm order by area_skm desc) As f)As fc;";
+
 const layout1MQuery =
   "SELECT row_to_json(fc) FROM ( SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(lg.geom)::json As geometry, row_to_json((indexfull, url)) As properties FROM \"layout1m_shift_lng_mat\" As lg) As f) As fc";
 
@@ -192,6 +198,19 @@ router.get("/api/stagegeojson", cors(), function (req, res) {
   const client = new Client(conString);
   client.connect();
   const query = client.query(new Query(geojsonGRRStageQuery));
+  query.on("row", function (row, result) {
+    result.addRow(row);
+  });
+  query.on("end", function (result) {
+    res.send(result.rows[0].row_to_json);
+    res.end();
+  });
+});
+
+router.get("/api/grrgeojson", cors(), function (req, res) {
+  const client = new Client(conString);
+  client.connect();
+  const query = client.query(new Query(geojsonGRRQuery));
   query.on("row", function (row, result) {
     result.addRow(row);
   });

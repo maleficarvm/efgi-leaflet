@@ -543,17 +543,22 @@ export default {
     const domain = localStorage.getItem("domain");
     axios
       .all([
-        axios.get(`http://${domain}:3000/api/accomgeojson`),
-        axios.get(`http://${domain}:3000/api/stagegeojson`),
+        axios.get(`http://${domain}:3000/api/grrgeojson`),
+        // axios.get(`http://${domain}:3000/api/stagegeojson`),
       ])
       .then((resArr) => {
         this.error = null;
         this.overlay = false;
-        this.geojson = [];
-        this.accompany = resArr[0].data;
-        this.stage = resArr[1].data;
-        this.showGeometry(this.accompany);
-        this.showGeometry(this.stage);
+        const geojson = resArr[0].data.features;
+        const accompany = geojson.filter((e) =>
+          e.properties.f13.includes("Сопровождение ГРР")
+        );
+        this.accompany = accompany;
+        const stage = geojson.filter(
+          (e) => !e.properties.f13.includes("Сопровождение ГРР")
+        );
+        this.stage = stage;
+        this.showGeometry(resArr[0].data);
       })
       .catch((err) => {
         console.log(err);
