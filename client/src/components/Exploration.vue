@@ -407,7 +407,7 @@ export default {
             popupText =
               popupText +
               "<h4 style='font-style: italic; color: gray;'>" +
-              feature.properties.f13 +
+              feature.properties.f13[0] +
               "</h4></br>" +
               "<div><h3 style='width: 470px'>" +
               item1.replace(/\-/g, "&#8209;") +
@@ -466,7 +466,7 @@ export default {
             popupText =
               popupText +
               "<h4 style='font-style: italic; color: gray;'>" +
-              feature.properties.f13 +
+              feature.properties.f13[0] +
               "</h4></br>" +
               "<div><h3 style='width: 470px'>" +
               item1.replace(/\-/g, "&#8209;") +
