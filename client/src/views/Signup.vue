@@ -35,8 +35,7 @@ export default {
         role: this.role,
       };
       console.log(newUser);
-      const domain = localStorage.getItem("domain");
-      axios.post(`http://${domain}:5000/signup`, newUser).then(
+      axios.post(`http://kastor.tsnigri.ru:5000/signup`, newUser).then(
         (res) => {
           console.log(res);
           this.error = "";

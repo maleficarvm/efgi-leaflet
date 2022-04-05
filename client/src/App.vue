@@ -31,6 +31,22 @@
                 <v-menu offset-y>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="primary" plain dark v-bind="attrs" v-on="on">
+                      Открытые материалы
+                    </v-btn>
+                  </template>
+                  <v-list dark>
+                    <v-list-item
+                      v-for="(open, index) in opens"
+                      :key="index"
+                      :to="open.link"
+                    >
+                      <v-list-item-title>{{ open.title }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn color="primary" plain dark v-bind="attrs" v-on="on">
                       Фондовые материалы
                     </v-btn>
                   </template>
@@ -163,6 +179,9 @@ export default {
         { title: "Доступные материалы", link: "/404" },
         { title: "Корзина", link: "/404" },
         { title: "Выйти", link: "/login" },
+      ],
+      opens: [
+        { title: "Карта доступных материалов", link: "/open" },
       ],
       funds: [
         { title: "Реестр фондовых материалов", link: "/table" },

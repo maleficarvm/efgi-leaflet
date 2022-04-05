@@ -34,25 +34,27 @@
           layer-type="base"
         />
         <l-geo-json
-          :visible="true"
-          :geojson="geom"
-          :options="features"
-          :options-style="geoStyle"
-        />
-        <l-geo-json
-          name="Сопровождаемые объекты ГРР"
-          :visible="true"
-          :geojson="accompany"
-          :options="features"
-          :options-style="styleFunction"
+          name="Материалы ГГК 1:1 000 000"
+          :visible="false"
+          :geojson="layout1M"
+          :options="layouts"
+          :options-style="styleLayoutFunction"
           layer-type="overlay"
         />
         <l-geo-json
-          name="Предлагаемые объекты ГРР"
+          name="Материалы ГГК 1:200 000"
           :visible="true"
-          :geojson="stage"
-          :options="features"
-          :options-style="styleFunctionStage"
+          :geojson="layout200K"
+          :options="layouts"
+          :options-style="styleLayoutFunction"
+          layer-type="overlay"
+        />
+        <l-geo-json
+          name="ЦТК 1:100 000"
+          :visible="false"
+          :geojson="layout100K"
+          :options="layouts"
+          :options-style="styleLayoutFunction"
           layer-type="overlay"
         />
         <l-wms-tile-layer
@@ -109,16 +111,6 @@
               `&nbsp;&nbsp;Leaflet</span>`
           "
         ></l-control-attribution>
-        <l-control position="bottomright">
-          <v-btn
-            class="aim-map-event-el"
-            dark
-            href="Blank.docx"
-            @click="addEventsOnMap"
-          >
-            Скачать форму заявки
-          </v-btn>
-        </l-control>
         <l-control-scale position="bottomleft" :imperial="false" />
         <l-control :position="'bottomright'">
           <img src="@/img/tsnigri_horizontal.png" class="vertical-logo-img" />
@@ -130,12 +122,11 @@
 
 <script>
 import axios from "axios";
-import { CRS, latlng, latLngBounds } from "leaflet";
+import { CRS, latlng, featureGroup } from "leaflet";
 import "../assets/css/leaflet.css";
 import "../assets/css/geosearch.css";
 import VGeosearch from "vue2-leaflet-geosearch";
 import LControlFullscreen from "vue2-leaflet-fullscreen";
-import VueLeafletMinimap from "vue-leaflet-minimap";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
 import {
@@ -151,36 +142,42 @@ import {
 } from "vue2-leaflet";
 
 export default {
-  name: "Resources",
+  name: "Map",
   components: {
     LMap,
     LTileLayer,
     LControlLayers,
     LControlScale,
     LControlFullscreen,
-    VueLeafletMinimap,
     VGeosearch,
     LMarker,
     LGeoJson,
     LControl,
     latlng,
-    latLngBounds,
+    featureGroup,
     CRS,
     LControlAttribution,
     LControlPolylineMeasure,
     "l-wms-tile-layer": LWMSTileLayer,
   },
+  transition: "fade",
   data() {
     return {
+      map: null,
       zoom: 4,
       minZoom: 3,
-      center: [64.7556, 96.7766],
+      center: [63.7556, 101.7766],
+      bounds: null,
+      value: "",
+      text: "",
       show: true,
       overlay: true,
-      geom: null,
-      geojson: null,
-      accompany: null,
-      stage: null,
+      geo: null,
+      region: null,
+      fund: null,
+      layout1M: null,
+      layout200K: null,
+      layout100K: null,
       fillColor: "orange",
       baseProviders: [
         {
@@ -211,7 +208,7 @@ export default {
           visible: false,
           url: "https://tile-a.opentopomap.ru/{z}/{x}/{y}.png",
           attribution:
-            'Map data: &copy; <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+            '&copy; Участники <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a target="_blank" href="http://viewfinderpanoramas.org">SRTM</a> | &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
         },
         {
           name: "Mapbox Спутник",
@@ -342,34 +339,59 @@ export default {
         onEachFeature: this.onEachFeatureFunction,
       };
     },
+    layouts() {
+      return {
+        onEachFeature: this.onEachLayoutFunction,
+      };
+    },
     getColor() {
-      return (f13) => {
-        if (f13.includes("Сопровождение ГРР")) {
+      return (f5) => {
+        if (f5 == "Научно-методические работы") {
+          return "#D2691E";
+        } else if (f5 == "Региональные работы") {
+          return "#800080";
+        } else if (f5 == "Поисковые работы") {
+          return "#800000";
+        } else if (f5 == "Научно-технологические исследования") {
+          return "#FF00FF";
+        } else if (f5 == "Оценочные работы") {
+          return "#C71585";
+        } else if (f5 == "Поисково-оценочные работы") {
+          return "#008000";
+        } else if (f5 == "Геохимические исследования") {
+          return "#008080";
+        } else if (f5 == "Освоение") {
+          return "#008080";
+        } else if (f5 == "Минералогические исследования") {
+          return "#8B4513";
+        } else if (f5 == "Геофизические исследования") {
+          return "#B8860B";
+        } else if (f5 == "Прогнозно-поисковые работы") {
+          return "#000";
+        } else {
           return "#FF0000";
-        } else if (f13.includes("Постановка ГРР")) {
-          return "#8b1196";
         }
       };
     },
     styleFunction() {
-      return () => {
+      return (feature) => {
         return {
-          weight: 1.5,
+          weight: 0.7,
           opacity: 1,
           fillOpacity: 0.07,
-          color: "#FF0000",
-          fillColor: "#FF0000",
+          color: this.getColor(feature.properties.f5),
+          fillColor: this.getColor(feature.properties.f5),
         };
       };
     },
-    styleFunctionStage() {
+    styleLayoutFunction() {
       return () => {
         return {
-          weight: 1.5,
+          weight: 0.6,
+          color: "gray",
           opacity: 1,
+          fillColor: "black",
           fillOpacity: 0.07,
-          color: "#8b1196",
-          fillColor: "#8b1196",
         };
       };
     },
@@ -385,154 +407,25 @@ export default {
         };
       };
     },
-    onEachFeatureFunction() {
+    onEachLayoutFunction() {
       return (feature, layer) => {
-        let userRole = localStorage.getItem("role");
-        let popupText = "";
-        let popupSubText = "";
-        let ArraySub = [];
-        let uniqueArraySub = [];
-        let uniqueArray = [...new Set(feature.properties.f1)];
-        feature.properties.f1.forEach(function(item, i, arr) {
-          ArraySub[i] = feature.properties.f5[i];
-          if (feature.properties.f4[i] === null) {
-            ArraySub[i] = ArraySub[i] + "";
-          } else {
-            ArraySub[i] = ArraySub[i] + ", " + feature.properties.f4[i];
-          }
-        }),
-          (uniqueArraySub = [...new Set(ArraySub)]);
-        uniqueArray.forEach(function(item1, i1, arr1, item2) {
-          if (userRole === "chief" || userRole === "admin") {
-            popupText =
-              popupText +
-              "<h4 style='font-style: italic; color: gray;'>" +
-              feature.properties.f13[0] +
-              "</h4></br>" +
-              "<div><h3 style='width: 470px'>" +
-              item1.replace(/\-/g, "&#8209;") +
-              "</h3></div>";
-            uniqueArraySub.forEach(function(item2, i2, arr2) {
-              uniqueArray.forEach(function(item, i, arr) {
-                popupSubText = feature.properties.f5[i];
-                if (feature.properties.f4[i] === null) {
-                  popupSubText = popupSubText + "";
-                } else {
-                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
-                }
-                if (
-                  item1 === feature.properties.f1[i] &&
-                  item2 === popupSubText
-                ) {
-                  popupText =
-                    popupText +
-                    "<h4 style='width: 450px'>" +
-                    item2 +
-                    "</h4><br/>";
-                  popupText =
-                    popupText +
-                    "<table class='table'><tbody>" +
-                    '<tr style="height: 18px;">';
-                }
-              });
-              feature.properties.f1.forEach(function(item, i, arr) {
-                popupSubText = feature.properties.f5[i];
-                if (feature.properties.f4[i] === null) {
-                  popupSubText = popupSubText + "";
-                } else {
-                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
-                }
-                if (
-                  item1 === feature.properties.f1[i] &&
-                  item2 === popupSubText
-                ) {
-                  popupText =
-                    popupText +
-                    '<td style="width: 50%; height: 19px;  text-align: left;">' +
-                    feature.properties.f11[i] +
-                    "</td>" +
-                    '<td style="width: 20%; height: 19px;"><a href="' +
-                    feature.properties.f2[i] +
-                    '" target ="_blank"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Материалы</span></td>' +
-                    '<td style="width: 20%; height: 19px;"><button value="' +
-                    feature.properties.f12[i] +
-                    '"class="aim-map-event-el"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></button></td>' +
-                    "</tr>";
-                }
-              }),
-                (popupText = popupText + "</tbody></table>");
-            });
-          } else {
-            popupText =
-              popupText +
-              "<h4 style='font-style: italic; color: gray;'>" +
-              feature.properties.f13[0] +
-              "</h4></br>" +
-              "<div><h3 style='width: 470px'>" +
-              item1.replace(/\-/g, "&#8209;") +
-              "</h3></div>";
-            uniqueArraySub.forEach(function(item2, i2, arr2) {
-              uniqueArray.forEach(function(item, i, arr) {
-                popupSubText = feature.properties.f5[i];
-                if (feature.properties.f4[i] === null) {
-                  popupSubText = popupSubText + "";
-                } else {
-                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
-                }
-                if (
-                  item1 === feature.properties.f1[i] &&
-                  item2 === popupSubText
-                ) {
-                  popupText =
-                    popupText +
-                    "<h4 style='width: 450px'>" +
-                    item2 +
-                    "</h4><br/>";
-                  popupText =
-                    popupText +
-                    "<table class='table'><tbody>" +
-                    '<tr style="height: 18px;">';
-                }
-              });
-              feature.properties.f1.forEach(function(item, i, arr) {
-                popupSubText = feature.properties.f5[i];
-                if (feature.properties.f4[i] === null) {
-                  popupSubText = popupSubText + "";
-                } else {
-                  popupSubText = popupSubText + ", " + feature.properties.f4[i];
-                }
-                if (
-                  item1 === feature.properties.f1[i] &&
-                  item2 === popupSubText
-                ) {
-                  popupText =
-                    popupText +
-                    '<td style="width: 50%; height: 19px;  text-align: left;">' +
-                    feature.properties.f11[i] +
-                    "</td>" +
-                    '<td style="width: 20%; height: 19px;"><button value="' +
-                    feature.properties.f12[i] +
-                    '"class="aim-map-event-el"><span style="background-color: #333333; color: #fff; display: inline-block; padding: 2px 8px; font-weight: bold; border-radius: 3px;">Реестр</span></button></td>' +
-                    "</tr>";
-                }
-              }),
-                (popupText = popupText + "</tbody></table>");
-            });
-          }
-        }),
-          layer.bindPopup(popupText, { permanent: false, sticky: true });
-        layer.bindTooltip(
-          "<p><b>Объект: </b>" + feature.properties.f1[0] + "</p>",
-          {
-            permanent: false,
-            sticky: true,
-            offset: [10, 0],
-          }
+        let textLinkPopup = "перейти к материалам";
+        let linkPopup = "#";
+        feature.properties.f2 !== "null"
+          ? (linkPopup = feature.properties.f2)
+          : (linkPopup = "404"),
+          (textLinkPopup = "перейти к материалам");
+        layer.bindPopup(
+          "<div></div><tr><td><b>Номенклатурный лист: </b></td>" +
+            feature.properties.f1 +
+            '</div><br><br><div><b>Ссылка: </b><a href="' +
+            linkPopup +
+            '" target ="_blank">' +
+            textLinkPopup +
+            "</div></div>",
+          { permanent: false, sticky: true }
         );
-        layer.on({
-          mouseover: this.highlightFeature,
-          mouseout: this.resetHighlight,
-        });
+        layer.bindTooltip(feature.properties.f1);
       };
     },
   },
@@ -543,45 +436,46 @@ export default {
     const domain = localStorage.getItem("domain");
     axios
       .all([
-        axios.get(`http://${domain}:3000/api/grrgeojson`),
+        axios.get(`http://${domain}:3000/api/layout1m`),
+        axios.get(`http://${domain}:3000/api/layout200K`),
+        axios.get(`http://${domain}:3000/api/layout100K`),
       ])
       .then((resArr) => {
+        // console.log(
+        //   resArr[0].data,
+        //   resArr[1].data,
+        //   resArr[2].data,
+        //   resArr[3].data
+        // );
         this.error = null;
         this.overlay = false;
-        const geojson = resArr[0].data.features;
-        const accompany = geojson.filter((e) =>
-          e.properties.f13.includes("Сопровождение ГРР")
-        );
-        this.accompany = accompany;
-        const stage = geojson.filter(
-          (e) => !e.properties.f13.includes("Сопровождение ГРР")
-        );
-        this.stage = stage;
-        this.showGeometry(resArr[0].data);
+        this.layout1M = resArr[0].data;
+        this.layout200K = resArr[1].data;
+        this.layout100K = resArr[2].data;
       })
       .catch((err) => {
         console.log(err);
-        this.protocols = null;
+        this.geojson = null;
         this.error = "Can`t find this Json";
       });
   },
   methods: {
     showGeometry(list) {
-      const object = localStorage.getItem("grrValue");
-      if (!object) return;
+      const report = localStorage.getItem("reportValue");
+      if (!report) return;
       const geo = list.features.find(
         (item) =>
           item.geometry &&
           item.properties &&
-          Array.isArray(item.properties.f10) &&
-          item.properties.f10.indexOf(object) + 1
+          Array.isArray(item.properties.f12) &&
+          item.properties.f12.indexOf(report) + 1
       );
-      this.geom = geo;
+      this.geo = geo;
       if (!geo) return;
       const group = L.geoJson(geo);
       this.$refs.map.mapObject.fitBounds(group.getBounds());
       this.show = false;
-      localStorage.removeItem("grrValue")
+      localStorage.removeItem("reportValue")
     },
     highlightFeature(e) {
       let layer = e.target;
@@ -593,10 +487,10 @@ export default {
     },
     resetHighlight(e) {
       let layer = e.target;
-      let feature = e.target.feature.properties.f13;
+      let feature = e.target.feature.properties.f5;
 
       layer.setStyle({
-        weight: 1.5,
+        weight: 0.7,
         color: this.getColor(feature),
         fillColor: this.getColor(feature),
         opacity: 1,
@@ -608,6 +502,11 @@ export default {
     },
     centerUpdated(center) {
       this.center = center;
+    },
+    goToTable(text) {
+      this.text = "";
+      this.$router.push("/table");
+      this.$store.commit("setText", text);
     },
   },
 };
@@ -635,10 +534,10 @@ th,
 td {
   width: 480px;
   border-collapse: collapse;
-  text-align: center;
+  text-align: left;
   padding: 7px;
   td {
-    text-align: center;
+    text-align: left;
   }
 }
 .table tr:nth-child(odd) {
@@ -651,6 +550,7 @@ td {
 label {
   text-align: left !important;
 }
+
 .leaflet-container {
   font: 12px/1.5 "Montserrat", Arial, Helvetica, sans-serif;
 }
@@ -659,20 +559,16 @@ label {
   margin-top: 23px !important;
   z-index: 0;
 }
-.leaflet-control-layers {
-  max-height: 820px;
-  overflow-y: auto;
+.leaflet-control-layers-expanded {
+  height: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .leaflet-control-layers-list {
   padding: 0px;
 }
 .leaflet-control-layers-selector {
   margin: 0px;
-}
-.leaflet-control-layers-expanded {
-  height: 500px;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 .vertical-logo-img {
   width: 150px;
@@ -692,6 +588,14 @@ label {
 }
 .btn__default {
   margin: 0px !important;
+}
+
+.btn__link {
+  background-color: #777 !important;
+}
+
+.aim-map-event-el {
+  color: #fff;
 }
 
 .leaflet-popup-content-wrapper {

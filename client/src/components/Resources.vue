@@ -602,6 +602,7 @@ export default {
       const group = L.geoJson(geo);
       this.$refs.map.mapObject.fitBounds(group.getBounds());
       this.show = false;
+      localStorage.removeItem("protocolValue")
     },
     addEventsOnMap() {
       const elements = document.querySelector(".aim-map-event-el");

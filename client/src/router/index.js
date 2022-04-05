@@ -21,6 +21,12 @@ const routes = [
     meta: { show: true },
   },
   {
+    path: "/open",
+    name: "Open",
+    component: () => import("../views/Open.vue"),
+    meta: { show: true },
+  },
+  {
     path: "/map",
     name: "Map",
     component: () => import("../views/Map.vue"),
@@ -74,12 +80,12 @@ const routes = [
   //   component: () => import("../views/Admin.vue"),
   //   meta: { show: true, admin: true },
   // },
-  // {
-  //   path: "/signup",
-  //   name: "Signup",
-  //   component: () => import("../views/Signup.vue"),
-  //   meta: { show: false },
-  // },
+  {
+    path: "/signup",
+    name: "Signup",
+    component: () => import("../views/Signup.vue"),
+    meta: { show: false },
+  },
 ];
 
 const router = new VueRouter({

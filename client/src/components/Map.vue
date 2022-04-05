@@ -55,30 +55,6 @@
           :options-style="styleFunction"
           layer-type="overlay"
         />
-        <l-geo-json
-          name="Материалы ГГК 1:1 000 000"
-          :visible="false"
-          :geojson="layout1M"
-          :options="layouts"
-          :options-style="styleLayoutFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="Материалы ГГК 1:200 000"
-          :visible="false"
-          :geojson="layout200K"
-          :options="layouts"
-          :options-style="styleLayoutFunction"
-          layer-type="overlay"
-        />
-        <l-geo-json
-          name="ЦТК 1:100 000"
-          :visible="false"
-          :geojson="layout100K"
-          :options="layouts"
-          :options-style="styleLayoutFunction"
-          layer-type="overlay"
-        />
         <l-wms-tile-layer
           v-for="layer in layers"
           :key="layer.name"
@@ -207,9 +183,6 @@ export default {
       geo: null,
       region: null,
       fund: null,
-      layout1M: null,
-      layout200K: null,
-      layout100K: null,
       fillColor: "orange",
       baseProviders: [
         {
@@ -543,27 +516,6 @@ export default {
         setTimeout(this.addEventsOnMap, 500);
       };
     },
-    onEachLayoutFunction() {
-      return (feature, layer) => {
-        let textLinkPopup = "перейти к материалам";
-        let linkPopup = "#";
-        feature.properties.f2 !== "null"
-          ? (linkPopup = feature.properties.f2)
-          : (linkPopup = "404"),
-          (textLinkPopup = "перейти к материалам");
-        layer.bindPopup(
-          "<div></div><tr><td><b>Номенклатурный лист: </b></td>" +
-            feature.properties.f1 +
-            '</div><br><br><div><b>Ссылка: </b><a href="' +
-            linkPopup +
-            '" target ="_blank">' +
-            textLinkPopup +
-            "</div></div>",
-          { permanent: false, sticky: true }
-        );
-        layer.bindTooltip(feature.properties.f1);
-      };
-    },
   },
   created() {
     if (localStorage.getItem("token") === null) {
@@ -573,9 +525,6 @@ export default {
     axios
       .all([
         axios.get(`http://${domain}:3000/api/geojson`),
-        axios.get(`http://${domain}:3000/api/layout1m`),
-        axios.get(`http://${domain}:3000/api/layout200K`),
-        axios.get(`http://${domain}:3000/api/layout100K`),
       ])
       .then((resArr) => {
         // console.log(
@@ -586,9 +535,6 @@ export default {
         // );
         this.error = null;
         this.overlay = false;
-        this.layout1M = resArr[1].data;
-        this.layout200K = resArr[2].data;
-        this.layout100K = resArr[3].data;
         const geojson = resArr[0].data.features;
         const region = geojson.filter((e) =>
           e.properties.f5.includes("Региональные работы")
@@ -622,6 +568,7 @@ export default {
       const group = L.geoJson(geo);
       this.$refs.map.mapObject.fitBounds(group.getBounds());
       this.show = false;
+      localStorage.removeItem("reportValue")
     },
     addEventsOnMap() {
       const elements = document.querySelectorAll(".aim-map-event-el");
