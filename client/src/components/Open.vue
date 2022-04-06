@@ -34,7 +34,7 @@
           layer-type="base"
         />
         <l-geo-json
-          name="Материалы ГГК 1:1 000 000"
+          name="Материалы ГГК 1:1 млн и ЦМР"
           :visible="false"
           :geojson="layout1M"
           :options="layouts"
@@ -50,7 +50,7 @@
           layer-type="overlay"
         />
         <l-geo-json
-          name="ЦТК 1:100 000"
+          name="Материалы ЦТК 1:100 000"
           :visible="false"
           :geojson="layout100K"
           :options="layouts"
@@ -247,6 +247,13 @@ export default {
         },
       ],
       baseLayers: [
+        {
+          name: "Разграфка ЦТК",
+          visible: true,
+          format: "image/png",
+          baseLayers: "NET2:mat_grid1000",
+          transparent: true,
+        },
         {
           name: "Границы субъектов",
           visible: true,
@@ -599,7 +606,7 @@ label {
 }
 
 .leaflet-popup-content-wrapper {
-  width: 520px;
+  width: 270px;
 }
 
 .leaflet-touch .leaflet-control-layers,
