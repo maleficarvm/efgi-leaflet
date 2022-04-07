@@ -572,7 +572,6 @@ export default {
     },
     addEventsOnMap() {
       const elements = document.querySelectorAll(".aim-map-event-el");
-
       // console.log(elements.innerHTML);
       for (let el of elements) {
         console.log(el.innerHTML);
@@ -603,11 +602,6 @@ export default {
     },
     centerUpdated(center) {
       this.center = center;
-    },
-    goToTable(text) {
-      this.text = "";
-      this.$router.push("/table");
-      this.$store.commit("setText", text);
     },
   },
 };

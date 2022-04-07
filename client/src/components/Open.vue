@@ -467,23 +467,6 @@ export default {
       });
   },
   methods: {
-    showGeometry(list) {
-      const report = localStorage.getItem("reportValue");
-      if (!report) return;
-      const geo = list.features.find(
-        (item) =>
-          item.geometry &&
-          item.properties &&
-          Array.isArray(item.properties.f12) &&
-          item.properties.f12.indexOf(report) + 1
-      );
-      this.geo = geo;
-      if (!geo) return;
-      const group = L.geoJson(geo);
-      this.$refs.map.mapObject.fitBounds(group.getBounds());
-      this.show = false;
-      localStorage.removeItem("reportValue")
-    },
     highlightFeature(e) {
       let layer = e.target;
 
@@ -509,11 +492,6 @@ export default {
     },
     centerUpdated(center) {
       this.center = center;
-    },
-    goToTable(text) {
-      this.text = "";
-      this.$router.push("/table");
-      this.$store.commit("setText", text);
     },
   },
 };
